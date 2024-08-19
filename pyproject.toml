@@ -1,0 +1,44 @@
+[tool.poetry]
+authors = ["mm21 <mm21.dev@gmail.com>"]
+classifiers = [
+  # Get the list of trove classifiers here: https://pypi.org/classifiers/
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Operating System :: OS Independent",
+  "Typing :: Typed",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Development Status :: 3 - Alpha",
+  "Natural Language :: English",
+  "License :: OSI Approved :: MIT License"
+]
+name = "glyphsynth"
+packages = [{include = "glyphsynth"}]
+version = "0.1.0"
+description = "Pythonic vector glyph synthesis toolkit"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+svgwrite = "^1.4.3"
+pyrollup = "^0.1.0"
+pydantic = "^2.5.3"
+typer = {extras = ["all"], version = "^0.9.0"}
+
+[tool.poetry.scripts]
+glyphsynth = "glyphsynth.cli.main:run"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+pytest = "^7.4.3"
+sphinx = "^7.2.6"
+sphinxcontrib-typer = "^0.1.4"
+
+[tool.black]
+line-length = 80
+
+[tool.pytest.ini_options]
+addopts = "-s -v -rA"
+testpaths = "test"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,1 @@
+sudo apt install librsvg2-bin libmagickwand-dev
