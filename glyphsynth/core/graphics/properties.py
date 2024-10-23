@@ -18,14 +18,6 @@ class BaseProperties(BaseModel):
     And listed here: <https://www.w3.org/TR/SVG11/propidx.html>
     """
 
-    # def __init_subclass__(cls):
-    #    dataclass(kw_only=True)(cls)
-
-    @classmethod
-    @property
-    def _fields(cls) -> list[str]:
-        return [field for field in cls.model_fields]
-
 
 class PaintingProperties(BaseProperties):
     color: PropertyValue = None
@@ -66,15 +58,26 @@ class FontProperties(BaseProperties):
 
 class Properties(PaintingProperties, FontProperties):
     """
-    Mixin to represent all styling properties:
+    Class to represent all styling properties:
     <https://www.w3.org/TR/SVG11/styling.html#SVGStylingProperties>
     """
 
     def __init_subclass__(cls):
         super().__init_subclass__()
 
-        valid_properties = Properties._fields
+        valid_properties = Properties.model_fields.keys()
 
         # ensure user didn't add any invalid properties
-        for field in cls._fields:
+        for field in cls.model_fields.keys():
             assert field in valid_properties, f"{field} is not a valid property"
+
+    @property
+    def desc(self) -> str:
+        """
+        Short description of properties and values.
+        """
+        return "".join(
+            f"{field}-{getattr(self, field)}"
+            for field in type(self).model_fields.keys()
+            if getattr(self, field) is not None
+        )

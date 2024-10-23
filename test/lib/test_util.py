@@ -3,7 +3,7 @@ import os
 
 from pytest import mark
 
-from glyphsynth import raster_support
+from glyphsynth import RASTER_SUPPORT
 from glyphsynth.lib import PaddingParams, PaddingGlyph
 
 from ..conftest import ParentGlyph, UNIT
@@ -15,7 +15,7 @@ def test_padding(output_dir: str):
 
     glyph.export_svg(output_dir)
 
-    if raster_support:
+    if RASTER_SUPPORT:
         glyph.export_png(output_dir)
     else:
         logging.warning("Skipping rasterizing")

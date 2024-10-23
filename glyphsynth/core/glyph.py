@@ -47,9 +47,15 @@ class BaseParams(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-
-# def __init_subclass__(cls):
-#    dataclass(frozen=True, kw_only=True)(cls)
+    @property
+    def desc(self) -> str:
+        """
+        Short description of params and values.
+        """
+        return "".join(
+            f"{field}-{getattr(self, field)}"
+            for field in type(self).model_fields.keys()
+        )
 
 
 class EmptyParams(BaseParams):

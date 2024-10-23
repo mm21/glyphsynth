@@ -8,7 +8,7 @@ from glyphsynth import (
     BaseGlyph,
     Properties,
     PropertyValue,
-    raster_support,
+    RASTER_SUPPORT,
 )
 from glyphsynth.lib.array import HArrayGlyph, VArrayGlyph
 from glyphsynth.lib.alphabet.minimal import (
@@ -38,7 +38,7 @@ def write_glyphs(output_dir: str, glyphs: list[BaseGlyph]):
     array_h.export_svg(f"{output_dir}/_array-h.svg")
     array_v.export_svg(f"{output_dir}/_array-v.svg")
 
-    if raster_support:
+    if RASTER_SUPPORT:
         array_v.export_png(f"{output_dir}/_array-h.png")
         array_v.export_png(f"{output_dir}/_array-v.png")
     else:

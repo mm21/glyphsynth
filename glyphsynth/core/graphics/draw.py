@@ -148,7 +148,7 @@ class DrawContainer(BaseContainer):
         # get extras defined on each class
         valid_extras = []
         for cls in extra_cls:
-            valid_extras += cls._fields
+            valid_extras += list(cls.model_fields.keys())
 
         for attr in extra:
             assert attr in valid_extras, f"Invalid extra {attr}"

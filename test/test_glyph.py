@@ -2,7 +2,7 @@ import os
 
 from pytest import mark
 
-from glyphsynth import EmptyGlyph, Properties, raster_support
+from glyphsynth import EmptyGlyph, Properties, RASTER_SUPPORT
 
 from .conftest import BasicParams, BasicGlyph, ParentGlyph, ParentGlyph2, UNIT
 
@@ -98,7 +98,7 @@ def test_composition_rescaled(output_dir: str):
 
 
 @mark.skipif(
-    raster_support is False, reason="Rasterizing only supported on linux"
+    RASTER_SUPPORT is False, reason="Rasterizing only supported on linux"
 )
 def test_raster(output_dir):
     """

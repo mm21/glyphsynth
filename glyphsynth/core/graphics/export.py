@@ -16,9 +16,9 @@ from svgwrite.container import SVG, Group
 
 from .container import BaseContainer
 
-__all__ = ["raster_support"]
+__all__ = ["RASTER_SUPPORT"]
 
-raster_support: bool = os.name == "posix"
+RASTER_SUPPORT: bool = os.name == "posix"
 
 
 def _save_prep(ext_default: str):
@@ -150,7 +150,7 @@ class ExportContainer(BaseContainer):
         self, path_png: str, size_raster: tuple[str, str], dpi: tuple[int, int]
     ):
         # ensure rsvg-convert is supported and available
-        if not raster_support:
+        if not RASTER_SUPPORT:
             sys.exit(
                 "Conversion to .png only supported on Linux due to availability of rsvg-convert"
             )
