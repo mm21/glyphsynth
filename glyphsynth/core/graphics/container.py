@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from svgwrite.drawing import Drawing
 from svgwrite.container import SVG, Group
@@ -69,7 +70,7 @@ class BaseContainer:
 
     viewbox_canon: tuple[tuple[float, float], tuple[float, float]] | None = None
 
-    _id: str
+    _id: str | None
     """
     Unique id for this container.
     """
@@ -97,33 +98,22 @@ class BaseContainer:
     as <svg> does not support transformations in SVG 1.1.
     """
 
-    _parent: BaseContainer | None = None
+    _nested_glyphs: list[BaseContainer] = []
     """
-    Parent container, or None if not inserted in another Glyph via
-    {obj}`Glyph.insert_glyph` or passing `parent` upon instantiation. 
-    In this case it has its own standalone Drawing, but may still be 
-    added as a child of another Glyph.
-
-    Only set when inserted as a child of another Glyph.
-    """
-
-    _insert: tuple[float, float] | None = None
-    """
-    Point at which this glyph is inserted in parent.
-
-    Only set when inserted as a child of another Glyph.
+    List of glyphs nested under this one, mostly for debugging.
     """
 
     def __init__(
         self,
-        id_: str,
+        id_: str | None,
         properties: Properties | None,
         size: tuple[float, float] | None,
     ):
         self._id = id_
         self._size = size
         self._drawing = Drawing()
-        self._group = self._drawing.g(id_=f"{self._id}-group")
+        self._group = self._drawing.g(**self._get_id_kwargs(suffix="group"))
+        self._nested_glyphs = []
 
         self.properties = (
             self.DefaultProperties() if properties is None else properties
@@ -153,10 +143,20 @@ class BaseContainer:
     def height(self) -> float:
         return self.size[1]
 
+    @property
+    def _id_norm(self) -> str:
+        return self._id or type(self).__name__
+
+    # TODO: remove, add _get_class_kwargs
+    # - set key "class_" with self._id_norm + suffix
+    def _get_id_kwargs(self, suffix: str | None = None) -> dict[str, Any]:
+        suffix_ = "" if suffix is None else f"-{suffix}"
+        return {} if self._id is None else {"id_": f"{self._id}{suffix_}"}
+
     def _init_post(self):
         # create canonical svg
         self._svg: SVG = self._drawing.svg(
-            id_=self._id,
+            **self._get_id_kwargs(),
             size=self.size_canon,
             class_=type(self).__name__,
         )
@@ -185,32 +185,16 @@ class BaseContainer:
             self._drawing["width"] = str(self.size[0])
             self._drawing["height"] = str(self.size[1])
 
-    def _bind(
-        self,
-        parent: BaseContainer,
-        insert: tuple[float, float] | None,
-    ):
-        self._parent = parent
-        self._insert = insert
-
-        # add group to parent, using wrapper svg for placement
-        wrapper_insert: SVG = self._drawing.svg(
-            insert=self._insert,
-            id_=f"{self._id}-wrapper-insert",
-        )
-
-        wrapper_insert.add(self._group)
-        parent._svg.add(wrapper_insert)
-
     def _create_wrapper_scale(self) -> SVG:
         """
         Create SVG wrapper for canonical SVG object to handle
         placement/scaling.
         """
 
+        size_kwargs = {} if self._size is None else {"size": self._size}
         wrapper_scale: SVG = self._drawing.svg(
-            size=self._size,
-            id_=f"{self._id}-wrapper-scale",
+            **self._get_id_kwargs(suffix="wrapper-scale"),
+            **size_kwargs,
         )
         self._rescale_svg(wrapper_scale, self._size)
         wrapper_scale.add(self._svg)

@@ -192,7 +192,7 @@ class ExportContainer(BaseContainer):
             # create dirs if needed
             path_dir.mkdir(parents=True, exist_ok=True)
 
-        return path / f"{self._id}.{out_format_norm}" if is_dir else path
+        return path / f"{self._id_norm}.{out_format_norm}" if is_dir else path
 
     def _get_format(self, path: Path, format: str | None) -> str:
         # check provided format

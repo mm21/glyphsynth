@@ -79,8 +79,8 @@ def test_composition(output_dir: str):
 
     parent: ParentGlyph = ParentGlyph()
 
-    assert parent.child1._parent is parent
-    assert parent.child2._parent is parent
+    assert parent._nested_glyphs[0] is parent.child1
+    assert parent._nested_glyphs[1] is parent.child2
 
     assert parent.child1.params.color1 == "black"
     assert parent.child2.params.color1 == "red"

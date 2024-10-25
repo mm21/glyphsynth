@@ -17,9 +17,6 @@ from glyphsynth.lib.alphabet.minimal import (
     ZERO,
 )
 
-
-from glyphsynth.core.glyph import id_factory
-
 logging.basicConfig(level=logging.DEBUG)
 
 OUTPUT_PATH = Path(os.getcwd()) / "test" / "__build__"
@@ -101,15 +98,6 @@ class ParentGlyph2(ParentGlyph):
             BasicGlyph.size_canon[0] * 10,
             BasicGlyph.size_canon[1] * 10,
         )
-
-
-@fixture(autouse=True)
-def id_reset():
-    """
-    Reset id_factory after each test is completed.
-    """
-    yield
-    id_factory.reset()
 
 
 @fixture

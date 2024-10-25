@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Self, TypeVar, get_args, cast
 
 from pydantic import BaseModel, ConfigDict
+from svgwrite.container import SVG, Group
 
 from .graphics.graphics import (
     GraphicsContainer,
@@ -17,27 +18,6 @@ __all__ = [
     "EmptyParams",
     "EmptyGlyph",
 ]
-
-
-class IdFactory:
-    _cls_map: dict[type[BaseGlyph], int]
-
-    def __init__(self):
-        self.reset()
-
-    def get_id(self, glyph_cls: type[BaseGlyph]) -> int:
-        if glyph_cls not in self._cls_map:
-            self._cls_map[glyph_cls] = 0
-
-        self._cls_map[glyph_cls] += 1
-
-        return self._cls_map[glyph_cls]
-
-    def reset(self):
-        self._cls_map = dict()
-
-
-id_factory = IdFactory()
 
 
 class BaseParams(BaseModel):
@@ -115,8 +95,6 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
         if parent is None:
             assert insert is None
 
-        glyph_id = glyph_id or self._get_id()
-
         super().__init__(glyph_id, properties, size)
 
         # set params
@@ -190,7 +168,7 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
         base name (without extension) of file to write when no filename is
         provided.
         """
-        return self._id
+        return self._id_norm
 
     @classmethod
     @property
@@ -207,7 +185,17 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
         glyph: BaseGlyph,
         insert: tuple[float, float] | None = None,
     ) -> Self:
-        glyph._bind(self, insert)
+        self._nested_glyphs.append(glyph)
+
+        # add group to self, using wrapper svg for placement
+        wrapper_insert: SVG = self._drawing.svg(
+            **glyph._get_id_kwargs(suffix="wrapper-insert"),
+            insert=insert,
+        )
+
+        wrapper_insert.add(glyph._group)
+        self._svg.add(wrapper_insert)
+
         return self
 
     def init(self):
@@ -216,11 +204,6 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
     @abstractmethod
     def draw(self):
         ...
-
-    def _get_id(self) -> str:
-        global id_factory
-        id_num: int = id_factory.get_id(type(self))
-        return f"{type(self).__name__}-{id_num}"
 
 
 class EmptyParams(BaseParams):
