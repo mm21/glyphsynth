@@ -40,12 +40,5 @@ def export(
     invoke_export(path_cls, Path(path_output), format)
 
 
-def run():
-    """
-    Entry point of `glyphsynth` command.
-    """
-    app()
-
-
 if __name__ == "__main__":
-    run()
+    app()

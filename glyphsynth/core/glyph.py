@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Self, TypeVar, get_args, cast
+from typing import Any, Self, TypeVar, get_args, cast
 
 from pydantic import BaseModel, ConfigDict
 
@@ -52,10 +52,25 @@ class BaseParams(BaseModel):
         """
         Short description of params and values.
         """
-        return "".join(
-            f"{field}-{getattr(self, field)}"
-            for field in type(self).model_fields.keys()
-        )
+
+        params = []
+
+        for field in type(self).model_fields.keys():
+            val: Any = getattr(self, field)
+            val_desc: str
+
+            if isinstance(val, type):
+                val_desc = val.__name__
+            else:
+                val_desc = (
+                    str(getattr(self, field))
+                    .replace("=", "~")
+                    .replace(".", "_")
+                )
+
+            params.append(f"{field}-{val_desc}")
+
+        return "__".join(params)
 
 
 class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
