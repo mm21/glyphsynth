@@ -40,7 +40,7 @@ def write_glyphs(output_dir: str, glyphs: list[BaseGlyph]):
     array_v.export_svg(output_dir / "_array-v.svg")
 
     if RASTER_SUPPORT:
-        array_v.export_png(output_dir / "_array-h.png")
+        array_h.export_png(output_dir / "_array-h.png")
         array_v.export_png(output_dir / "_array-v.png")
     else:
         logging.warning("Skipping rasterizing")
