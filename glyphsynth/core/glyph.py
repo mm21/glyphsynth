@@ -58,10 +58,6 @@ class BaseParams(BaseModel):
         )
 
 
-class EmptyParams(BaseParams):
-    pass
-
-
 class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
     """
     Base class for a standalone or reusable glyph, sized in abstract
@@ -206,18 +202,14 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
     def draw(self):
         ...
 
-    # TODO_NEXT 2
-    # - move to subclass of BaseClass
-    #   - rename BaseClass -> _BaseClass?
-    # try:
-    # def draw_glyph[GlyphT: BaseGlyph, GlyphParamsT: BaseParams](self,
-    #    glyph_cls: type[GlyphT[GlyphParamsT]], params: GlyphParamsT) -> GlyphT[GlyphParamsT]:
-    #    return glyph_cls(parent=self, params=params)
-
     def _get_id(self) -> str:
         global id_factory
         id_num: int = id_factory.get_id(type(self))
         return f"{type(self).__name__}-{id_num}"
+
+
+class EmptyParams(BaseParams):
+    pass
 
 
 class EmptyGlyph(BaseGlyph[EmptyParams]):

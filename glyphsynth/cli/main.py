@@ -1,5 +1,5 @@
+from pathlib import Path
 from typing_extensions import Annotated
-from typing import Union, Literal
 
 import typer
 
@@ -37,7 +37,7 @@ def export(
     ] = None,
 ):
     assert format in {"svg", "png", None}, f"Invalid format: {format}"
-    invoke_export(path_cls, path_output, format)
+    invoke_export(path_cls, Path(path_output), format)
 
 
 def run():

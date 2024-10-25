@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 from pytest import fixture, FixtureRequest
 
@@ -21,7 +22,7 @@ from glyphsynth.core.glyph import id_factory
 
 logging.basicConfig(level=logging.DEBUG)
 
-OUTPUT_DIR = os.path.join("build", "test")
+OUTPUT_PATH = Path(os.getcwd()) / "test" / "__build__"
 SPACING: float = UNIT / 10
 
 
@@ -35,12 +36,12 @@ def write_glyphs(output_dir: str, glyphs: list[BaseGlyph]):
     array_h = HArrayGlyph.new(glyphs, spacing=SPACING)
     array_v = VArrayGlyph.new(glyphs, spacing=SPACING)
 
-    array_h.export_svg(f"{output_dir}/_array-h.svg")
-    array_v.export_svg(f"{output_dir}/_array-v.svg")
+    array_h.export_svg(output_dir / "_array-h.svg")
+    array_v.export_svg(output_dir / "_array-v.svg")
 
     if RASTER_SUPPORT:
-        array_v.export_png(f"{output_dir}/_array-h.png")
-        array_v.export_png(f"{output_dir}/_array-v.png")
+        array_v.export_png(output_dir / "_array-h.png")
+        array_v.export_png(output_dir / "_array-v.png")
     else:
         logging.warning("Skipping rasterizing")
 
@@ -112,14 +113,18 @@ def id_reset():
 
 
 @fixture
-def output_dir(request: FixtureRequest) -> str:
-    path_test: str = os.path.join(os.getcwd(), "test")
+def output_dir(request: FixtureRequest) -> Path:
+    # get path to test folder
+    test_path = Path(os.getcwd()) / "test"
 
-    fspath: str = str(request.node.fspath)
-    path_rel_mod: str = os.path.splitext(fspath[len(path_test) + 1 :])[0]
-    path_rel_test: str = os.path.join(path_rel_mod, request.node.name)
-    path_output: str = os.path.join(OUTPUT_DIR, path_rel_test)
+    # get path to this test
+    fspath = Path(request.node.fspath)
 
-    os.makedirs(path_output, exist_ok=True)
+    # get containing path relative to test folder
+    rel_path = fspath.parent.relative_to(test_path)
 
-    return path_output
+    # get output path and ensure it exists
+    output_path = OUTPUT_PATH / rel_path / request.node.name
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    return output_path

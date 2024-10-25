@@ -1,20 +1,20 @@
+from pathlib import Path
 from types import ModuleType
 from typing import Any, Literal
+import logging
 
 from ..core.glyph import BaseGlyph
 
 
 def invoke_export(
-    path_cls: str, path_output: str, format: Literal["svg", "png"] | None
+    path_cls: str, path_output: Path, format: Literal["svg", "png"] | None
 ):
-    print(
+    logging.info(
         f"Exporting: modpath={path_cls}, path_output={path_output}, format={format}"
     )
 
     # get class to be imported
     glyph_cls: type[BaseGlyph] = _get_glyph_cls(path_cls)
-
-    print(f"--- got glyph_cls: {glyph_cls}")
 
     # instantiate glyph
     glyph: BaseGlyph = glyph_cls()
@@ -28,8 +28,6 @@ def _get_glyph_cls(path_cls: str) -> type[BaseGlyph]:
     cls_name: str
 
     modpath, cls_name = _parse_path_cls(path_cls)
-
-    print(f"--- importing {cls_name} from {modpath}")
 
     mod: ModuleType = __import__(modpath, fromlist=[cls_name])
     glyph_cls: Any = getattr(mod, cls_name)

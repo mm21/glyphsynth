@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from functools import wraps
-from xml.etree import ElementTree
+from pathlib import Path
 from shutil import which
 from typing import Literal
+from xml.etree import ElementTree
 import copy
 import logging
 import subprocess
@@ -12,7 +12,6 @@ import sys
 import xml.dom.minidom as minidom
 
 from svgwrite.drawing import Drawing
-from svgwrite.container import SVG, Group
 
 from .container import BaseContainer
 
@@ -21,66 +20,11 @@ __all__ = ["RASTER_SUPPORT"]
 RASTER_SUPPORT: bool = os.name == "posix"
 
 
-def _save_prep(ext_default: str):
-    def func_wrapper(func):
-        """
-        Common preparation for saving to file.
-        """
-
-        @wraps(func)
-        def wrapper(self: BaseContainer, path: str, *args, **kwargs):
-            return self._
-
-            # path_file: str
-            is_dir: bool
-
-            if os.path.exists(path):
-                # existing path, determine if directory
-                is_dir = os.path.isdir(path)
-            else:
-                # not existing path, use heuristics to determine if path is
-                # a directory: if it doesn't have an extension, it should be
-                # a directory
-
-                dirname: str
-
-                _, ext = os.path.splitext(path)
-
-                is_dir = len(ext) == 0
-
-                if is_dir:
-                    # path should be a destination folder
-                    dirname = path
-                else:
-                    # path should be a destination file
-                    dirname = os.path.dirname(path)
-
-                # create dirs if needed
-                os.makedirs(dirname, exist_ok=True)
-
-            path_file: str
-
-            if is_dir:
-                basename: str = f"{self._id}.{ext_default}"
-                path_file = os.path.join(path, basename)
-            else:
-                path_file = path
-
-            return func(self, path_file, *args, **kwargs)
-
-        return wrapper
-
-    return func_wrapper
-
-
 class ExportContainer(BaseContainer):
-    def export(self, path: str, format: Literal["svg", "png"] | None = None):
-        # normalize format
-        format_: str = self._get_format(path, format)
-
-        print(f"--- export(): path={path}, format={format}, format_={format_}")
-
-        match format_:
+    def export(
+        self, path: Path, out_format: Literal["svg", "png"] | None = None
+    ):
+        match self._get_format(path, out_format):
             case "svg":
                 self.export_svg(path)
             case "png":
@@ -89,21 +33,19 @@ class ExportContainer(BaseContainer):
             case _:
                 raise Exception
 
-    def export_svg(self, path: str):
+    def export_svg(self, path: Path):
         """
         :param path: Path to destination file or folder
         """
 
-        path_: str
+        path_norm: Path = self._normalize_path(path, "svg")
 
-        path_, _ = self._normalize_path(path, "svg")
-
-        with open(path_, "w") as fh:
+        with path_norm.open("w") as fh:
             fh.write(self._get_svg())
 
     def export_png(
         self,
-        path: str,
+        path: Path,
         size: tuple[str, str] | None = None,
         dpi: tuple[int, int] = (96, 96),
         scale: float | int = 1,
@@ -115,17 +57,12 @@ class ExportContainer(BaseContainer):
         :param scale: Factor by which to scale user units to concrete pixels, only if `size is None`{l=python}
         """
 
-        # normalize path
-        path_: str
-
-        path_, _ = self._normalize_path(path, "png")
-
-        # normalize size
+        path_norm: Path = self._normalize_path(path, "png")
         size_raster: tuple[str, str] = size or self._get_size_raster(
             float(scale)
         )
 
-        self._rasterize(path_, size_raster, dpi)
+        self._rasterize(path_norm, size_raster, dpi)
 
     def get_svg(self) -> str:
         return self._get_svg()
@@ -147,7 +84,7 @@ class ExportContainer(BaseContainer):
         return xml_tree.toprettyxml(indent="  ")
 
     def _rasterize(
-        self, path_png: str, size_raster: tuple[str, str], dpi: tuple[int, int]
+        self, path_png: Path, size_raster: tuple[str, str], dpi: tuple[int, int]
     ):
         # ensure rsvg-convert is supported and available
         if not RASTER_SUPPORT:
@@ -161,7 +98,7 @@ class ExportContainer(BaseContainer):
         logging.debug(f"Found path to rsvg-convert: {path_rsvg_convert}")
 
         # create temp svg file scaled appropriately
-        path_svg = f"{path_png}.temp.svg"
+        path_svg = path_png.parent / f"{path_png.name}.temp.svg"
         self._create_svg_temp(path_svg, size_raster)
 
         logging.info(
@@ -179,15 +116,15 @@ class ExportContainer(BaseContainer):
             "--dpi-y",
             f"{dpi[1]}",
             "-o",
-            path_png,
-            path_svg,
+            str(path_png),
+            str(path_svg),
         ]
 
         logging.debug(f"Running: {' '.join(args)}")
 
         subprocess.check_call(args)
 
-    def _create_svg_temp(self, path_svg: str, size_raster: tuple[str, str]):
+    def _create_svg_temp(self, path_svg: Path, size_raster: tuple[str, str]):
         """
         Create temp .svg for rasterizing.
         """
@@ -201,7 +138,7 @@ class ExportContainer(BaseContainer):
 
         svg_str = self._get_svg(drawing_tmp)
 
-        with open(path_svg, "w") as fh:
+        with path_svg.open("w") as fh:
             fh.write(svg_str)
 
     def _get_size_raster(self, scale: float):
@@ -215,62 +152,40 @@ class ExportContainer(BaseContainer):
         return (f"{x}px", f"{y}px")
 
     def _normalize_path(
-        self, path: str, format: Literal["svg", "png"] | None
-    ) -> tuple[str, str]:
+        self, path: Path, out_format: Literal["svg", "png"] | None
+    ) -> Path:
         """
-        Take path (folder or file) and return a tuple of (complete filename, format).
+        Take path (folder or file) and return complete filename.
         """
 
+        out_format_norm = self._get_format(path, out_format)
         is_dir: bool
 
-        if os.path.exists(path):
+        if path.exists():
             # existing path, determine if directory
-            is_dir = os.path.isdir(path)
+            is_dir = path.is_dir()
         else:
             # not existing path, use heuristics to determine if path is
             # a directory: if it doesn't have an extension, it should be
             # a directory
 
-            dirname: str
-
-            _, ext = os.path.splitext(path)
-
-            is_dir = len(ext) == 0
-
-            if is_dir:
-                # path should be a destination folder
-                dirname = path
-            else:
-                # path should be a destination file
-                dirname = os.path.dirname(path)
+            is_dir = len(path.suffix) == 0
+            path_dir = path if is_dir else path.parent
 
             # create dirs if needed
-            os.makedirs(dirname, exist_ok=True)
+            path_dir.mkdir(parents=True, exist_ok=True)
 
-        path_file: str
-        format_: str
+        return path / f"{self._id}.{out_format_norm}" if is_dir else path
 
-        format_ = self._get_format(path, format)
-
-        if is_dir:
-            basename: str = f"{self._id}.{format_}"
-            path_file = os.path.join(path, basename)
-        else:
-            path_file = path
-
-        return (path_file, format_)
-
-    def _get_format(self, path: str, format: str | None) -> str:
+    def _get_format(self, path: Path, format: str | None) -> str:
         # check provided format
         if format is not None:
             return format
 
         # check path
-        basename: str = os.path.basename(path)
-        _, ext = os.path.splitext(basename)
-
-        if ext != "":
+        if len(path.suffix):
             # omit "."
-            return ext[1:]
+            return path.suffix[1:]
 
+        # default to svg
         return "svg"
