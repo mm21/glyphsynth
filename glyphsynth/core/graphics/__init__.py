@@ -1,14 +1,14 @@
 from pyrollup import rollup
 
-from . import graphics, draw, export, container, properties
+from . import container, draw, export, graphics, properties
 
-from .graphics import *
+from .container import *
 from .draw import *
 from .export import *
-from .container import *
+from .graphics import *
 from .properties import *
 
-__all__ = rollup(graphics, draw, export, container, properties)
+__all__ = rollup(graphics, properties, export, draw, container)
 
 # TODO: add types.py?
 # - Coordinate

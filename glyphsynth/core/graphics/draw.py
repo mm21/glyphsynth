@@ -17,29 +17,7 @@ from svgwrite.shapes import (
 from .container import BaseContainer
 from .properties import BaseProperties, PaintingProperties
 
-__all__ = [
-    "extend",
-]
-
-
-def extend(
-    point: tuple[float, float], ref: tuple[float, float], scale: float = 1.0
-) -> tuple[float, float]:
-    """
-    Convenience function to return a point along a line colinear with
-    the provided point and a reference point.
-
-    The distance between `point` and the returned point is the distance between
-    `point` and `ref` scaled by the provided `scale`.
-    """
-
-    offset: tuple[float, float] = (point[0] - ref[0], point[1] - ref[1])
-    offset_scale: tuple[float, float] = (offset[0] * scale, offset[1] * scale)
-
-    return (
-        point[0] + offset_scale[0],
-        point[1] + offset_scale[1],
-    )
+__all__ = []
 
 
 class DrawContainer(BaseContainer):

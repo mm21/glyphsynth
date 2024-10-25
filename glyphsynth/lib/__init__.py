@@ -1,9 +1,9 @@
 from pyrollup import rollup
 
-from . import array
-from . import util
+from . import arrays
+from . import utils
 
-from .array import *
-from .util import *
+from .arrays import *
+from .utils import *
 
-__all__ = rollup(array, util)
+__all__ = rollup(arrays, utils)

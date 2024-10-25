@@ -11,7 +11,7 @@ from glyphsynth import (
     PropertyValue,
     RASTER_SUPPORT,
 )
-from glyphsynth.lib.array import HArrayGlyph, VArrayGlyph
+from glyphsynth.lib.arrays import HArrayGlyph, VArrayGlyph
 from glyphsynth.lib.alphabet.minimal import (
     UNIT,
     ZERO,

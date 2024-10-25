@@ -1,7 +1,8 @@
 import string
 
 from glyphsynth.core.glyph import BaseGlyph, BaseParams
-from glyphsynth.core.graphics import Properties, PropertyValue, extend
+from glyphsynth.core.graphics import Properties, PropertyValue
+from ...utils import extend_line
 
 
 letters_str = string.ascii_uppercase
@@ -67,9 +68,9 @@ class A(BaseLetter):
 
         self.draw_polyline(
             [
-                extend((self._stroke_start, UNIT), top),
+                extend_line((self._stroke_start, UNIT), top),
                 top,
-                extend((self._stroke_end, UNIT), top),
+                extend_line((self._stroke_end, UNIT), top),
             ]
         )
 
