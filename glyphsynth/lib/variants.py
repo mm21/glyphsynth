@@ -48,7 +48,7 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
         """
         Override to yield parameter variants to export.
         """
-        yield self.glyph_cls.params_cls()
+        yield self.glyph_cls.get_params_cls()()
 
     def get_properties_variants(self) -> Generator[Properties, None, None]:
         """

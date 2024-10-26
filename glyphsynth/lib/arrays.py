@@ -36,7 +36,9 @@ class BaseArrayGlyph(BaseGlyph[ArrayParams], ABC):
         spacing: float = 0.0,
         center: bool = False,
     ):
-        params = cls.params_cls(glyphs=glyphs, spacing=spacing, center=center)
+        params = cls.get_params_cls()(
+            glyphs=glyphs, spacing=spacing, center=center
+        )
         return cls(params=params, glyph_id=glyph_id)
 
     def init(self):

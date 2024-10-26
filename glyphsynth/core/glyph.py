@@ -98,7 +98,7 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
         super().__init__(glyph_id, properties, size)
 
         # set params
-        self.params = params or type(self).params_cls()
+        self.params = params or type(self).get_params_cls()()
 
         # invoke subclass's init (e.g. set properties based on params)
         self.init()
@@ -167,12 +167,14 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
         A meaningful identifier to associate with this glyph. Also used as
         base name (without extension) of file to write when no filename is
         provided.
+
+        If no glyph_id is provided when created, it is derived from the
+        class name.
         """
         return self._id_norm
 
     @classmethod
-    @property
-    def params_cls(cls) -> type[ParamsT]:
+    def get_params_cls(cls) -> type[ParamsT]:
         """
         Returns the {obj}`BaseParams` subclass with which this class is
         parameterized, accounting for any default values provided by

@@ -36,7 +36,7 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
         )
 
         # create params
-        params = cls.params_cls(glyph=glyph, padding=padding_)
+        params = cls.get_params_cls()(glyph=glyph, padding=padding_)
 
         # generate glyph id
         glyph_id_ = f"{glyph.glyph_id}-pad"
