@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import Any, cast
 
 from svgwrite.drawing import Drawing
 from svgwrite.container import SVG, Group
@@ -112,7 +112,7 @@ class BaseContainer:
         self._id = id_
         self._size = size
         self._drawing = Drawing()
-        self._group = self._drawing.g(**self._get_id_kwargs(suffix="group"))
+        self._group = self._drawing.g(**self._get_elem_kwargs(suffix="group"))
         self._nested_glyphs = []
 
         self.properties = (
@@ -147,18 +147,25 @@ class BaseContainer:
     def _id_norm(self) -> str:
         return self._id or type(self).__name__
 
-    # TODO: remove, add _get_class_kwargs
-    # - set key "class_" with self._id_norm + suffix
-    def _get_id_kwargs(self, suffix: str | None = None) -> dict[str, Any]:
+    def _get_elem_kwargs(self, suffix: str | None = None) -> dict[str, str]:
+        kwargs: dict[str, str] = {}
         suffix_ = "" if suffix is None else f"-{suffix}"
-        return {} if self._id is None else {"id_": f"{self._id}{suffix_}"}
+
+        if self._id:
+            kwargs["id_"] = f"{self._id}{suffix_}"
+
+        kwargs["class_"] = f"{type(self).__name__}{suffix_}"
+
+        return kwargs
 
     def _init_post(self):
         # create canonical svg
-        self._svg: SVG = self._drawing.svg(
-            **self._get_id_kwargs(),
-            size=self.size_canon,
-            class_=type(self).__name__,
+        self._svg = cast(
+            SVG,
+            self._drawing.svg(
+                **self._get_elem_kwargs(),
+                size=self.size_canon,
+            ),
         )
 
         # set viewbox, if configured
@@ -192,9 +199,12 @@ class BaseContainer:
         """
 
         size_kwargs = {} if self._size is None else {"size": self._size}
-        wrapper_scale: SVG = self._drawing.svg(
-            **self._get_id_kwargs(suffix="wrapper-scale"),
-            **size_kwargs,
+        wrapper_scale = cast(
+            SVG,
+            self._drawing.svg(
+                **self._get_elem_kwargs(suffix="wrapper-scale"),
+                **size_kwargs,
+            ),
         )
         self._rescale_svg(wrapper_scale, self._size)
         wrapper_scale.add(self._svg)

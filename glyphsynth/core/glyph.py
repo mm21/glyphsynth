@@ -189,7 +189,7 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
 
         # add group to self, using wrapper svg for placement
         wrapper_insert: SVG = self._drawing.svg(
-            **glyph._get_id_kwargs(suffix="wrapper-insert"),
+            **glyph._get_elem_kwargs(suffix="wrapper-insert"),
             insert=insert,
         )
 
