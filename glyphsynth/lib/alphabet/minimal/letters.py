@@ -1,23 +1,28 @@
 import string
+import sys
 
-from glyphsynth.core.glyph import BaseGlyph, BaseParams
-from glyphsynth.core.graphics import Properties, PropertyValue
+from pydantic import Field
+
+from ....core.glyph import BaseGlyph, BaseParams
+from ....core.graphics import Properties, PropertyValue
 from ...utils import extend_line
 
 
-letters_str = string.ascii_uppercase
+LETTERS_STR = string.ascii_uppercase
 """
 Assume there are classes in this module with single-letter names A-Z.
 """
 
 __all__ = [
     "LetterParams",
-    "BaseLetter",
+    "BaseLetterGlyph",
+    "LetterComboParams",
+    "BaseLetterComboGlyph",
     "ZERO",
     "UNIT",
     "HALF",
-    "letter_cls_list",
-    *letters_str,
+    "LETTER_CLS_LIST",
+    *LETTERS_STR,
 ]
 
 ZERO = 0.0
@@ -30,9 +35,7 @@ class LetterParams(BaseParams):
     stroke_pct: float = 5.0
 
 
-# TODO:
-# - rename: BaseLetterGlyph
-class BaseLetter(BaseGlyph[LetterParams]):
+class BaseLetterGlyph(BaseGlyph[LetterParams]):
     _stroke_width: float
 
     class DefaultProperties(Properties):
@@ -59,9 +62,33 @@ class BaseLetter(BaseGlyph[LetterParams]):
         return UNIT - self._stroke_half
 
 
-# TODO: can't use polyline - use individual lines with clipping
-# - "polyline" helper
-class A(BaseLetter):
+class LetterComboParams(BaseParams):
+    """
+    Contains parameters to propagate to letters.
+    """
+
+    letter_params: LetterParams = Field(default_factory=LetterParams)
+
+
+class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
+    """
+    Glyph which encapsulates a combination of overlayed letter glyphs.
+    """
+
+    size_canon = (UNIT, UNIT)
+
+    def draw_letter[
+        LetterT: BaseLetterGlyph
+    ](self, letter_cls: type[LetterT]) -> LetterT:
+        return letter_cls(parent=self, params=self.params.letter_params)
+
+    def draw_combo[
+        ComboT: BaseLetterComboGlyph
+    ](self, combo_cls: type[ComboT]) -> ComboT:
+        return combo_cls(parent=self, params=self.params)
+
+
+class A(BaseLetterGlyph):
     def draw(self):
         # top point
         top = (HALF, ZERO)
@@ -82,27 +109,27 @@ class A(BaseLetter):
         )
 
 
-class B(BaseLetter):
+class B(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class C(BaseLetter):
+class C(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class D(BaseLetter):
+class D(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class E(BaseLetter):
+class E(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class F(BaseLetter):
+class F(BaseLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [(self._stroke_half, ZERO), (self._stroke_half, UNIT)]
@@ -113,37 +140,37 @@ class F(BaseLetter):
         self.draw_polyline([(ZERO, HALF), (UNIT, HALF)])
 
 
-class G(BaseLetter):
+class G(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class H(BaseLetter):
+class H(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class I(BaseLetter):
+class I(BaseLetterGlyph):
     def draw(self):
         self.draw_polyline([(HALF, ZERO), (HALF, UNIT)])
 
 
-class J(BaseLetter):
+class J(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class K(BaseLetter):
+class K(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class L(BaseLetter):
+class L(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class M(BaseLetter):
+class M(BaseLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -156,37 +183,37 @@ class M(BaseLetter):
         )
 
 
-class N(BaseLetter):
+class N(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class O(BaseLetter):
+class O(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class P(BaseLetter):
+class P(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class Q(BaseLetter):
+class Q(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class R(BaseLetter):
+class R(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class S(BaseLetter):
+class S(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class T(BaseLetter):
+class T(BaseLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -198,37 +225,39 @@ class T(BaseLetter):
         )
 
 
-class U(BaseLetter):
+class U(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class V(BaseLetter):
+class V(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class W(BaseLetter):
+class W(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class X(BaseLetter):
+class X(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class Y(BaseLetter):
+class Y(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-class Z(BaseLetter):
+class Z(BaseLetterGlyph):
     def draw(self):
         ...
 
 
-letter_cls_list: list[type[BaseLetter]] = [eval(l) for l in letters_str]
+LETTER_CLS_LIST: list[type[BaseLetterGlyph]] = [
+    getattr(sys.modules[__name__], l) for l in LETTERS_STR
+]
 """
 List of letter classes in order.
 """
