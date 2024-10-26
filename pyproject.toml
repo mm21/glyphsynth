@@ -24,7 +24,7 @@ pydantic = "^2.5.3"
 typer = {extras = ["all"], version = "^0.9.0"}
 
 [tool.poetry.scripts]
-glyphsynth = "glyphsynth.cli.main:run"
+glyphsynth-export = "glyphsynth.cli.export:run"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.11.0"

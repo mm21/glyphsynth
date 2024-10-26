@@ -51,7 +51,7 @@ class ExportContainer(BaseContainer):
         size: tuple[str, str] | None = None,
         dpi: tuple[int, int] = (96, 96),
         scale: float | int = 1,
-        debug_raster: bool = False,
+        in_place_raster: bool = False,
     ):
         """
         :param path: Path to destination file or folder
@@ -65,7 +65,7 @@ class ExportContainer(BaseContainer):
             float(scale)
         )
 
-        self._rasterize(path_norm, size_raster, dpi, debug_raster)
+        self._rasterize(path_norm, size_raster, dpi, in_place_raster)
 
     def get_svg(self) -> str:
         return self._get_svg()
@@ -91,7 +91,7 @@ class ExportContainer(BaseContainer):
         path_png: Path,
         size_raster: tuple[str, str],
         dpi: tuple[int, int],
-        debug_raster: bool,
+        in_place_raster: bool,
     ):
         # ensure rsvg-convert is supported and available
         if not RASTER_SUPPORT:
@@ -108,7 +108,7 @@ class ExportContainer(BaseContainer):
         path_svg: Path
 
         path_svg_dir = (
-            path_png.parent if debug_raster else Path(tempfile.mkdtemp())
+            path_png.parent if in_place_raster else Path(tempfile.mkdtemp())
         )
 
         path_svg = path_svg_dir / f"{path_png.name}.temp.svg"
@@ -138,7 +138,7 @@ class ExportContainer(BaseContainer):
         subprocess.check_call(args)
 
         # clean up temp dir
-        if not debug_raster:
+        if not in_place_raster:
             shutil.rmtree(path_svg.parent)
 
     def _create_svg_temp(self, path_svg: Path, size_raster: tuple[str, str]):

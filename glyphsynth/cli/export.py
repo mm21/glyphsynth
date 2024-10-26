@@ -1,51 +1,38 @@
-from pathlib import Path
-from types import ModuleType
-from typing import Any, Literal
 import logging
+import typer
 
-from ..core.glyph import BaseGlyph
+from ..core.export import export_glyphs
 
 
-def invoke_export(
-    path_cls: str, path_output: Path, format: Literal["svg", "png"] | None
+app = typer.Typer(
+    rich_markup_mode="rich",
+    no_args_is_help=True,
+    pretty_exceptions_show_locals=False,
+    add_completion=False,
+)
+
+
+# TODO: take size, dpi
+@app.command(no_args_is_help=True)
+def export(
+    fqcn: str = typer.Argument(help="FQCN of glyph(s) to export"),
+    output_path: str = typer.Argument(help="Output path (file or folder)"),
+    output_modpath: bool = typer.Option(
+        False,
+        help="Whether to create subfolders based on the respective glyph's modpath",
+    ),
+    svg: bool = typer.Option(False, help="Output .svg"),
+    png: bool = typer.Option(False, help="Output .png from .svg (Linux only)"),
 ):
-    logging.info(
-        f"Exporting: modpath={path_cls}, path_output={path_output}, format={format}"
+    logging.info(f"Writing to output path: {output_path}")
+    export_glyphs(
+        fqcn, output_path, output_modpath=output_modpath, svg=svg, png=png
     )
 
-    # get class to be imported
-    glyph_cls: type[BaseGlyph] = _get_glyph_cls(path_cls)
 
-    # instantiate glyph
-    glyph: BaseGlyph = glyph_cls()
-
-    # export glyph
-    glyph.export(path_output, format)
+def run():
+    app()
 
 
-def _get_glyph_cls(path_cls: str) -> type[BaseGlyph]:
-    modpath: str
-    cls_name: str
-
-    modpath, cls_name = _parse_path_cls(path_cls)
-
-    mod: ModuleType = __import__(modpath, fromlist=[cls_name])
-    glyph_cls: Any = getattr(mod, cls_name)
-
-    assert issubclass(glyph_cls, BaseGlyph)
-    return glyph_cls
-
-
-def _parse_path_cls(path_cls: str) -> tuple[str, str]:
-    """
-    Return modpath and class name.
-    """
-    modpath: str
-    cls_name: str
-
-    path_split: list[str] = path_cls.rsplit(".", maxsplit=1)
-    assert len(path_split) == 2, f"Invalid path_cls: {path_cls}"
-
-    modpath, cls_name = path_split
-
-    return (modpath, cls_name)
+if __name__ == "__main__":
+    run()

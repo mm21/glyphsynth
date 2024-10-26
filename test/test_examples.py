@@ -88,4 +88,6 @@ def test_fractal(output_dir: str):
         params=SquareFractalParams(square_params=square_params)
     )
     fractal.export_svg(output_dir)
-    fractal.export_png(output_dir, size=("4096px", "4096px"), debug_raster=True)
+    fractal.export_png(
+        output_dir, size=("4096px", "4096px"), in_place_raster=True
+    )
