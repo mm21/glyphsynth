@@ -9,9 +9,6 @@ from svgwrite.container import SVG, Group
 from .properties import Properties
 
 
-__all__ = []
-
-
 class BaseContainer:
     """
     Container for drawing and manipulation of low-level graphics objects.

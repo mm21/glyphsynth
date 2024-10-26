@@ -15,11 +15,8 @@ import xml.dom.minidom as minidom
 
 from svgwrite.drawing import Drawing
 
-from .container import BaseContainer
-
-__all__ = ["RASTER_SUPPORT"]
-
-RASTER_SUPPORT: bool = os.name == "posix"
+from . import RASTER_SUPPORT
+from ._container import BaseContainer
 
 
 class ExportContainer(BaseContainer):

@@ -13,8 +13,11 @@ import logging
 
 from glyphsynth import BaseGlyph
 
-__all__ = []
-
+__all__ = [
+    "RASTER_SUPPORT",
+    "ExportSpec",
+    "export_glyphs",
+]
 
 type GlyphObjType = type[BaseGlyph] | BaseGlyph | ExportSpec
 """

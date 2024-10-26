@@ -1,14 +1,16 @@
+import os
+
 from pyrollup import rollup
 
-from . import container, draw, export, graphics, properties
-
-from .container import *
-from .draw import *
-from .export import *
-from .graphics import *
+from . import properties
 from .properties import *
 
-__all__ = rollup(graphics, properties, export, draw, container)
+__all__ = ["RASTER_SUPPORT"] + rollup(properties)
+
+RASTER_SUPPORT: bool = os.name == "posix"
+"""
+Whether rasterization is supported; Linux only.
+"""
 
 # TODO: add types.py?
 # - Coordinate

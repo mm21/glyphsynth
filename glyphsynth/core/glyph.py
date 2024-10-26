@@ -6,7 +6,7 @@ from typing import Any, Self, TypeVar, get_args, cast
 from pydantic import BaseModel, ConfigDict
 from svgwrite.container import SVG, Group
 
-from .graphics.graphics import (
+from .graphics._graphics import (
     GraphicsContainer,
     BaseContainer,
 )

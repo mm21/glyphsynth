@@ -14,10 +14,8 @@ from svgwrite.shapes import (
     Polygon,
 )
 
-from .container import BaseContainer
+from ._container import BaseContainer
 from .properties import BaseProperties, PaintingProperties
-
-__all__ = []
 
 
 class DrawContainer(BaseContainer):
