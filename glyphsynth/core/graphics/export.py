@@ -114,7 +114,7 @@ class ExportContainer(BaseContainer):
         path_svg = path_svg_dir / f"{path_png.name}.temp.svg"
         self._create_svg_temp(path_svg, size_raster)
 
-        logging.info(
+        logging.debug(
             f"Rasterizing: {path_svg} -> {path_png}, size_raster={size_raster}, dpi={dpi}"
         )
 

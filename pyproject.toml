@@ -22,6 +22,7 @@ svgwrite = "^1.4.3"
 pyrollup = "^0.1.0"
 pydantic = "^2.5.3"
 typer = {extras = ["all"], version = "^0.9.0"}
+rich = "^13.9.3"
 
 [tool.poetry.scripts]
 glyphsynth-export = "glyphsynth.cli.export:run"

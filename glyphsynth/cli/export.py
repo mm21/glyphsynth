@@ -1,14 +1,34 @@
+from rich.logging import RichHandler
 import logging
+import rich
+import rich.traceback
 import typer
 
 from ..core.export import export_glyphs
+
+LEVEL = logging.INFO
 
 
 app = typer.Typer(
     rich_markup_mode="rich",
     no_args_is_help=True,
-    pretty_exceptions_show_locals=False,
     add_completion=False,
+)
+
+rich.traceback.install(show_locals=True)
+logging.basicConfig(
+    level=LEVEL,
+    format="%(message)s",
+    handlers=[
+        RichHandler(
+            rich_tracebacks=True,
+            console=rich.console.Console(),
+            show_level=True,
+            show_time=False,
+            show_path=False,
+            markup=True,
+        )
+    ],
 )
 
 
