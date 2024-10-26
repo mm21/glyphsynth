@@ -1,6 +1,6 @@
+from rich.console import Console
 from rich.logging import RichHandler
 import logging
-import rich
 import rich.traceback
 import typer
 
@@ -22,7 +22,7 @@ logging.basicConfig(
     handlers=[
         RichHandler(
             rich_tracebacks=True,
-            console=rich.console.Console(),
+            console=Console(),
             show_level=True,
             show_time=False,
             show_path=False,
@@ -44,7 +44,6 @@ def export(
     svg: bool = typer.Option(False, help="Output .svg"),
     png: bool = typer.Option(False, help="Output .png from .svg (Linux only)"),
 ):
-    logging.info(f"Writing to output path: {output_path}")
     export_glyphs(
         fqcn, output_path, output_modpath=output_modpath, svg=svg, png=png
     )

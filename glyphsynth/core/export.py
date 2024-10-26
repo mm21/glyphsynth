@@ -66,6 +66,9 @@ def export_glyphs(
     If a `BaseGlyph` is encountered,
 
     """
+
+    logging.info(f"Exporting to output path: {output_path}")
+
     containers: list[ExportSpec] = _extract_containers(fqcn)
 
     for container in containers:
