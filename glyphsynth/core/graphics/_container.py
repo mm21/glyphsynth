@@ -111,10 +111,7 @@ class BaseContainer:
         self._drawing = Drawing()
         self._group = self._drawing.g(**self._get_elem_kwargs(suffix="group"))
         self._nested_glyphs = []
-
-        self.properties = (
-            self.DefaultProperties() if properties is None else properties
-        )
+        self.properties = properties or self.DefaultProperties()
 
     @property
     def has_size(self) -> bool:

@@ -54,7 +54,7 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
         """
         Override to yield property variants to export.
         """
-        yield Properties()
+        yield self.glyph_cls.DefaultProperties()
 
 
 class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
