@@ -143,7 +143,7 @@ def _import_glyph_specs(fqcn: str) -> list[GlyphSpecType]:
 
     module: ModuleType | None = None
     obj: GlyphSpecType | None = None
-    import_excep: ImportError | None = None
+    import_excep: ImportError | AttributeError | None = None
 
     try:
         # attempt to import module
@@ -154,11 +154,15 @@ def _import_glyph_specs(fqcn: str) -> list[GlyphSpecType]:
     if module is None and "." in fqcn:
         # attempt to import object from module
         module_path, obj_name = fqcn.rsplit(".", 1)
+
         try:
             module = importlib.import_module(module_path)
             obj = getattr(module, obj_name)
         except (ImportError, AttributeError) as e:
             import_excep = e
+        else:
+            # clear exception as we successfully imported the object
+            import_excep = None
 
     if import_excep is not None:
         logging.error(f"Failed to import object: {fqcn}")
