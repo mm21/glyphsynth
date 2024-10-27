@@ -16,40 +16,37 @@ from glyphsynth.lib.alphabet.minimal import (
 
 from ..conftest import write_glyph, write_glyphs
 
-LETTERS_TEST = [
+LETTERS = [
     A,
     M,
     T,
 ]
 
 
-class ParamsTest(LetterComboParams):
+class AMTComboParams(LetterComboParams):
     letters: list[type[BaseLetterGlyph]]
 
     @property
     def desc(self) -> str:
-        """
-        Override to create valid glyph_id.
-        """
         return f"{'_'.join([l.__name__ for l in self.letters])}"
 
 
-class GlyphTest[ParamsT: ParamsTest](BaseLetterComboGlyph[ParamsT]):
+class AMTComboGlyph[ParamsT: AMTComboParams](BaseLetterComboGlyph[ParamsT]):
     def draw(self):
         for letter_cls in self.params.letters:
             self.draw_letter(letter_cls)
 
 
-class VariantFactoryTest(BaseVariantExportFactory[GlyphTest]):
-    MATRIX_WIDTH = len(LETTERS_TEST)
+class VariantFactoryTest(BaseVariantExportFactory[AMTComboGlyph]):
+    MATRIX_WIDTH = len(LETTERS)
     SPACING = UNIT / 10
-    glyph_cls = GlyphTest
+    glyph_cls = AMTComboGlyph
 
-    def get_params_variants(self) -> Generator[ParamsTest, None, None]:
+    def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
         for letter1, letter2, letter3 in itertools.product(
-            LETTERS_TEST, LETTERS_TEST, LETTERS_TEST
+            LETTERS, LETTERS, LETTERS
         ):
-            yield ParamsTest(letters=[letter1, letter2, letter3])
+            yield AMTComboParams(letters=[letter1, letter2, letter3])
 
 
 def test_letters(output_dir: Path):
