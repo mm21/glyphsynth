@@ -273,6 +273,8 @@ A subclass of `BaseVariantExportFactory` can be used as a convenience for genera
 
 ```python
 from typing import Generator
+import itertools
+
 from glyphsynth.lib.variants import BaseVariantExportFactory
 
 # Factory to create variants of AMTComboGlyph
