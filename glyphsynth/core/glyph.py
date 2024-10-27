@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Self, TypeVar, get_args, cast
+from typing import Any, Iterable, Self, TypeVar, get_args, cast
 
 from pydantic import BaseModel, ConfigDict
 from svgwrite.container import SVG, Group
@@ -33,22 +33,21 @@ class BaseParams(BaseModel):
         Short description of params and values.
         """
 
+        def parse_val(val: Any) -> str:
+            if isinstance(val, type):
+                return val.__name__
+            elif isinstance(val, BaseParams):
+                return val.desc
+            elif isinstance(val, Iterable) and not isinstance(val, str):
+                return f"_".join([parse_val(v) for v in val])
+            else:
+                return str(val).replace("=", "~").replace(".", "_")
+
         params = []
 
         for field in type(self).model_fields.keys():
             val: Any = getattr(self, field)
-            val_desc: str
-
-            if isinstance(val, type):
-                val_desc = val.__name__
-            elif isinstance(val, BaseParams):
-                val_desc = val.desc
-            else:
-                val_desc = (
-                    str(getattr(self, field))
-                    .replace("=", "~")
-                    .replace(".", "_")
-                )
+            val_desc = parse_val(val)
 
             params.append(f"{field}-{val_desc}")
 

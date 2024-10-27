@@ -33,28 +33,17 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
 
     def get_variants(self) -> Generator[GlyphT, None, None]:
         """
-        Yields all variants.
+        Yield all variants.
         """
-        for params, properties in itertools.product(
-            self.get_params_variants(), self.get_properties_variants()
-        ):
+        for params in self.get_params_variants():
             glyph_id = _derive_glyph_id(params)
-
-            yield self.glyph_cls(
-                glyph_id=glyph_id, params=params, properties=properties
-            )
+            yield self.glyph_cls(glyph_id=glyph_id, params=params)
 
     def get_params_variants(self) -> Generator[BaseParams, None, None]:
         """
         Override to yield parameter variants to export.
         """
         yield self.glyph_cls.get_params_cls()()
-
-    def get_properties_variants(self) -> Generator[Properties, None, None]:
-        """
-        Override to yield property variants to export.
-        """
-        yield self.glyph_cls.DefaultProperties()
 
 
 class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
