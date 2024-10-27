@@ -5,17 +5,11 @@ from pathlib import Path
 from pytest import fixture, FixtureRequest
 
 from glyphsynth import (
-    BaseParams,
     BaseGlyph,
-    Properties,
-    PropertyValue,
     RASTER_SUPPORT,
 )
 from glyphsynth.lib.arrays import HArrayGlyph, VArrayGlyph
-from glyphsynth.lib.alphabet.minimal import (
-    UNIT,
-    ZERO,
-)
+from glyphsynth.lib.alphabet.minimal import UNIT
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -52,59 +46,6 @@ def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
         glyph.export_svg(output_dir)
 
 
-BASIC_STROKE_PCT: float = 5.0
-BASIC_STROKE_WIDTH: float = BASIC_STROKE_PCT * UNIT
-BASIC_STROKE_HALF: float = BASIC_STROKE_WIDTH / 2
-
-
-class BasicParams(BaseParams):
-    color1: str = "black"
-
-
-class BasicGlyph(BaseGlyph[BasicParams]):
-    class DefaultProperties(Properties):
-        stroke: PropertyValue = "black"
-        stroke_width: PropertyValue = str(BASIC_STROKE_WIDTH)
-
-    size_canon = (UNIT, UNIT)
-
-    def init(self):
-        self.properties.color = self.params.color1
-        self.properties.stroke = self.params.color1
-
-    def draw(self):
-        self.draw_polyline(
-            [(ZERO, BASIC_STROKE_HALF), (UNIT, BASIC_STROKE_HALF)]
-        )
-
-
-class ParentGlyph(BaseGlyph):
-    child1: BasicGlyph
-    child2: BasicGlyph
-
-    size_canon = BasicGlyph.size_canon
-
-    def draw(self):
-        params2: BasicParams = BasicParams(color1="red")
-
-        self.child1 = BasicGlyph(size=self.size_canon, parent=self)
-        self.child2 = BasicGlyph(
-            size=self.size_canon, params=params2, parent=self
-        )
-
-        # rotate child2
-        self.child2.rotate(180.0)
-
-
-class ParentGlyph2(ParentGlyph):
-    def init(self):
-        assert BasicGlyph.size_canon is not None
-        self.size_canon = (
-            BasicGlyph.size_canon[0] * 10,
-            BasicGlyph.size_canon[1] * 10,
-        )
-
-
 @fixture
 def output_dir(request: FixtureRequest) -> Path:
     # get path to test folder
@@ -113,11 +54,13 @@ def output_dir(request: FixtureRequest) -> Path:
     # get path to this test
     fspath = Path(request.node.fspath)
 
+    testcase_path = fspath.parent / fspath.stem / request.node.name
+
     # get containing path relative to test folder
-    rel_path = fspath.parent.relative_to(test_path)
+    # rel_path =
 
     # get output path and ensure it exists
-    output_path = OUTPUT_PATH / rel_path / request.node.name
+    output_path = OUTPUT_PATH / testcase_path.relative_to(test_path)
     output_path.mkdir(parents=True, exist_ok=True)
 
     return output_path

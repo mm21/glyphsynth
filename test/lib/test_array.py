@@ -1,14 +1,14 @@
-from pytest import mark
+from pathlib import Path
 
 from glyphsynth import BaseGlyph, BaseParams, Properties, PropertyValue
 from glyphsynth.lib import ArrayParams, HArrayGlyph, VArrayGlyph
 
-from ..conftest import ParentGlyph, UNIT
+from ..glyphs import ParentGlyph, UNIT
 
 GLYPH_COUNT = 4
 
 
-def test_basic(output_dir: str):
+def test_basic(output_dir: Path):
     """
     Create horizontal and vertical arrays of basic glyphs.
     """
@@ -43,7 +43,7 @@ def test_basic(output_dir: str):
     v_array.export_svg(output_dir)
 
 
-def test_scale(output_dir: str):
+def test_scale(output_dir: Path):
     # TODO
     # - create glyphs of different scales
     # - create h+v arrays with center=False and center=True (4 total)

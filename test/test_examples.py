@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from glyphsynth import BaseParams, BaseGlyph
 
 ZERO: float = 0.0
@@ -64,7 +66,7 @@ class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
             self.insert_glyph(child_glyph, insert=(HALF / 2, HALF / 2))
 
 
-def test_square(output_dir: str):
+def test_square(output_dir: Path):
     square_params = SquareParams(
         color_upper_left="red",
         color_upper_right="orange",
@@ -76,7 +78,7 @@ def test_square(output_dir: str):
     square.export_svg(output_dir)
 
 
-def test_fractal(output_dir: str):
+def test_fractal(output_dir: Path):
     square_params = SquareParams(
         color_upper_left="rgb(250, 50, 0)",
         color_upper_right="rgb(250, 250, 0)",

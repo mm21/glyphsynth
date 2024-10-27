@@ -1,13 +1,14 @@
-import os
+from pathlib import Path
 
 from pytest import mark
 
 from glyphsynth import EmptyGlyph, Properties, RASTER_SUPPORT
+from glyphsynth.core.export import export_glyphs
 
-from .conftest import BasicParams, BasicGlyph, ParentGlyph, ParentGlyph2, UNIT
+from .glyphs import BasicParams, BasicGlyph, ParentGlyph, ParentGlyph2, UNIT
 
 
-def test_basic(output_dir: str):
+def test_basic(output_dir: Path):
     """
     Create basic glyph.
     """
@@ -16,7 +17,7 @@ def test_basic(output_dir: str):
     glyph.export_svg(output_dir)
 
 
-def test_basic_rescaled(output_dir: str):
+def test_basic_rescaled(output_dir: Path):
     """
     Create basic glyph and rescale in a parent glyph.
     """
@@ -72,7 +73,7 @@ def test_props():
     assert glyph1.properties.fill == "red"
 
 
-def test_composition(output_dir: str):
+def test_composition(output_dir: Path):
     """
     Create glyph with sub-glyphs.
     """
@@ -88,7 +89,7 @@ def test_composition(output_dir: str):
     parent.export_svg(output_dir)
 
 
-def test_composition_rescaled(output_dir: str):
+def test_composition_rescaled(output_dir: Path):
     """
     Create glyph with rescaled sub-glyphs.
     """
@@ -110,7 +111,7 @@ def test_raster(output_dir):
     parent.export_png(output_dir)
 
 
-def test_empty(output_dir: str):
+def test_empty(output_dir: Path):
     """
     Verify EmptyGlyph.
     """
@@ -123,13 +124,11 @@ def test_empty(output_dir: str):
     glyph.export_svg(output_dir)
 
 
-"""
-def test_draw():
-
-    glyph = EmptyGlyph()
-    params: BasicParams = BasicParams()
-    params2: EmptyParams = EmptyParams()
-    parent: ParentGlyph = glyph.draw_glyph(ParentGlyph, params2)
-
-    print(f'--- parent: {parent}')
-"""
+def test_export(output_dir: Path):
+    export_glyphs(
+        "test.glyphs.BasicGlyph",
+        output_dir,
+        output_modpath=True,
+        svg=True,
+        png=True,
+    )
