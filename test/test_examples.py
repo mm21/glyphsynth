@@ -51,8 +51,9 @@ class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
         # draw square
         self.insert_glyph(SquareGlyph(params=self.params.square_params))
 
-        # draw another fractal glyph
         if self.params.depth > 1:
+            # draw another fractal glyph, half the size and rotated 90 degrees
+
             child_params = SquareFractalParams(
                 square_params=self.params.square_params,
                 depth=self.params.depth - 1,
@@ -62,7 +63,6 @@ class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
             )
 
             child_glyph.rotate(90.0)
-
             self.insert_glyph(child_glyph, insert=(HALF / 2, HALF / 2))
 
 
@@ -76,6 +76,7 @@ def test_square(output_dir: Path):
 
     square = SquareGlyph(params=square_params)
     square.export_svg(output_dir)
+    square.export_png(output_dir)
 
 
 def test_fractal(output_dir: Path):
