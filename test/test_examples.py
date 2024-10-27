@@ -25,22 +25,30 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
     size_canon = (100.0, 100.0)
 
     def draw(self):
-        # draw a rectangle using the provided color
+        # Draw a rectangle using the provided color
         self.draw_rect((25.0, 25.0), (50.0, 50.0), fill=self.params.color)
+
+        # Draw a black border around the perimeter
+        self.draw_polyline(
+            [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
+            stroke="black",
+            fill="none",
+            stroke_width="5",
+        )
 
 
 class UnitGlyph[ParamsT: BaseParams](BaseGlyph[ParamsT]):
     size_canon = UNIT_SIZE
 
 
-class SquareParams(BaseParams):
+class MultiSquareParams(BaseParams):
     color_upper_left: str
     color_upper_right: str
     color_lower_left: str
     color_lower_right: str
 
 
-class SquareGlyph(UnitGlyph[SquareParams]):
+class MultiSquareGlyph(UnitGlyph[MultiSquareParams]):
     def draw(self):
         size: tuple[float, float] = (HALF, HALF)
 
@@ -58,14 +66,14 @@ class SquareGlyph(UnitGlyph[SquareParams]):
 
 
 class SquareFractalParams(BaseParams):
-    square_params: SquareParams
+    square_params: MultiSquareParams
     depth: int = FRACTAL_DEPTH
 
 
 class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
     def draw(self):
         # draw square
-        self.insert_glyph(SquareGlyph(params=self.params.square_params))
+        self.insert_glyph(MultiSquareGlyph(params=self.params.square_params))
 
         if self.params.depth > 1:
             # draw another fractal glyph, half the size and rotated 90 degrees
@@ -83,24 +91,28 @@ class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
 
 
 def test_blue_square(output_dir: Path):
-    square = MySquareGlyph(params=MySquareParams(color="blue"))
-    write_glyph(output_dir, square, stem="blue-square")
+    blue_square = MySquareGlyph(
+        glyph_id="blue-square", params=MySquareParams(color="blue")
+    )
+    write_glyph(output_dir, blue_square)
 
 
 def test_square(output_dir: Path):
-    square_params = SquareParams(
+    multi_square_params = MultiSquareParams(
         color_upper_left="red",
         color_upper_right="orange",
         color_lower_right="green",
         color_lower_left="blue",
     )
 
-    square = SquareGlyph(params=square_params)
-    write_glyph(output_dir, square, stem="multi-square")
+    multi_square = MultiSquareGlyph(
+        glyph_id="multi-square", params=multi_square_params
+    )
+    write_glyph(output_dir, multi_square)
 
 
 def test_fractal(output_dir: Path):
-    square_params = SquareParams(
+    multi_square_params = MultiSquareParams(
         color_upper_left="rgb(250, 50, 0)",
         color_upper_right="rgb(250, 250, 0)",
         color_lower_right="rgb(0, 250, 50)",
@@ -109,7 +121,7 @@ def test_fractal(output_dir: Path):
 
     fractal = SquareFractalGlyph(
         glyph_id="multi-square-fractal",
-        params=SquareFractalParams(square_params=square_params),
+        params=SquareFractalParams(square_params=multi_square_params),
     )
 
     fractal.export_svg(output_dir)

@@ -35,7 +35,7 @@ class AMTComboParams(LetterComboParams):
     letter2: type[BaseLetterGlyph]
 
 
-class AMTComboGlyph[ParamsT: AMTComboParams](BaseLetterComboGlyph[ParamsT]):
+class AMTComboGlyph(BaseLetterComboGlyph[AMTComboParams]):
     def draw(self):
         # draw letters given by params
         self.draw_letter(self.params.letter1)
