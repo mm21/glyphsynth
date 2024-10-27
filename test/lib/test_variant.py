@@ -14,7 +14,7 @@ from glyphsynth.lib.alphabet.minimal import (
     T,
 )
 
-from ..conftest import write_glyph, write_glyphs
+from ..conftest import write_glyph
 
 LETTERS = [
     A,
@@ -47,7 +47,7 @@ class VariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
     SPACING = UNIT / 10
     glyph_cls = AMTComboGlyph
 
-    # generate variants of letter combinations
+    # generate variants of colors and letter combinations
     def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
         for color, letter1, letter2 in itertools.product(
             COLORS, LETTERS, LETTERS

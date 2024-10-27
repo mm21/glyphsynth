@@ -17,9 +17,12 @@ OUTPUT_PATH = Path(os.getcwd()) / "test" / "__build__"
 SPACING: float = UNIT / 10
 
 
-def write_glyph(output_dir: Path, glyph: BaseGlyph):
-    glyph.export_svg(output_dir)
-    glyph.export_png(output_dir)
+def write_glyph(output_dir: Path, glyph: BaseGlyph, stem: str | None = None):
+    svg_path = output_dir / f"{stem}.svg" if stem else output_dir
+    png_path = output_dir / f"{stem}.png" if stem else output_dir
+
+    glyph.export_svg(svg_path)
+    glyph.export_png(png_path)
 
 
 def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):

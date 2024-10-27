@@ -2,6 +2,10 @@ from pathlib import Path
 
 from glyphsynth import BaseParams, BaseGlyph
 
+
+from .conftest import write_glyph
+
+
 ZERO: float = 0.0
 UNIT: float = 1000.0
 HALF: float = UNIT / 2
@@ -11,6 +15,18 @@ ORIGIN: tuple[float, float] = (ZERO, ZERO)
 
 
 FRACTAL_DEPTH = 10
+
+
+class MySquareParams(BaseParams):
+    color: str
+
+
+class MySquareGlyph(BaseGlyph[MySquareParams]):
+    size_canon = (100.0, 100.0)
+
+    def draw(self):
+        # draw a rectangle using the provided color
+        self.draw_rect((25.0, 25.0), (50.0, 50.0), fill=self.params.color)
 
 
 class UnitGlyph[ParamsT: BaseParams](BaseGlyph[ParamsT]):
@@ -66,6 +82,11 @@ class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
             self.insert_glyph(child_glyph, insert=(HALF / 2, HALF / 2))
 
 
+def test_blue_square(output_dir: Path):
+    square = MySquareGlyph(params=MySquareParams(color="blue"))
+    write_glyph(output_dir, square, stem="blue-square")
+
+
 def test_square(output_dir: Path):
     square_params = SquareParams(
         color_upper_left="red",
@@ -75,8 +96,7 @@ def test_square(output_dir: Path):
     )
 
     square = SquareGlyph(params=square_params)
-    square.export_svg(output_dir)
-    square.export_png(output_dir)
+    write_glyph(output_dir, square, stem="multi-square")
 
 
 def test_fractal(output_dir: Path):
@@ -88,8 +108,10 @@ def test_fractal(output_dir: Path):
     )
 
     fractal = SquareFractalGlyph(
-        params=SquareFractalParams(square_params=square_params)
+        glyph_id="multi-square-fractal",
+        params=SquareFractalParams(square_params=square_params),
     )
+
     fractal.export_svg(output_dir)
     fractal.export_png(
         output_dir, size=("4096px", "4096px"), in_place_raster=True
