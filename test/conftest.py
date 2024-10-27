@@ -23,7 +23,12 @@ OUTPUT_PATH = Path(os.getcwd()) / "test" / "__build__"
 SPACING: float = UNIT / 10
 
 
-def write_glyphs(output_dir: str, glyphs: list[BaseGlyph]):
+def write_glyph(output_dir: Path, glyph: BaseGlyph):
+    glyph.export_svg(output_dir)
+    glyph.export_png(output_dir)
+
+
+def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
     """
     Create horizontal and vertical arrays and save them to the provided path,
     in addition to an svg per individual glyph.
