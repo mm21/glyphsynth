@@ -136,6 +136,8 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
 
         # create array glyphs from raw arrays
         for i, harray in enumerate(harrays):
+            if len(harray) == 0:
+                continue
             harray_glyphs.append(
                 HArrayGlyph.new(
                     harray, glyph_id=f"row_{i}", spacing=self.SPACING
@@ -143,6 +145,9 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
             )
 
         for i, varray in enumerate(varrays):
+            if len(varray) == 0:
+                continue
+
             varray_glyphs.append(
                 VArrayGlyph.new(
                     varray, glyph_id=f"column_{i}", spacing=self.SPACING
