@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from glyphsynth import BaseParams, BaseGlyph
+from glyphsynth import BaseParams, BaseGlyph, EmptyGlyph
 
 
 from .conftest import write_glyph
@@ -25,7 +25,7 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
     size_canon = (100.0, 100.0)
 
     def draw(self):
-        # Draw a rectangle using the provided color
+        # Draw a centered square using the provided color
         self.draw_rect((25.0, 25.0), (50.0, 50.0), fill=self.params.color)
 
         # Draw a black border around the perimeter
@@ -94,7 +94,23 @@ def test_blue_square(output_dir: Path):
     blue_square = MySquareGlyph(
         glyph_id="blue-square", params=MySquareParams(color="blue")
     )
+
     write_glyph(output_dir, blue_square)
+
+    blue_square2 = EmptyGlyph(glyph_id="blue-square-2", size=(100, 100))
+
+    # Draw a centered square
+    blue_square2.draw_rect((25.0, 25.0), (50.0, 50.0), fill="blue")
+
+    # Draw a black border around the perimeter
+    blue_square2.draw_polyline(
+        [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
+        stroke="black",
+        fill="none",
+        stroke_width="5",
+    )
+
+    write_glyph(output_dir, blue_square2)
 
 
 def test_square(output_dir: Path):

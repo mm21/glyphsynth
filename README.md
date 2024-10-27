@@ -45,8 +45,8 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
 
     def draw(self):
 
-        # Draw a centered rectangle using the provided color
-        self.draw_rect((50.0, 50.0), (50.0, 50.0), fill=self.params.color)
+        # Draw a centered square using the provided color
+        self.draw_rect((25.0, 25.0), (50.0, 50.0), fill=self.params.color)
 
         # Draw a black border around the perimeter
         self.draw_polyline(
@@ -58,7 +58,9 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
 
 
 # Create glyph instance
-blue_square = MySquareGlyph(glyph_id="blue-square", params=MySquareParams(color="blue"))
+blue_square = MySquareGlyph(
+    glyph_id="blue-square", params=MySquareParams(color="blue")
+)
 
 # Render as image
 blue_square.export_png(Path("my_glyph_renders"))
@@ -67,6 +69,25 @@ blue_square.export_png(Path("my_glyph_renders"))
 This is rendered as:
 
 [![Blue-square](./examples/blue-square.png)]()
+
+Equivalently, the same glyph can be constructed from an `EmptyGlyph`:
+
+```python
+from glyphsynth import EmptyGlyph
+
+blue_square = EmptyGlyph(glyph_id="blue-square", size=(100, 100))
+
+# Draw a centered square
+blue_square.draw_rect((25.0, 25.0), (50.0, 50.0), fill="blue")
+
+# Draw a black border around the perimeter
+blue_square.draw_polyline(
+    [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
+    stroke="black",
+    fill="none",
+    stroke_width="5",
+)
+```
 
 ## Exporting
 
@@ -226,7 +247,7 @@ fractal = SquareFractalGlyph(
 
 [![Variants matrix](./examples/variants-matrix-pad.png)]()
 
-This illustrates the use of letter glyphs, provided by this package as a library, to create parameterized geometric designs. The letters `A`, `M`, and `T` are selected for a range of color variants.
+This illustrates the use of letter glyphs, provided by this package as a library, to create parameterized geometric designs. Permutations of pairs of letters `A`, `M`, and `T` are selected for a range of color variants, with the second letter being rotated 180 degrees.
 
 ```python
 from glyphsynth.lib.alphabet.minimal import (
@@ -263,10 +284,13 @@ class AMTComboParams(LetterComboParams):
 # Glyph class
 class AMTComboGlyph(BaseLetterComboGlyph[AMTComboParams]):
     def draw(self):
-
+        
         # draw letters given by params
         self.draw_letter(self.params.letter1)
-        self.draw_letter(self.params.letter2)
+        letter2 = self.draw_letter(self.params.letter2)
+
+        # additionally rotate letter2
+        letter2.rotate(180)
 ```
 
 A subclass of `BaseVariantExportFactory` can be used as a convenience for generating variants:
