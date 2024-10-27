@@ -1,7 +1,7 @@
 from pyrollup import rollup
 
-from . import arrays
-from . import utils
+# TODO: add matrix module
+from . import arrays, utils
 
 from .arrays import *
 from .utils import *

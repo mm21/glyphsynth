@@ -4,7 +4,6 @@ For visualization, all variants can be represented as a matrix and a
 set of arrays.
 """
 
-import itertools
 from pathlib import Path
 from typing import Generator
 
@@ -13,11 +12,15 @@ from ..core.export import ExportSpec
 from glyphsynth import (
     BaseGlyph,
     BaseParams,
-    Properties,
     HArrayGlyph,
     VArrayGlyph,
     PaddingGlyph,
 )
+
+__all__ = [
+    "BaseVariantFactory",
+    "BaseVariantExportFactory",
+]
 
 
 class BaseVariantFactory[GlyphT: BaseGlyph]:
