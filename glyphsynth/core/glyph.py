@@ -41,6 +41,8 @@ class BaseParams(BaseModel):
 
             if isinstance(val, type):
                 val_desc = val.__name__
+            elif isinstance(val, BaseParams):
+                val_desc = val.desc
             else:
                 val_desc = (
                     str(getattr(self, field))

@@ -38,7 +38,7 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
         for params, properties in itertools.product(
             self.get_params_variants(), self.get_properties_variants()
         ):
-            glyph_id = _derive_glyph_id(params, properties)
+            glyph_id = _derive_glyph_id(params)
 
             yield self.glyph_cls(
                 glyph_id=glyph_id, params=params, properties=properties
@@ -65,17 +65,12 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
     Exports a hierarchy of glyph variants:
 
     - all/[glyph_id].[svg/png]
-    - arrays/
-        - params/
-            - [property_variant.desc]_*.[svg/png]
-                - Param variants for each property variant
-        - properties/
-            - [param_variant.desc]_*.[svg/png]
-                - Property variants for each param variant
-    - matrix.[svg/png]
-        - Combined param + property variants
-            - Properties varying horizontally
-            - Params varying vertically
+    - matrix/
+        - All glyphs combined in matrix
+    - harrays/
+        - Horizontal arrays
+    - varrays/
+        - Vertical arrays
     """
 
     MATRIX_WIDTH: int = 1
@@ -113,7 +108,7 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         h_len = self.matrix_width
 
         # list of horizontal arrays
-        harrays: list[list[GlyphT]] = [[] for _ in range(h_len)]
+        harrays: list[list[GlyphT]] = [[] for _ in range(v_len)]
         harray_glyphs: list[HArrayGlyph] = []
 
         # list of vertical arrays
@@ -128,10 +123,10 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         matrix_path = variants_path / "matrix"
 
         # create horizontal/vertical arrays
-        for i in range(h_len):
+        for i in range(v_len):
             harrays[i] = [all_glyphs[j * v_len + i] for j in range(h_len)]
 
-        for i in range(v_len):
+        for i in range(h_len):
             varrays[i] = all_glyphs[i * v_len : (i + 1) * v_len]
 
         # create array glyphs from raw arrays
@@ -196,13 +191,8 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         return self.MATRIX_WIDTH
 
 
-def _derive_glyph_id(params: BaseParams, properties: Properties) -> str:
+def _derive_glyph_id(params: BaseParams) -> str:
     """
-    Derive a glyph_id from params and properties.
+    Derive a glyph_id from params.
     """
-    descs: list[str] = [params.desc, properties.desc]
-
-    # filter out empty values
-    descs = [d for d in descs if len(d)]
-
-    return "___".join(descs)
+    return params.desc

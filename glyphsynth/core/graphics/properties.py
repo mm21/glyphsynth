@@ -70,14 +70,3 @@ class Properties(PaintingProperties, FontProperties):
         # ensure user didn't add any invalid properties
         for field in cls.model_fields.keys():
             assert field in valid_properties, f"{field} is not a valid property"
-
-    @property
-    def desc(self) -> str:
-        """
-        Short description of properties and values.
-        """
-        return "".join(
-            f"{field}-{getattr(self, field)}"
-            for field in type(self).model_fields.keys()
-            if getattr(self, field) is not None
-        )

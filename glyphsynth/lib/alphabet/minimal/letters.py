@@ -32,6 +32,7 @@ QUART = HALF / 2
 
 
 class LetterParams(BaseParams):
+    color: str = "black"
     stroke_pct: float = 5.0
 
 
@@ -48,6 +49,7 @@ class BaseLetterGlyph(BaseGlyph[LetterParams]):
     def init(self):
         self._stroke_width = (self.params.stroke_pct / 100) * UNIT
         self.properties.stroke_width = str(round(self._stroke_width))
+        self.properties.stroke = self.params.color
 
     @property
     def _stroke_half(self) -> float:
