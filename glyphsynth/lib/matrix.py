@@ -122,3 +122,11 @@ class MatrixGlyph(BaseMatrixGlyph):
             rows=rows, spacing=spacing, padding=padding, center=center
         )
         return cls(params=params, glyph_id=glyph_id)
+
+    @property
+    def rows(self) -> list[list[BaseGlyph]]:
+        return self._rows
+
+    @property
+    def cols(self) -> list[list[BaseGlyph]]:
+        return self._cols

@@ -53,8 +53,8 @@ class VariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
 
     # generate variants of colors and letter combinations
     def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
-        for color, letter1, letter2 in itertools.product(
-            COLORS, LETTERS, LETTERS
+        for letter1, letter2, color in itertools.product(
+            LETTERS, LETTERS, COLORS
         ):
             yield AMTComboParams(
                 letter_params=LetterParams(color=color),

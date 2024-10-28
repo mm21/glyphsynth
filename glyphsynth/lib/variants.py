@@ -12,9 +12,10 @@ from ..core.export import ExportSpec
 from glyphsynth import (
     BaseGlyph,
     BaseParams,
+    PaddingGlyph,
     HArrayGlyph,
     VArrayGlyph,
-    PaddingGlyph,
+    MatrixGlyph,
 )
 
 __all__ = [
@@ -25,14 +26,42 @@ __all__ = [
 
 class BaseVariantFactory[GlyphT: BaseGlyph]:
     """
-    Encapsulates a BaseGlyph subclass and variants for parameters and
-    properties.
+    Encapsulates a BaseGlyph subclass and parameter variants.
     """
 
     glyph_cls: type[GlyphT]
     """
     BaseGlyph subclass to instantiate.
     """
+
+    def create_matrix_glyph(
+        self,
+        glyph_id: str | None = None,
+        width: int = 1,
+        spacing: float = 0.0,
+        padding: float = 0.0,
+    ) -> MatrixGlyph:
+        """
+        Creates a matrix glyph of the provided width by iterating over all
+        variants.
+        """
+        rows: list[list[GlyphT]] = []
+
+        # get list of all glyphs
+        all_glyphs: list[GlyphT] = list(self.get_variants())
+
+        col_count = width
+        row_count = len(all_glyphs) // col_count
+
+        for row_idx in range(row_count):
+            rows.append(
+                all_glyphs[row_idx * col_count : (row_idx + 1) * col_count]
+            )
+
+        # create matrix glyph
+        return MatrixGlyph.new(
+            rows, glyph_id=glyph_id, spacing=spacing, padding=padding
+        )
 
     def get_variants(self) -> Generator[GlyphT, None, None]:
         """
@@ -90,21 +119,8 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         def wrap_padding(glyph: BaseGlyph):
             return PaddingGlyph.new(glyph, padding=self.SPACING)
 
-        # get list of all glyphs
-        all_glyphs: list[GlyphT] = list(self.get_variants())
-
-        # length of slices to create as vertical arrays
-        v_len = len(all_glyphs) // self.matrix_width
-
-        # length of slices to create as horizontal arrays
-        h_len = self.matrix_width
-
-        # list of horizontal arrays
-        harrays: list[list[GlyphT]] = [[] for _ in range(v_len)]
+        # lists of arrays
         harray_glyphs: list[HArrayGlyph] = []
-
-        # list of vertical arrays
-        varrays: list[list[GlyphT]] = [[] for _ in range(v_len)]
         varray_glyphs: list[VArrayGlyph] = []
 
         # relative paths for exporting
@@ -114,62 +130,68 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         varrays_path = variants_path / "varrays"
         matrix_path = variants_path / "matrix"
 
-        # create horizontal/vertical arrays
-        for i in range(v_len):
-            harrays[i] = [all_glyphs[j * v_len + i] for j in range(h_len)]
+        matrix_glyph = self.create_matrix_glyph(
+            glyph_id="matrix",
+            width=self.matrix_width,
+            spacing=self.SPACING,
+            padding=self.SPACING,
+        )
 
-        for i in range(h_len):
-            varrays[i] = all_glyphs[i * v_len : (i + 1) * v_len]
-
-        # create array glyphs from raw arrays
-        for i, harray in enumerate(harrays):
-            if len(harray) == 0:
-                continue
+        # create array glyphs
+        for i, row in enumerate(matrix_glyph.rows):
             harray_glyphs.append(
                 HArrayGlyph.new(
-                    harray, glyph_id=f"row_{i}", spacing=self.SPACING
+                    row,
+                    glyph_id=f"row_{i}",
+                    spacing=self.SPACING,
+                    padding=self.SPACING,
                 )
             )
 
-        for i, varray in enumerate(varrays):
-            if len(varray) == 0:
-                continue
-
+        for i, col in enumerate(matrix_glyph.cols):
             varray_glyphs.append(
                 VArrayGlyph.new(
-                    varray, glyph_id=f"column_{i}", spacing=self.SPACING
+                    col,
+                    glyph_id=f"col_{i}",
+                    spacing=self.SPACING,
+                    padding=self.SPACING,
                 )
             )
 
         # export top-level glyphs
-        for glyph in all_glyphs:
-            yield ExportSpec(
-                wrap_padding(glyph), all_path, module=type(self).__module__
-            )
+        yield from (
+            ExportSpec(wrap_padding(g), all_path, module=type(self).__module__)
+            for row in matrix_glyph.rows
+            for g in row
+        )
+
+        """
+        for row in matrix_glyph.rows:
+            for glyph in row:
+                yield ExportSpec(
+                    wrap_padding(glyph), all_path, module=type(self).__module__
+                )
+        """
 
         # export horizontal arrays
-        for i, harray_glyph in enumerate(harray_glyphs):
+        for harray_glyph in harray_glyphs:
             yield ExportSpec(
-                wrap_padding(harray_glyph),
+                harray_glyph,
                 harrays_path,
                 module=type(self).__module__,
             )
 
         # export vertical arrays
-        for i, varray_glyph in enumerate(varray_glyphs):
+        for varray_glyph in varray_glyphs:
             yield ExportSpec(
-                wrap_padding(varray_glyph),
+                varray_glyph,
                 varrays_path,
                 module=type(self).__module__,
             )
 
-        # export matrix glyph as vertical array of horizontal arrays
+        # export matrix glyph
         yield ExportSpec(
-            wrap_padding(
-                VArrayGlyph.new(
-                    harray_glyphs, glyph_id="matrix", spacing=self.SPACING
-                )
-            ),
+            matrix_glyph,
             matrix_path,
             module=type(self).__module__,
         )
