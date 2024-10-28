@@ -1,8 +1,4 @@
-from abc import ABC
-from typing import Iterable
-
 from ..core import BaseGlyph, BaseParams
-from .arrays import HArrayGlyph, VArrayGlyph
 
 __all__ = [
     "MatrixParams",
@@ -17,11 +13,9 @@ class MatrixParams(BaseParams):
     center: bool = True
 
 
-class MatrixGlyph(BaseGlyph[MatrixParams]):
+class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
     """
-    Glyph encapsulating a matrix of glyphs with constant spacing between them.
-
-    If `center` is `True`, glyphs are center aligned.
+    Base matrix class, used for matrix glyph and array glyphs.
     """
 
     _rows: list[list[BaseGlyph]]
@@ -29,20 +23,6 @@ class MatrixGlyph(BaseGlyph[MatrixParams]):
 
     _max_width: float
     _max_height: float
-
-    @classmethod
-    def new(
-        cls,
-        rows: Iterable[Iterable[BaseGlyph]],
-        glyph_id: str | None = None,
-        spacing: float = 0.0,
-        padding: float = 0.0,
-        center: bool = True,
-    ):
-        params = cls.get_params_cls()(
-            rows=rows, spacing=spacing, padding=padding, center=center
-        )
-        return cls(params=params, glyph_id=glyph_id)
 
     def init(self):
         # validate rows
@@ -119,3 +99,26 @@ class MatrixGlyph(BaseGlyph[MatrixParams]):
         height += self.params.padding * 2
 
         return (width, height)
+
+
+class MatrixGlyph(BaseMatrixGlyph):
+    """
+    Glyph encapsulating a matrix of glyphs with constant spacing between them
+    and padding around the edges.
+
+    If `center` is `True`, glyphs are center aligned.
+    """
+
+    @classmethod
+    def new(
+        cls,
+        rows: list[list[BaseGlyph]],
+        glyph_id: str | None = None,
+        spacing: float = 0.0,
+        padding: float = 0.0,
+        center: bool = True,
+    ):
+        params = cls.get_params_cls()(
+            rows=rows, spacing=spacing, padding=padding, center=center
+        )
+        return cls(params=params, glyph_id=glyph_id)
