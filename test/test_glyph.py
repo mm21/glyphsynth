@@ -133,3 +133,11 @@ def test_export(output_dir: Path):
         svg=True,
         png=True,
     )
+
+    export_glyphs(
+        "test.glyphs",
+        output_dir,
+        output_modpath=True,
+        svg=True,
+        png=True,
+    )

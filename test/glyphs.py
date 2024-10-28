@@ -9,6 +9,7 @@ from glyphsynth.lib.alphabet.minimal import (
     ZERO,
 )
 
+__all__ = ["BasicGlyph", "ParentGlyph", "ParentGlyph2"]
 
 BASIC_STROKE_PCT: float = 5.0
 BASIC_STROKE_WIDTH: float = BASIC_STROKE_PCT * UNIT / 100
