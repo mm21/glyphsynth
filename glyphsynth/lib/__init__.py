@@ -1,9 +1,9 @@
 from pyrollup import rollup
 
-# TODO: add matrix module
-from . import arrays, utils
+from . import arrays, matrix, utils
 
 from .arrays import *
+from .matrix import *
 from .utils import *
 
-__all__ = rollup(arrays, utils)
+__all__ = rollup(arrays, matrix, utils)

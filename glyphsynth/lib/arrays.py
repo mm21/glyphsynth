@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Sequence
 
 from ..core import BaseGlyph, BaseParams
 
@@ -11,9 +10,9 @@ __all__ = [
 
 
 class ArrayParams(BaseParams):
-    glyphs: Sequence[BaseGlyph]
-    spacing: float = 10.0
-    center: bool = False
+    glyphs: list[BaseGlyph]
+    spacing: float = 0.0
+    center: bool = True
 
 
 class BaseArrayGlyph(BaseGlyph[ArrayParams], ABC):
@@ -23,7 +22,9 @@ class BaseArrayGlyph(BaseGlyph[ArrayParams], ABC):
 
     Horizontal arrays grow to the right, and vertical arrays grow downwards.
 
-    If `center` is `True`, glyphs are center aligned.
+    If `center` is `True`, glyphs are center aligned with respect to the other
+    axis. That is, horizontal arrays would be centered vertically and vertical
+    arrays would be centered horizontally.
     """
 
     _vertical: bool = False
@@ -31,10 +32,10 @@ class BaseArrayGlyph(BaseGlyph[ArrayParams], ABC):
     @classmethod
     def new(
         cls,
-        glyphs: Sequence[BaseGlyph],
+        glyphs: list[BaseGlyph],
         glyph_id: str | None = None,
         spacing: float = 0.0,
-        center: bool = False,
+        center: bool = True,
     ):
         params = cls.get_params_cls()(
             glyphs=glyphs, spacing=spacing, center=center

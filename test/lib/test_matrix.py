@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Generator
 import itertools
 
+from glyphsynth.lib.matrix import MatrixParams, MatrixGlyph
 from glyphsynth.lib.variants import BaseVariantExportFactory
 from glyphsynth.lib.alphabet.minimal import (
     UNIT,
@@ -60,6 +61,29 @@ class VariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
                 letter1=letter1,
                 letter2=letter2,
             )
+
+
+def test_matrix(output_dir: Path):
+    rows: list[list[AMTComboGlyph]] = []
+
+    for letter1, letter2 in itertools.product(LETTERS, LETTERS):
+        row = []
+
+        for color in COLORS:
+            glyph = AMTComboGlyph(
+                params=AMTComboParams(
+                    letter_params=LetterParams(color=color),
+                    letter1=letter1,
+                    letter2=letter2,
+                )
+            )
+            row.append(glyph)
+        rows.append(row)
+
+    matrix = MatrixGlyph.new(
+        rows, glyph_id="amt-combo-matrix", spacing=UNIT / 10
+    )
+    write_glyph(output_dir, matrix)
 
 
 def test_variants(output_dir: Path):

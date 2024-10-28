@@ -1,6 +1,5 @@
 from pathlib import Path
 
-from glyphsynth import BaseGlyph, BaseParams, Properties, PropertyValue
 from glyphsynth.lib import ArrayParams, HArrayGlyph, VArrayGlyph
 
 from ..glyphs import ParentGlyph, UNIT
