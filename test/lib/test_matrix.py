@@ -81,7 +81,7 @@ def test_matrix(output_dir: Path):
         rows.append(row)
 
     matrix = MatrixGlyph.new(
-        rows, glyph_id="amt-combo-matrix", spacing=UNIT / 10
+        rows, glyph_id="amt-combo-matrix", spacing=UNIT / 10, padding=UNIT / 10
     )
     write_glyph(output_dir, matrix)
 

@@ -13,6 +13,7 @@ __all__ = [
 class MatrixParams(BaseParams):
     rows: list[list[BaseGlyph]]
     spacing: float = 0.0
+    padding: float = 0.0
     center: bool = True
 
 
@@ -35,9 +36,12 @@ class MatrixGlyph(BaseGlyph[MatrixParams]):
         rows: Iterable[Iterable[BaseGlyph]],
         glyph_id: str | None = None,
         spacing: float = 0.0,
+        padding: float = 0.0,
         center: bool = True,
     ):
-        params = cls.get_params_cls()(rows=rows, spacing=spacing, center=center)
+        params = cls.get_params_cls()(
+            rows=rows, spacing=spacing, padding=padding, center=center
+        )
         return cls(params=params, glyph_id=glyph_id)
 
     def init(self):
@@ -53,25 +57,26 @@ class MatrixGlyph(BaseGlyph[MatrixParams]):
         if len(self.params.rows) == 0:
             return
 
-        insert: tuple[float, float]
-
         for row_idx, row in enumerate(self._rows):
             for col_idx, glyph in enumerate(row):
+                insert_x: float
+                insert_y: float
+
                 # set insert point
-                insert = (
-                    col_idx * (self._max_width + self.params.spacing),
-                    row_idx * (self._max_height + self.params.spacing),
-                )
+                insert_x = col_idx * (self._max_width + self.params.spacing)
+                insert_y = row_idx * (self._max_height + self.params.spacing)
 
                 # adjust insert point if centered
                 if self.params.center:
-                    insert = (
-                        insert[0] + (self._max_width - glyph.size[0]) / 2,
-                        insert[1] + (self._max_height - glyph.size[1]) / 2,
-                    )
+                    insert_x += (self._max_width - glyph.size[0]) / 2
+                    insert_y += (self._max_height - glyph.size[1]) / 2
+
+                # add padding
+                insert_x += self.params.padding
+                insert_y += self.params.padding
 
                 # insert glyph
-                self.insert_glyph(glyph, insert)
+                self.insert_glyph(glyph, (insert_x, insert_y))
 
     def _get_size(self) -> tuple[float, float]:
         """
@@ -109,32 +114,8 @@ class MatrixGlyph(BaseGlyph[MatrixParams]):
         # get total height
         height = sum(row_heights) + self.params.spacing * (len(rows) - 1)
 
+        # add padding
+        width += self.params.padding * 2
+        height += self.params.padding * 2
+
         return (width, height)
-
-    def _align_insert(
-        self, insert: tuple[float, float], glyph: BaseGlyph
-    ) -> tuple[float, float]:
-        """
-        Center this glyph as needed.
-        """
-
-        x: float
-        y: float
-
-        x, y = insert
-
-        if self.params.center:
-            x += (self._max_width - glyph.size[0]) / 2
-            y += (self._max_height - glyph.size[1]) / 2
-
-        return (x, y)
-
-    def _advance_insert(
-        self, insert: tuple[float, float], glyph: BaseGlyph
-    ) -> tuple[float, float]:
-        """
-        Advance insert point to the point for the next glyph, not considering
-        any alignment.
-        """
-
-        # TODO
