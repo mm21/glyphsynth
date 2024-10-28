@@ -5,6 +5,7 @@ from pytest import mark
 from glyphsynth import EmptyGlyph, Properties, RASTER_SUPPORT
 from glyphsynth.core.export import export_glyphs
 
+from .conftest import write_glyph
 from .glyphs import BasicParams, BasicGlyph, ParentGlyph, ParentGlyph2, UNIT
 
 
@@ -14,7 +15,7 @@ def test_basic(output_dir: Path):
     """
 
     glyph = BasicGlyph()
-    glyph.export_svg(output_dir)
+    write_glyph(output_dir, glyph)
 
 
 def test_basic_rescaled(output_dir: Path):
@@ -23,7 +24,7 @@ def test_basic_rescaled(output_dir: Path):
     """
 
     glyph = BasicGlyph(size=(UNIT * 10, UNIT * 10))
-    glyph.export_svg(output_dir)
+    write_glyph(output_dir, glyph)
 
 
 def test_params():
@@ -78,7 +79,7 @@ def test_composition(output_dir: Path):
     Create glyph with sub-glyphs.
     """
 
-    parent: ParentGlyph = ParentGlyph()
+    parent = ParentGlyph()
 
     assert parent._nested_glyphs[0] is parent.child1
     assert parent._nested_glyphs[1] is parent.child2
@@ -86,7 +87,7 @@ def test_composition(output_dir: Path):
     assert parent.child1.params.color1 == "black"
     assert parent.child2.params.color1 == "red"
 
-    parent.export_svg(output_dir)
+    write_glyph(output_dir, parent)
 
 
 def test_composition_rescaled(output_dir: Path):
@@ -94,8 +95,8 @@ def test_composition_rescaled(output_dir: Path):
     Create glyph with rescaled sub-glyphs.
     """
 
-    parent: ParentGlyph2 = ParentGlyph2()
-    parent.export_svg(output_dir)
+    parent = ParentGlyph2()
+    write_glyph(output_dir, parent)
 
 
 @mark.skipif(

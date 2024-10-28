@@ -49,7 +49,7 @@ class ParentGlyph(BaseGlyph):
         )
 
         # rotate child2
-        self.child2.rotate(180.0)
+        self.child2.rotate(90.0)
 
 
 class ParentGlyph2(ParentGlyph):

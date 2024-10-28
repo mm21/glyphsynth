@@ -1,8 +1,10 @@
 from pathlib import Path
 
-from glyphsynth.lib import ArrayParams, HArrayGlyph, VArrayGlyph
+from glyphsynth.lib import HArrayGlyph, VArrayGlyph
 
 from ..glyphs import ParentGlyph, UNIT
+from ..conftest import write_glyph
+
 
 GLYPH_COUNT = 4
 
@@ -27,24 +29,12 @@ def test_basic(output_dir: Path):
         h_glyphs.append(h_glyph)
         v_glyphs.append(v_glyph)
 
-    h_array_params: ArrayParams = ArrayParams(
-        glyphs=h_glyphs, spacing=UNIT / 10
+    h_array = HArrayGlyph.new(
+        glyphs=h_glyphs, spacing=UNIT / 10, padding=UNIT / 10
+    )
+    v_array = VArrayGlyph.new(
+        glyphs=v_glyphs, spacing=UNIT / 10, padding=UNIT / 10
     )
 
-    v_array_params: ArrayParams = ArrayParams(
-        glyphs=v_glyphs, spacing=UNIT / 10
-    )
-
-    h_array: HArrayGlyph = HArrayGlyph(params=h_array_params)
-    v_array: VArrayGlyph = VArrayGlyph(params=v_array_params)
-
-    h_array.export_svg(output_dir)
-    v_array.export_svg(output_dir)
-
-
-def test_scale(output_dir: Path):
-    # TODO
-    # - create glyphs of different scales
-    # - create h+v arrays with center=False and center=True (4 total)
-
-    pass
+    write_glyph(output_dir, h_array)
+    write_glyph(output_dir, v_array)

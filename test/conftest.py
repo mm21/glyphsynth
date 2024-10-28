@@ -22,7 +22,9 @@ def write_glyph(output_dir: Path, glyph: BaseGlyph, stem: str | None = None):
     png_path = output_dir / f"{stem}.png" if stem else output_dir
 
     glyph.export_svg(svg_path)
-    glyph.export_png(png_path)
+
+    if RASTER_SUPPORT:
+        glyph.export_png(png_path)
 
 
 def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
@@ -41,8 +43,6 @@ def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
     if RASTER_SUPPORT:
         array_h.export_png(output_dir / "_array-h.png")
         array_v.export_png(output_dir / "_array-v.png")
-    else:
-        logging.warning("Skipping rasterizing")
 
     # write individual glyphs
     for glyph in glyphs:
