@@ -2,7 +2,6 @@ from typing import Literal
 
 from ..core import BaseGlyph, BaseParams
 
-
 __all__ = [
     "PaddingSpec",
     "PaddingParams",

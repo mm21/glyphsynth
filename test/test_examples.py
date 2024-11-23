@@ -1,9 +1,8 @@
 from pathlib import Path
 
-from glyphsynth import BaseParams, BaseGlyph, EmptyGlyph, ShapeProperties
+from glyphsynth import BaseGlyph, BaseParams, EmptyGlyph, ShapeProperties
 
 from .conftest import write_glyph
-
 
 ZERO: float = 0.0
 UNIT: float = 1000.0

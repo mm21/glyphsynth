@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from ._container import BaseContainer
 from ._draw import DrawContainer, TransformContainer
 from ._export import ExportContainer
-from ._container import BaseContainer
 
 
 class GraphicsContainer(

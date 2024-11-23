@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import logging
-from typing import Any, cast
+from typing import cast
 
-from svgwrite.drawing import Drawing
 from svgwrite.container import SVG, Group
+from svgwrite.drawing import Drawing
 
-from .properties import Properties, BasePropertiesModel
+from .properties import Properties
 
 
 class BaseContainer:

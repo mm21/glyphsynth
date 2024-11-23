@@ -2,11 +2,11 @@ from pathlib import Path
 
 from pytest import mark
 
-from glyphsynth import EmptyGlyph, Properties, RASTER_SUPPORT
+from glyphsynth import RASTER_SUPPORT, EmptyGlyph, Properties
 from glyphsynth.core.export import export_glyphs
 
 from .conftest import write_glyph
-from .glyphs import BasicParams, BasicGlyph, ParentGlyph, ParentGlyph2, UNIT
+from .glyphs import UNIT, BasicGlyph, BasicParams, ParentGlyph, ParentGlyph2
 
 
 def test_basic(output_dir: Path):

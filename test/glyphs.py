@@ -1,13 +1,5 @@
-from glyphsynth import (
-    BaseParams,
-    BaseGlyph,
-    Properties,
-    PropertyValueType,
-)
-from glyphsynth.lib.alphabet.minimal import (
-    UNIT,
-    ZERO,
-)
+from glyphsynth import BaseGlyph, BaseParams, Properties, PropertyValueType
+from glyphsynth.lib.alphabet.minimal import UNIT, ZERO
 
 __all__ = ["BasicGlyph", "ParentGlyph", "ParentGlyph2"]
 

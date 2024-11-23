@@ -2,14 +2,13 @@
 Export functionality, wrapped by CLI and can be used programmatically.
 """
 
-import os
 import importlib
+import logging
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
 from typing import Any, Callable, Iterable, cast
-
-import logging
 
 from glyphsynth import BaseGlyph
 

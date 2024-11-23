@@ -1,19 +1,19 @@
+import itertools
 from pathlib import Path
 from typing import Generator
-import itertools
 
-from glyphsynth.lib.matrix import MatrixParams, MatrixGlyph
-from glyphsynth.lib.variants import BaseVariantExportFactory
 from glyphsynth.lib.alphabet.minimal import (
     UNIT,
-    LetterParams,
+    A,
+    BaseLetterComboGlyph,
     BaseLetterGlyph,
     LetterComboParams,
-    BaseLetterComboGlyph,
-    A,
+    LetterParams,
     M,
     T,
 )
+from glyphsynth.lib.matrix import MatrixGlyph
+from glyphsynth.lib.variants import BaseVariantExportFactory
 
 from ..conftest import write_glyph
 

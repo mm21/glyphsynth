@@ -1,9 +1,7 @@
 from pyrollup import rollup
 
-from . import core
-from . import lib
-
-from .core import *
-from .lib import *
+from . import core, lib
+from .core import *  # noqa
+from .lib import *  # noqa
 
 __all__ = rollup(core, lib)

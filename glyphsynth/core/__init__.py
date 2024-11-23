@@ -1,9 +1,7 @@
 from pyrollup import rollup
 
-from . import glyph
-from . import graphics
-
-from .glyph import *
-from .graphics import *
+from . import glyph, graphics
+from .glyph import *  # noqa
+from .graphics import *  # noqa
 
 __all__ = rollup(glyph, graphics)

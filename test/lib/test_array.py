@@ -2,9 +2,8 @@ from pathlib import Path
 
 from glyphsynth.lib import HArrayGlyph, VArrayGlyph
 
-from ..glyphs import ParentGlyph, UNIT
 from ..conftest import write_glyph
-
+from ..glyphs import UNIT, ParentGlyph
 
 GLYPH_COUNT = 4
 

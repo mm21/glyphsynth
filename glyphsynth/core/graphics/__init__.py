@@ -3,7 +3,7 @@ import os
 from pyrollup import rollup
 
 from . import properties
-from .properties import *
+from .properties import *  # noqa
 
 __all__ = ["RASTER_SUPPORT"] + rollup(properties)
 

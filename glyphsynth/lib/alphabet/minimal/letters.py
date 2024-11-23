@@ -7,7 +7,6 @@ from ....core.glyph import BaseGlyph, BaseParams
 from ....core.graphics import Properties, PropertyValueType
 from ...utils import extend_line
 
-
 LETTERS_STR = string.ascii_uppercase
 """
 Assume there are classes in this module with single-letter names A-Z.

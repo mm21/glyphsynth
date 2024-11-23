@@ -1,26 +1,13 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Self, cast
+from typing import Self
 
 from svgwrite.container import Group
-
-from svgwrite.shapes import (
-    Line,
-    Rect,
-    Circle,
-    Ellipse,
-    Polyline,
-    Polygon,
-)
+from svgwrite.shapes import Circle, Ellipse, Line, Polygon, Polyline, Rect
 
 from ._container import BaseContainer
-from .properties import (
-    Properties,
-    BasePropertiesModel,
-    PaintingPropertiesMixin,
-    ShapeProperties,
-)
+from .properties import ShapeProperties
 
 
 class DrawContainer(BaseContainer):

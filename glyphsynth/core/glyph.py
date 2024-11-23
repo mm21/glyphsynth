@@ -1,15 +1,12 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Iterable, Self, TypeVar, get_args, cast
+from typing import Any, Iterable, Self, TypeVar, cast, get_args
 
 from pydantic import BaseModel, ConfigDict
-from svgwrite.container import SVG, Group
+from svgwrite.container import SVG
 
-from .graphics._graphics import (
-    GraphicsContainer,
-    BaseContainer,
-)
+from .graphics._graphics import BaseContainer, GraphicsContainer
 from .graphics.properties import Properties
 
 __all__ = [

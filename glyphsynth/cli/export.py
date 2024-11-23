@@ -1,8 +1,9 @@
-from rich.console import Console
-from rich.logging import RichHandler
 import logging
+
 import rich.traceback
 import typer
+from rich.console import Console
+from rich.logging import RichHandler
 
 from ..core.export import export_glyphs
 

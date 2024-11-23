@@ -1,8 +1,6 @@
 from pathlib import Path
 
-from glyphsynth.lib.alphabet.minimal import (
-    LETTER_CLS_LIST,
-)
+from glyphsynth.lib.alphabet.minimal import LETTER_CLS_LIST
 
 from ..conftest import write_glyphs
 

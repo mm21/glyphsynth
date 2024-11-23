@@ -1,17 +1,16 @@
 from __future__ import annotations
 
+import copy
+import logging
+import shutil
+import subprocess
+import sys
+import tempfile
+import xml.dom.minidom as minidom
 from pathlib import Path
 from shutil import which
 from typing import Literal
 from xml.etree import ElementTree
-import copy
-import logging
-import subprocess
-import os
-import shutil
-import sys
-import tempfile
-import xml.dom.minidom as minidom
 
 from svgwrite.drawing import Drawing
 

@@ -2,18 +2,15 @@ import logging
 import os
 from pathlib import Path
 
-from pytest import fixture, FixtureRequest
+from pytest import FixtureRequest, fixture
 
-from glyphsynth import (
-    BaseGlyph,
-    RASTER_SUPPORT,
-)
-from glyphsynth.lib.arrays import HArrayGlyph, VArrayGlyph
+from glyphsynth import RASTER_SUPPORT, BaseGlyph
 from glyphsynth.lib.alphabet.minimal import UNIT
+from glyphsynth.lib.arrays import HArrayGlyph, VArrayGlyph
 
 logging.basicConfig(level=logging.DEBUG)
 
-OUTPUT_PATH = Path(os.getcwd()) / "test" / "__build__"
+OUTPUT_PATH = Path(os.getcwd()) / "test" / "__out__"
 SPACING: float = UNIT / 10
 
 
