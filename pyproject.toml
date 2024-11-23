@@ -12,7 +12,7 @@ classifiers = [
 ]
 name = "glyphsynth"
 packages = [{include = "glyphsynth"}]
-version = "0.1.2"
+version = "0.2.0"
 description = "Pythonic vector glyph synthesis toolkit"
 readme = "README.md"
 
