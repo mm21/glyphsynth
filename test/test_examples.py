@@ -1,7 +1,6 @@
 from pathlib import Path
 
-from glyphsynth import BaseParams, BaseGlyph, EmptyGlyph
-
+from glyphsynth import BaseParams, BaseGlyph, EmptyGlyph, PaintingProperties
 
 from .conftest import write_glyph
 
@@ -26,14 +25,20 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
 
     def draw(self):
         # Draw a centered square using the provided color
-        self.draw_rect((25.0, 25.0), (50.0, 50.0), fill=self.params.color)
+        self.draw_rect(
+            (25.0, 25.0),
+            (50.0, 50.0),
+            properties=PaintingProperties(fill=self.params.color),
+        )
 
         # Draw a black border around the perimeter
         self.draw_polyline(
             [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
-            stroke="black",
-            fill="none",
-            stroke_width="5",
+            properties=PaintingProperties(
+                stroke="black",
+                fill="none",
+                stroke_width="5",
+            ),
         )
 
 
@@ -52,17 +57,33 @@ class MultiSquareGlyph(UnitGlyph[MultiSquareParams]):
     def draw(self):
         size: tuple[float, float] = (HALF, HALF)
 
-        # upper left
-        self.draw_rect(ORIGIN, size, fill=self.params.color_upper_left)
+        # Draw upper left
+        self.draw_rect(
+            ORIGIN,
+            size,
+            properties=PaintingProperties(fill=self.params.color_upper_left),
+        )
 
-        # upper right
-        self.draw_rect((HALF, ZERO), size, fill=self.params.color_upper_right)
+        # Draw upper right
+        self.draw_rect(
+            (HALF, ZERO),
+            size,
+            properties=PaintingProperties(fill=self.params.color_upper_right),
+        )
 
-        # lower left
-        self.draw_rect((ZERO, HALF), size, fill=self.params.color_lower_left)
+        # Draw lower left
+        self.draw_rect(
+            (ZERO, HALF),
+            size,
+            properties=PaintingProperties(fill=self.params.color_lower_left),
+        )
 
-        # lower right
-        self.draw_rect((HALF, HALF), size, fill=self.params.color_lower_right)
+        # Draw lower right
+        self.draw_rect(
+            (HALF, HALF),
+            size,
+            properties=PaintingProperties(fill=self.params.color_lower_right),
+        )
 
 
 class SquareFractalParams(BaseParams):
@@ -100,14 +121,18 @@ def test_blue_square(output_dir: Path):
     blue_square2 = EmptyGlyph(glyph_id="blue-square-2", size=(100, 100))
 
     # Draw a centered square
-    blue_square2.draw_rect((25.0, 25.0), (50.0, 50.0), fill="blue")
+    blue_square2.draw_rect(
+        (25.0, 25.0), (50.0, 50.0), properties=PaintingProperties(fill="blue")
+    )
 
     # Draw a black border around the perimeter
     blue_square2.draw_polyline(
         [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
-        stroke="black",
-        fill="none",
-        stroke_width="5",
+        properties=PaintingProperties(
+            stroke="black",
+            fill="none",
+            stroke_width="5",
+        ),
     )
 
     write_glyph(output_dir, blue_square2)

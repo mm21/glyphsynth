@@ -4,6 +4,8 @@ from pydantic import BaseModel
 
 __all__ = [
     "Properties",
+    "PaintingProperties",
+    "FontProperties",
     "PropertyValue",
 ]
 
