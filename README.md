@@ -33,7 +33,7 @@ In its `draw()` method, a `BaseGlyph` subclass can invoke drawing APIs which cre
 A simple example of implementing `draw()` to draw a blue square:
 
 ```python
-from glyphsynth import BaseParams, BaseGlyph, PaintingProperties
+from glyphsynth import BaseParams, BaseGlyph, ShapeProperties
 
 # Glyph params
 class MySquareParams(BaseParams):
@@ -51,13 +51,13 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
         self.draw_rect(
             (25.0, 25.0),
             (50.0, 50.0),
-            properties=PaintingProperties(fill=self.params.color),
+            properties=ShapeProperties(fill=self.params.color),
         )
 
         # Draw a black border around the perimeter
         self.draw_polyline(
             [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
-            properties=PaintingProperties(
+            properties=ShapeProperties(
                 stroke="black",
                 fill="none",
                 stroke_width="5",
@@ -87,13 +87,13 @@ blue_square = EmptyGlyph(glyph_id="blue-square", size=(100, 100))
 
 # Draw a centered square
 blue_square.draw_rect(
-    (25.0, 25.0), (50.0, 50.0), properties=PaintingProperties(fill="blue")
+    (25.0, 25.0), (50.0, 50.0), properties=ShapeProperties(fill="blue")
 )
 
 # Draw a black border around the perimeter
 blue_square.draw_polyline(
     [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
-    properties=PaintingProperties(
+    properties=ShapeProperties(
         stroke="black",
         fill="none",
         stroke_width="5",
@@ -182,28 +182,28 @@ class MultiSquareGlyph(BaseGlyph[MultiSquareParams]):
         self.draw_rect(
             ORIGIN,
             size,
-            properties=PaintingProperties(fill=self.params.color_upper_left),
+            properties=ShapeProperties(fill=self.params.color_upper_left),
         )
 
         # Draw upper right
         self.draw_rect(
             (HALF, ZERO),
             size,
-            properties=PaintingProperties(fill=self.params.color_upper_right),
+            properties=ShapeProperties(fill=self.params.color_upper_right),
         )
 
         # Draw lower left
         self.draw_rect(
             (ZERO, HALF),
             size,
-            properties=PaintingProperties(fill=self.params.color_lower_left),
+            properties=ShapeProperties(fill=self.params.color_lower_left),
         )
 
         # Draw lower right
         self.draw_rect(
             (HALF, HALF),
             size,
-            properties=PaintingProperties(fill=self.params.color_lower_right),
+            properties=ShapeProperties(fill=self.params.color_lower_right),
         )
 
 # Create parameters

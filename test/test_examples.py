@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from glyphsynth import BaseParams, BaseGlyph, EmptyGlyph, PaintingProperties
+from glyphsynth import BaseParams, BaseGlyph, EmptyGlyph, ShapeProperties
 
 from .conftest import write_glyph
 
@@ -28,13 +28,13 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
         self.draw_rect(
             (25.0, 25.0),
             (50.0, 50.0),
-            properties=PaintingProperties(fill=self.params.color),
+            properties=ShapeProperties(fill=self.params.color),
         )
 
         # Draw a black border around the perimeter
         self.draw_polyline(
             [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
-            properties=PaintingProperties(
+            properties=ShapeProperties(
                 stroke="black",
                 fill="none",
                 stroke_width="5",
@@ -61,28 +61,28 @@ class MultiSquareGlyph(UnitGlyph[MultiSquareParams]):
         self.draw_rect(
             ORIGIN,
             size,
-            properties=PaintingProperties(fill=self.params.color_upper_left),
+            properties=ShapeProperties(fill=self.params.color_upper_left),
         )
 
         # Draw upper right
         self.draw_rect(
             (HALF, ZERO),
             size,
-            properties=PaintingProperties(fill=self.params.color_upper_right),
+            properties=ShapeProperties(fill=self.params.color_upper_right),
         )
 
         # Draw lower left
         self.draw_rect(
             (ZERO, HALF),
             size,
-            properties=PaintingProperties(fill=self.params.color_lower_left),
+            properties=ShapeProperties(fill=self.params.color_lower_left),
         )
 
         # Draw lower right
         self.draw_rect(
             (HALF, HALF),
             size,
-            properties=PaintingProperties(fill=self.params.color_lower_right),
+            properties=ShapeProperties(fill=self.params.color_lower_right),
         )
 
 
@@ -122,13 +122,13 @@ def test_blue_square(output_dir: Path):
 
     # Draw a centered square
     blue_square2.draw_rect(
-        (25.0, 25.0), (50.0, 50.0), properties=PaintingProperties(fill="blue")
+        (25.0, 25.0), (50.0, 50.0), properties=ShapeProperties(fill="blue")
     )
 
     # Draw a black border around the perimeter
     blue_square2.draw_polyline(
         [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
-        properties=PaintingProperties(
+        properties=ShapeProperties(
             stroke="black",
             fill="none",
             stroke_width="5",

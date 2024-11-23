@@ -6,7 +6,7 @@ from typing import Any, cast
 from svgwrite.drawing import Drawing
 from svgwrite.container import SVG, Group
 
-from .properties import Properties
+from .properties import Properties, BasePropertiesModel
 
 
 class BaseContainer:
@@ -37,8 +37,8 @@ class BaseContainer:
     class MyGlyph(BaseGlyph):
 
         class DefaultProperties(Properties):
-            color: PropertyValue = "black"
-            stroke_width: PropertyValue = "10"
+            color: PropertyValueType = "black"
+            stroke_width: PropertyValueType = "10"
         
         ...
     ```
@@ -111,7 +111,9 @@ class BaseContainer:
         self._drawing = Drawing()
         self._group = self._drawing.g(**self._get_elem_kwargs(suffix="group"))
         self._nested_glyphs = []
-        self.properties = properties or self.DefaultProperties()
+        self.properties = Properties._aggregate(
+            [self.DefaultProperties()] + ([properties] if properties else [])
+        )
 
     @property
     def has_size(self) -> bool:
@@ -216,11 +218,7 @@ class BaseContainer:
                 svg["width"] = str(size[0])
                 svg["height"] = str(size[1])
 
-            if self.size_canon is None:
-                logging.warning(
-                    f"Rescaling glyph {self} which has no canonical size; viewbox will not be set, so results may be unexpected"
-                )
-            else:
+            if self.size_canon is not None:
                 svg.viewbox(
                     0, 0, round(self.size_canon[0]), round(self.size_canon[1])
                 )

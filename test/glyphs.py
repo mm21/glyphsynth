@@ -2,7 +2,7 @@ from glyphsynth import (
     BaseParams,
     BaseGlyph,
     Properties,
-    PropertyValue,
+    PropertyValueType,
 )
 from glyphsynth.lib.alphabet.minimal import (
     UNIT,
@@ -22,8 +22,8 @@ class BasicParams(BaseParams):
 
 class BasicGlyph(BaseGlyph[BasicParams]):
     class DefaultProperties(Properties):
-        stroke: PropertyValue = "black"
-        stroke_width: PropertyValue = str(BASIC_STROKE_WIDTH)
+        stroke: PropertyValueType = "black"
+        stroke_width: PropertyValueType = str(BASIC_STROKE_WIDTH)
 
     size_canon = (UNIT, UNIT)
 

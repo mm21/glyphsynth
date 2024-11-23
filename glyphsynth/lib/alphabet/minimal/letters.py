@@ -4,7 +4,7 @@ import sys
 from pydantic import Field
 
 from ....core.glyph import BaseGlyph, BaseParams
-from ....core.graphics import Properties, PropertyValue
+from ....core.graphics import Properties, PropertyValueType
 from ...utils import extend_line
 
 
@@ -40,9 +40,9 @@ class BaseLetterGlyph(BaseGlyph[LetterParams]):
     _stroke_width: float
 
     class DefaultProperties(Properties):
-        fill: PropertyValue = "none"
-        stroke: PropertyValue = "black"
-        stroke_linejoin: PropertyValue = "bevel"
+        fill: PropertyValueType = "none"
+        stroke: PropertyValueType = "black"
+        stroke_linejoin: PropertyValueType = "bevel"
 
     size_canon = (UNIT, UNIT)
 
