@@ -63,9 +63,6 @@ class ExportContainer(BaseContainer):
 
         self._rasterize(path_norm, size_raster, dpi, in_place_raster)
 
-    def get_svg(self) -> str:
-        return self._get_svg()
-
     def _get_svg(self, drawing: Drawing | None = None) -> str:
         """
         Get a string containing the full XML content.

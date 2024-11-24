@@ -7,7 +7,7 @@ from pydantic import BaseModel, ConfigDict
 from svgwrite.container import SVG
 
 from ._utils import extract_type_param
-from .graphics._graphics import BaseContainer, GraphicsContainer
+from .graphics._graphics import GraphicsContainer
 from .graphics.properties import Properties
 
 __all__ = [
@@ -52,7 +52,7 @@ class BaseParams(BaseModel):
         return "__".join(params)
 
 
-class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
+class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer):
     """
     Base class for a standalone or reusable glyph, sized in abstract
     (user) units.

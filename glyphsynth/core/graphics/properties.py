@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from typing import Self, cast
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
+from .elements.gradients import BaseGradient
 
 __all__ = [
     "PropertyValueType",
@@ -20,6 +22,8 @@ class BasePropertiesModel(BaseModel):
 
     And listed here: <https://www.w3.org/TR/SVG11/propidx.html>
     """
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @classmethod
     def _aggregate(cls, models: list[BasePropertiesModel]) -> Self:
@@ -54,6 +58,13 @@ class ColorPropertiesMixin(BasePropertiesModel):
     color_profile: PropertyValueType = None
     color_rendering: PropertyValueType = None
     opacity: PropertyValueType = None
+    gradient: BaseGradient | None = None
+
+    def model_post_init(self, __context):
+        if self.color is None and self.gradient:
+            self.color = self.gradient.funciri
+
+        return super().model_post_init(__context)
 
 
 class PaintingPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
@@ -205,8 +216,8 @@ class Properties(
 class ShapeProperties(
     PaintingPropertiesMixin,
     FilterEffectPropertiesMixin,
-    ViewportPropertiesMixin,
     CursorPropertiesMixin,
+    ViewportPropertiesMixin,
     BasePropertiesModel,
 ):
     """

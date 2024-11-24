@@ -5,10 +5,11 @@ from typing import cast
 from svgwrite.container import SVG, Group
 from svgwrite.drawing import Drawing
 
+from .elements.mixins import TransformMixin
 from .properties import Properties
 
 
-class BaseContainer:
+class BaseContainer(TransformMixin):
     """
     Container for drawing and manipulation of low-level graphics objects.
 
@@ -105,21 +106,23 @@ class BaseContainer:
         properties: Properties | None,
         size: tuple[float, float] | None,
     ):
+        self.properties = Properties._aggregate(
+            [self.DefaultProperties()] + ([properties] if properties else [])
+        )
+
         self._id = id_
         self._size = size
         self._drawing = Drawing()
         self._group = self._drawing.g(**self._get_elem_kwargs(suffix="group"))
         self._nested_glyphs = []
-        self.properties = Properties._aggregate(
-            [self.DefaultProperties()] + ([properties] if properties else [])
-        )
+        self._mixin_obj = self._group
 
     @property
     def has_size(self) -> bool:
         """
         Check whether this object has a size.
         """
-        return (self._size or self.size_canon) is not None
+        return self._size_norm is not None
 
     @property
     def size(self) -> tuple[float, float]:
@@ -128,9 +131,9 @@ class BaseContainer:
 
         :raises ValueError: If this object does not have a size
         """
-        if (size := self._size or self.size_canon) is None:
+        if self._size_norm is None:
             raise ValueError(f"Graphics object does not have a size: {self}")
-        return size
+        return self._size_norm
 
     @property
     def width(self) -> float:
@@ -139,6 +142,10 @@ class BaseContainer:
     @property
     def height(self) -> float:
         return self.size[1]
+
+    @property
+    def _size_norm(self) -> tuple[float, float] | None:
+        return self._size or self.size_canon
 
     @property
     def _id_norm(self) -> str:
@@ -224,3 +231,7 @@ class BaseContainer:
                     0, 0, round(self.size_canon[0]), round(self.size_canon[1])
                 )
                 svg.fit()
+
+    @property
+    def _mixin_size(self) -> tuple[float, float] | None:
+        return self._size_norm
