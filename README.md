@@ -1,4 +1,4 @@
-# GlyphSynth: Pythonic vector glyph synthesis toolkit
+# GlyphSynth: Pythonic vector graphics synthesis toolkit
 
 [![Python versions](https://img.shields.io/pypi/pyversions/glyphsynth.svg)](https://pypi.org/project/glyphsynth)
 [![PyPI](https://img.shields.io/pypi/v/glyphsynth?color=%2334D058&label=pypi%20package)](https://pypi.org/project/glyphsynth)
