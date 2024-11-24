@@ -13,7 +13,7 @@ from .properties import ShapeProperties
 
 def _normalize_inherit(inherit: str | BaseElement | None) -> str | None:
     if isinstance(inherit, BaseElement):
-        return inherit.get_iri()
+        return inherit.iri
 
 
 # TODO: move to mixins as BaseDrawMixin
@@ -26,37 +26,37 @@ class DrawContainer(BaseContainer):
         end: tuple[float, float],
         properties: ShapeProperties | None = None,
     ) -> Line:
-        elem = Line(
-            self._drawing, start=start, end=end, **self._get_extra(properties)
+        return Line(
+            self._drawing,
+            self._svg,
+            start=start,
+            end=end,
+            **self._get_extra(properties),
         )
-        self._svg.add(elem._element)
-        return elem
 
     def draw_polyline(
         self,
         points: Iterable[tuple[float, float]],
         properties: ShapeProperties | None = None,
     ) -> Polyline:
-        elem = Polyline(
+        return Polyline(
             self._drawing,
+            self._svg,
             points=[p for p in points],
             **self._get_extra(properties),
         )
-        self._svg.add(elem._element)
-        return elem
 
     def draw_polygon(
         self,
         points: Iterable[tuple[float, float]],
         properties: ShapeProperties | None = None,
     ) -> Polygon:
-        elem = Polygon(
+        return Polygon(
             self._drawing,
+            self._svg,
             points=[p for p in points],
             **self._get_extra(properties),
         )
-        self._svg.add(elem._element)
-        return elem
 
     def draw_rect(
         self,
@@ -66,16 +66,15 @@ class DrawContainer(BaseContainer):
         radius_y: float | None = None,
         properties: ShapeProperties | None = None,
     ) -> Rect:
-        elem = Rect(
+        return Rect(
             self._drawing,
+            self._svg,
             insert=insert,
             size=size,
             rx=radius_x,
             ry=radius_y,
             **self._get_extra(properties),
         )
-        self._svg.add(elem._element)
-        return elem
 
     def draw_circle(
         self,
@@ -83,14 +82,13 @@ class DrawContainer(BaseContainer):
         radius: float,
         properties: ShapeProperties | None = None,
     ) -> Circle:
-        elem = Circle(
+        return Circle(
             self._drawing,
+            self._svg,
             center=center,
             r=radius,
             **self._get_extra(properties),
         )
-        self._svg.add(elem._element)
-        return elem
 
     def draw_ellipse(
         self,
@@ -98,19 +96,16 @@ class DrawContainer(BaseContainer):
         radius: tuple[float, float],
         properties: ShapeProperties | None = None,
     ) -> Ellipse:
-        elem = Ellipse(
+        return Ellipse(
             self._drawing,
+            self._svg,
             center=center,
             r=radius,
             **self._get_extra(properties),
         )
-        self._svg.add(elem._element)
-        return elem
 
-    def draw_group(self, properties: ShapeProperties | None = None) -> Group:
-        elem = Group(self._drawing, **self._get_extra(properties))
-        self._svg.add(elem._element)
-        return elem
+    def create_group(self, properties: ShapeProperties | None = None) -> Group:
+        return Group(self._drawing, self._svg, **self._get_extra(properties))
 
     def create_linear_gradient(
         self,
@@ -123,12 +118,12 @@ class DrawContainer(BaseContainer):
     ) -> LinearGradient:
         elem = LinearGradient(
             self._drawing,
+            self._svg,
             start=start,
             end=end,
             inherit=_normalize_inherit(inherit),
             gradientUnits="userSpaceOnUse",
         )
-        self._svg.add(elem._element)
 
         if colors:
             elem._element.add_colors(
@@ -151,13 +146,13 @@ class DrawContainer(BaseContainer):
     ) -> RadialGradient:
         elem = RadialGradient(
             self._drawing,
+            self._svg,
             center=center,
             r=radius,
             focal=focal,
             inherit=_normalize_inherit(inherit),
             gradientUnits="userSpaceOnUse",
         )
-        self._svg.add(elem._element)
 
         if colors:
             elem._element.add_colors(
