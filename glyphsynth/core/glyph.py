@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Iterable, Self, TypeVar, cast, get_args
+from typing import Any, Iterable, Self
 
 from pydantic import BaseModel, ConfigDict
 from svgwrite.container import SVG
 
+from ._utils import extract_type_param
 from .graphics._graphics import BaseContainer, GraphicsContainer
 from .graphics.properties import Properties
 
@@ -113,54 +114,13 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
     def __repr__(self) -> str:
         return f"{type(self).__name__}(glyph_id={self.glyph_id})"
 
-    def __init_subclass__(cls: type[BaseGlyph]):
+    def __init_subclass__(cls):
         """
         Populate _params_cls with the class representing the parameters for
         this glyph. If not subscripted with a type arg by the subclass,
         _params_cls is set to EmptyParams.
         """
-
-        # note: pyright is not yet aware that the new style
-        #
-        # class BaseGlyph[ParamsT: BaseParams](...): ...
-        #
-        #   is equivalent to
-        #
-        # ParamsT = TypeVar("ParamsT", bound=BaseParams)
-        # class BaseGlyph(Generic[ParamsT], ...): ...
-        #
-        # since with the new style, Generic is not a base. Nonetheless
-        # __orig_bases__ is indeed defined here.
-        orig_bases = (
-            cls.__orig_bases__  # pyright: ignore[reportGeneralTypeIssues]
-        )
-
-        # get_args() returns tuple[Any, ...], but we know the type param
-        # should always be ParamsT
-        args: tuple[type[ParamsT]] = cast(
-            tuple[type[ParamsT]], get_args(orig_bases[0])
-        )
-
-        if len(args) > 0:
-            assert len(args) == 1
-
-            params_cls: type[ParamsT]
-
-            if isinstance(args[0], TypeVar):
-                # have a TypeVar, look up its bound
-                type_var = cast(TypeVar, args[0])
-                assert type_var.__bound__ is not None
-                params_cls = type_var.__bound__
-            else:
-                # already have a class
-                params_cls = args[0]
-
-            cls._params_cls = params_cls
-        else:
-            # set _params_cls with EmptyParams
-            cls._params_cls = EmptyParams
-
-        assert issubclass(cls._params_cls, BaseParams)
+        cls._params_cls = extract_type_param(cls, BaseParams) or EmptyParams
 
     @property
     def glyph_id(self) -> str:
