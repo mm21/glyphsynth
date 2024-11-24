@@ -3,9 +3,11 @@ Mixins to provide APIs.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal, Self
+from typing import TYPE_CHECKING, Literal, Self
 
 import svgwrite.mixins
+
+from ..._utils import normalize_str
 
 if TYPE_CHECKING:
     from .gradients import BaseGradient
@@ -24,14 +26,10 @@ def _normalize_color(
     return (
         color
         if color is not None
-        else gradient.get_funciri()
+        else gradient.funciri
         if gradient is not None
         else None
     )
-
-
-def _str(v: Any | None) -> str | None:
-    return None if v is None else str(v)
 
 
 class BaseMixin[T]:
@@ -119,7 +117,7 @@ class PresentationMixin(BaseMixin[svgwrite.mixins.Presentation]):
         self._mixin_obj.fill(
             color=_normalize_color(color, gradient),
             rule=rule,
-            opacity=_str(opacity),
+            opacity=normalize_str(opacity),
         )
 
     def stroke(
@@ -135,11 +133,11 @@ class PresentationMixin(BaseMixin[svgwrite.mixins.Presentation]):
     ):
         self._mixin_obj.stroke(
             color=_normalize_color(color, gradient),
-            width=_str(width),
-            opacity=_str(opacity),
-            linecap=_str(linecap),
-            linejoin=_str(linejoin),
-            miterlimit=_str(miterlimit),
+            width=normalize_str(width),
+            opacity=normalize_str(opacity),
+            linecap=normalize_str(linecap),
+            linejoin=normalize_str(linejoin),
+            miterlimit=normalize_str(miterlimit),
         )
 
     def dasharray(
@@ -147,10 +145,11 @@ class PresentationMixin(BaseMixin[svgwrite.mixins.Presentation]):
         dasharray: list[int | float] | None = None,
         offset: float | str | None = None,
     ):
-        self._mixin_obj.dasharray(dasharray=dasharray, offset=_str(offset))
+        self._mixin_obj.dasharray(
+            dasharray=dasharray, offset=normalize_str(offset)
+        )
 
 
-# TODO
 class MarkersMixin(BaseMixin[svgwrite.mixins.Markers]):
     pass
 

@@ -12,7 +12,8 @@ __all__ = [
 class BaseGradient[GradientT: svgwrite.gradients._AbstractGradient](
     BaseElement[GradientT]
 ):
-    pass
+    def get_paint_server(self) -> str:
+        return self._element.get_paint_server()
 
 
 class LinearGradient(BaseGradient[svgwrite.gradients.LinearGradient]):

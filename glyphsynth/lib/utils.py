@@ -3,31 +3,30 @@ from typing import Literal
 from ..core import BaseGlyph, BaseParams
 
 __all__ = [
-    "PaddingSpec",
+    "PaddingType",
     "PaddingParams",
     "PaddingGlyph",
     "extend_line",
 ]
 
-type SideSpec = Literal["top", "bottom", "left", "right"]
+type SideType = Literal["top", "bottom", "left", "right"]
 
-type PaddingSpec = dict[SideSpec, float]
+type PaddingType = dict[SideType, float]
 
-# TODO: get from SideSpec to avoid redundancy
-SIDES: list[SideSpec] = ["top", "bottom", "left", "right"]
+SIDES: list[SideType] = ["top", "bottom", "left", "right"]
 
 
 class PaddingParams(BaseParams):
     glyph: BaseGlyph
-    padding: float | PaddingSpec
+    padding: float | PaddingType
 
 
 class PaddingGlyph(BaseGlyph[PaddingParams]):
-    _padding: PaddingSpec
+    _padding: PaddingType
 
     @classmethod
-    def new(cls, glyph: BaseGlyph, padding: float | PaddingSpec | None = None):
-        padding_: float | PaddingSpec
+    def new(cls, glyph: BaseGlyph, padding: float | PaddingType | None = None):
+        padding_: float | PaddingType
 
         # default padding is 10% of the minimum of width/height
         padding_ = (
@@ -51,8 +50,8 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
             self.params.glyph, (self._padding["left"], self._padding["top"])
         )
 
-    def _get_padding(self) -> PaddingSpec:
-        padding: PaddingSpec
+    def _get_padding(self) -> PaddingType:
+        padding: PaddingType
 
         if isinstance(self.params.padding, dict):
             padding = self.params.padding.copy()

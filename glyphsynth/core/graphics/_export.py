@@ -26,7 +26,6 @@ class ExportContainer(BaseContainer):
             case "svg":
                 self.export_svg(path)
             case "png":
-                # TODO: pass through png-specific params?
                 self.export_png(path)
             case _:
                 raise Exception

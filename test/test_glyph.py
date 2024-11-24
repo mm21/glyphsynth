@@ -6,7 +6,14 @@ from glyphsynth import RASTER_SUPPORT, EmptyGlyph, Properties
 from glyphsynth.core.export import export_glyphs
 
 from .conftest import write_glyph
-from .glyphs import UNIT, BasicGlyph, BasicParams, ParentGlyph, ParentGlyph2
+from .glyphs import (
+    UNIT,
+    BasicGlyph,
+    BasicParams,
+    GradientGlyph,
+    ParentGlyph,
+    ParentGlyph2,
+)
 
 
 def test_basic(output_dir: Path):
@@ -124,8 +131,7 @@ def test_empty(output_dir: Path):
         glyph.insert_glyph(ParentGlyph())
         glyph.insert_glyph(ParentGlyph(), (UNIT, UNIT))
 
-        glyph.export_svg(output_dir)
-        glyph.export_png(output_dir)
+        write_glyph(output_dir, glyph)
 
 
 def test_export(output_dir: Path):
@@ -144,3 +150,8 @@ def test_export(output_dir: Path):
         svg=True,
         png=True,
     )
+
+
+def test_gradient(output_dir: Path):
+    glyph = GradientGlyph()
+    write_glyph(output_dir, glyph)

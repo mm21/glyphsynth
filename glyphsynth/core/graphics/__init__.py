@@ -11,7 +11,3 @@ RASTER_SUPPORT: bool = os.name == "posix"
 """
 Whether rasterization is supported; Linux only.
 """
-
-# TODO: add types.py?
-# - Coordinate
-# - Box/Area

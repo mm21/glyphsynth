@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-from glyphsynth import BaseGlyph, BaseParams, Properties, PropertyValueType
+from glyphsynth import (
+    BaseGlyph,
+    BaseParams,
+    Properties,
+    PropertyValueType,
+    ShapeProperties,
+)
+from glyphsynth.core.graphics.elements.shapes import Circle
 from glyphsynth.lib.alphabet.minimal import UNIT, ZERO
 
 __all__ = ["BasicGlyph", "ParentGlyph", "ParentGlyph2"]
@@ -53,4 +60,29 @@ class ParentGlyph2(ParentGlyph):
         self.size_canon = (
             BasicGlyph.size_canon[0] * 10,
             BasicGlyph.size_canon[1] * 10,
+        )
+
+
+ORIGIN = (0.0, 0.0)
+UNIT = 100.0
+HALF = UNIT / 2
+CENTER = (HALF, HALF)
+SIZE = (UNIT, UNIT)
+
+
+class GradientGlyph(BaseGlyph):
+    size_canon = (UNIT, UNIT)
+
+    circle: Circle
+
+    def draw(self):
+        self.draw_rect(ORIGIN, SIZE, properties=ShapeProperties(fill="black"))
+
+        gradient = self.create_radial_gradient(
+            center=CENTER,
+            radius=HALF,
+            colors=["red", "blue"],
+        )
+        self.circle = self.draw_circle(
+            CENTER, HALF, properties=ShapeProperties(gradient=gradient)
         )

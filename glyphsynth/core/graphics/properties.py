@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Self, cast
+from typing import Any, Self, cast
 
 from pydantic import BaseModel, ConfigDict
 
@@ -10,6 +10,7 @@ __all__ = [
     "PropertyValueType",
     "Properties",
     "ShapeProperties",
+    "GradientProperties",
 ]
 
 type PropertyValueType = str | None
@@ -41,7 +42,8 @@ class BasePropertiesModel(BaseModel):
         values: dict[str, str] = {}
 
         for field in list(self.model_fields.keys()):
-            if (value := cast(str | None, getattr(self, field))) is not None:
+            value = cast(Any | None, getattr(self, field))
+            if isinstance(value, str):
                 values[field] = value
 
         return values
@@ -58,13 +60,6 @@ class ColorPropertiesMixin(BasePropertiesModel):
     color_profile: PropertyValueType = None
     color_rendering: PropertyValueType = None
     opacity: PropertyValueType = None
-    gradient: BaseGradient | None = None
-
-    def model_post_init(self, __context):
-        if self.color is None and self.gradient:
-            self.color = self.gradient.funciri
-
-        return super().model_post_init(__context)
 
 
 class PaintingPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
@@ -88,6 +83,13 @@ class PaintingPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
     stroke_opacity: PropertyValueType = None
     stroke_width: PropertyValueType = None
     shape_rendering: PropertyValueType = None
+    gradient: BaseGradient | None = None
+
+    def model_post_init(self, __context):
+        if self.fill is None and self.gradient:
+            self.fill = self.gradient.get_paint_server()
+
+        return super().model_post_init(__context)
 
 
 class FontPropertiesMixin(BasePropertiesModel):
@@ -222,4 +224,13 @@ class ShapeProperties(
 ):
     """
     Properties applicable to basic shapes.
+    """
+
+
+class GradientProperties(
+    GradientPropertiesMixin,
+    ColorPropertiesMixin,
+):
+    """
+    Properties applicable to gradients.
     """

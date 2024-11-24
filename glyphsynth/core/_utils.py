@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TypeVar, get_args
+from typing import Any, TypeVar, get_args
 
 
 def extract_type_param[
@@ -30,3 +30,7 @@ def extract_type_param[
         return param
 
     return None
+
+
+def normalize_str(v: Any | None) -> str | None:
+    return None if v is None else str(v)

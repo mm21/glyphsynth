@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
+from .._utils import normalize_str
 from ._container import BaseContainer
 from .elements.base import BaseElement
 from .elements.container import Group
@@ -15,6 +16,9 @@ def _normalize_inherit(inherit: str | BaseElement | None) -> str | None:
         return inherit.get_iri()
 
 
+# TODO: move to mixins as BaseDrawMixin
+# - define property: _mixin_container, returns self._svg
+# - also use for Group
 class DrawContainer(BaseContainer):
     def draw_line(
         self,
@@ -110,17 +114,58 @@ class DrawContainer(BaseContainer):
 
     def create_linear_gradient(
         self,
-        start: tuple[float, float],
-        end: tuple[float, float],
+        start: tuple[float, float] | None = None,
+        end: tuple[float, float] | None = None,
         inherit: str | BaseElement | None = None,
+        colors: list[str] | None = None,
+        sweep_pct: tuple[float] = (0.0, 100.0),
+        opacity: float | None = None,
     ) -> LinearGradient:
-        elem = LinearGradient(self._drawing)
+        elem = LinearGradient(
+            self._drawing,
+            start=start,
+            end=end,
+            inherit=_normalize_inherit(inherit),
+            gradientUnits="userSpaceOnUse",
+        )
         self._svg.add(elem._element)
+
+        if colors:
+            elem._element.add_colors(
+                colors,
+                sweep=[s / 100 for s in sweep_pct],
+                opacity=normalize_str(opacity),
+            )
+
         return elem
 
-    def create_radial_gradient(self) -> RadialGradient:
-        elem = RadialGradient(self._drawing)
+    def create_radial_gradient(
+        self,
+        center: tuple[float, float] | None = None,
+        radius: float | None = None,
+        focal: tuple[float, float] | None = None,
+        inherit: str | BaseElement | None = None,
+        colors: list[str] | None = None,
+        sweep_pct: tuple[float] = (0.0, 100.0),
+        opacity: float | None = None,
+    ) -> RadialGradient:
+        elem = RadialGradient(
+            self._drawing,
+            center=center,
+            r=radius,
+            focal=focal,
+            inherit=_normalize_inherit(inherit),
+            gradientUnits="userSpaceOnUse",
+        )
         self._svg.add(elem._element)
+
+        if colors:
+            elem._element.add_colors(
+                colors,
+                sweep=[s / 100 for s in sweep_pct],
+                opacity=normalize_str(opacity),
+            )
+
         return elem
 
     def _get_extra(self, properties: ShapeProperties | None) -> dict[str, str]:
