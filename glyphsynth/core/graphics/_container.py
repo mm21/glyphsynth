@@ -116,19 +116,21 @@ class BaseContainer:
 
     @property
     def has_size(self) -> bool:
-        try:
-            _ = self.size
-        except AssertionError:
-            return False
+        """
+        Check whether this object has a size.
+        """
+        return (self._size or self.size_canon) is not None
 
-        return True
-
-    # TODO: document: raises exception + add custom exception
     @property
     def size(self) -> tuple[float, float]:
-        s = self._size or self.size_canon
-        assert s is not None
-        return s
+        """
+        Get the size of this object.
+
+        :raises ValueError: If this object does not have a size
+        """
+        if (size := self._size or self.size_canon) is None:
+            raise ValueError(f"Graphics object does not have a size: {self}")
+        return size
 
     @property
     def width(self) -> float:

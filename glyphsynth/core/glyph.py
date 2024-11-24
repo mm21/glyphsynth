@@ -110,6 +110,9 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer, BaseContainer):
         if parent is not None:
             parent.insert_glyph(self, insert)
 
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}(glyph_id={self.glyph_id})"
+
     def __init_subclass__(cls: type[BaseGlyph]):
         """
         Populate _params_cls with the class representing the parameters for

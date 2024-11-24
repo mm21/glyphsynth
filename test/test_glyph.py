@@ -114,15 +114,18 @@ def test_raster(output_dir):
 
 def test_empty(output_dir: Path):
     """
-    Verify EmptyGlyph.
+    Verify EmptyGlyph, with and without explicit size.
     """
 
-    glyph = EmptyGlyph()
+    glyph1 = EmptyGlyph(glyph_id="glyph1")
+    glyph2 = EmptyGlyph(glyph_id="glyph2", size=(UNIT * 2, UNIT * 2))
 
-    glyph.insert_glyph(ParentGlyph())
-    glyph.insert_glyph(ParentGlyph(), (UNIT, UNIT))
+    for glyph in [glyph1, glyph2]:
+        glyph.insert_glyph(ParentGlyph())
+        glyph.insert_glyph(ParentGlyph(), (UNIT, UNIT))
 
-    glyph.export_svg(output_dir)
+        glyph.export_svg(output_dir)
+        glyph.export_png(output_dir)
 
 
 def test_export(output_dir: Path):

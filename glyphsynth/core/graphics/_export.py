@@ -57,7 +57,7 @@ class ExportContainer(BaseContainer):
         """
 
         path_norm: Path = self._normalize_path(path, "png")
-        size_raster: tuple[str, str] = size or self._get_size_raster(
+        size_raster: tuple[str, str] | None = size or self._get_size_raster(
             float(scale)
         )
 
@@ -85,7 +85,7 @@ class ExportContainer(BaseContainer):
     def _rasterize(
         self,
         path_png: Path,
-        size_raster: tuple[str, str],
+        size_raster: tuple[str, str] | None,
         dpi: tuple[int, int],
         in_place_raster: bool,
     ):
@@ -109,6 +109,11 @@ class ExportContainer(BaseContainer):
 
         path_svg = path_svg_dir / f"{path_png.name}.temp.svg"
         self._create_svg_temp(path_svg, size_raster)
+
+        if size_raster is None:
+            logging.warning(
+                f"Rasterizing a glyph which has no outermost size, output image size may be unexpected: {self}"
+            )
 
         logging.debug(
             f"Rasterizing: {path_svg} -> {path_png}, size_raster={size_raster}, dpi={dpi}"
@@ -137,7 +142,9 @@ class ExportContainer(BaseContainer):
         if not in_place_raster:
             shutil.rmtree(path_svg.parent)
 
-    def _create_svg_temp(self, path_svg: Path, size_raster: tuple[str, str]):
+    def _create_svg_temp(
+        self, path_svg: Path, size_raster: tuple[str, str] | None
+    ):
         """
         Create temp .svg for rasterizing.
         """
@@ -154,10 +161,9 @@ class ExportContainer(BaseContainer):
         with path_svg.open("w") as fh:
             fh.write(svg_str)
 
-    def _get_size_raster(self, scale: float):
-        assert (
-            self.size is not None
-        ), f"No size provided for rasterizing and glyph {self} has no size"
+    def _get_size_raster(self, scale: float) -> tuple[str, str] | None:
+        if not self.has_size:
+            return None
 
         x = int(self.size[0] * scale)
         y = int(self.size[1] * scale)
