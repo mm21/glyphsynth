@@ -1,6 +1,6 @@
 [build-system]
-requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
 
 [tool.black]
 line-length = 80
@@ -17,30 +17,30 @@ classifiers = [
   "Natural Language :: English",
   "License :: OSI Approved :: MIT License"
 ]
+description = "Pythonic vector graphics synthesis toolkit"
 name = "glyphsynth"
 packages = [{include = "glyphsynth"}]
-version = "0.2.0"
-description = "Pythonic vector glyph synthesis toolkit"
 readme = "README.md"
+version = "0.2.0"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-svgwrite = "^1.4.3"
-pyrollup = "^0.1.0"
 pydantic = "^2.5.3"
-typer = {extras = ["all"], version = "^0.9.0"}
+pyrollup = "^0.1.0"
+python = "^3.12"
 rich = "^13.9.3"
+svgwrite = "^1.4.3"
+typer = {extras = ["all"], version = "^0.9.0"}
 
 [tool.poetry.group.dev.dependencies]
+autoflake = "^2.3.1"
 black = "^23.11.0"
-pytest = "^7.4.3"
-sphinx = "^7.2.6"
-sphinxcontrib-typer = "^0.1.4"
-pytest-cov = "^5.0.0"
 doit = "^0.36.0"
 genbadge = {extras = ["tests"], version = "^1.1.1"}
-autoflake = "^2.3.1"
 isort = "^5.13.2"
+pytest = "^7.4.3"
+pytest-cov = "^5.0.0"
+sphinx = "^7.2.6"
+sphinxcontrib-typer = "^0.1.4"
 toml-sort = "^0.24.2"
 
 [tool.poetry.scripts]
@@ -49,3 +49,21 @@ glyphsynth-export = "glyphsynth.cli.export:run"
 [tool.pytest.ini_options]
 addopts = "-s -v -rA"
 testpaths = "test"
+
+[tool.coverage.report]
+exclude_lines = [
+  "if TYPE_CHECKING:",
+  "\\.\\.\\.$",
+  "\\.\\.\\."
+]
+
+[tool.isort]
+line_length = 80
+profile = "black"
+
+[tool.tomlsort]
+no_sort_tables = true
+sort_table_keys = true
+
+[tool.doit]
+verbosity = 2
