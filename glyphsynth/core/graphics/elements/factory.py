@@ -119,9 +119,10 @@ class ElementFactory(ABC):
     def create_group(self, properties: ShapeProperties | None = None) -> Group:
         from .container import Group
 
-        return Group(
-            self._glyph, self._container, **self._get_extra(properties)
-        )
+        # only use passed properties instead of inheriting from glyph
+        extra = properties._get_values() if properties else {}
+
+        return Group(self._glyph, self._container, **extra)
 
     def create_linear_gradient(
         self,

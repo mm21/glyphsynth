@@ -32,7 +32,6 @@ class BaseElement[ElementT: svgwrite.base.BaseElement](BaseWrapperMixin):
     """
 
     _glyph_obj: BaseGlyph
-    _container_obj: svgwrite.base.BaseElement
 
     def __init__(
         self,
@@ -47,7 +46,6 @@ class BaseElement[ElementT: svgwrite.base.BaseElement](BaseWrapperMixin):
         """
 
         self._glyph_obj = glyph
-        self._container_obj = container
 
         api_attr = getattr(glyph._drawing, self._api_name)
         api = cast(Callable[..., ElementT], api_attr)

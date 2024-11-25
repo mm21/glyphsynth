@@ -3,8 +3,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Iterable, Self
 
+import svgwrite.container
 from pydantic import BaseModel, ConfigDict
-from svgwrite.container import SVG
 
 from ._utils import extract_type_param
 from .graphics._container import BaseContainer
@@ -161,7 +161,7 @@ class BaseGlyph[ParamsT: BaseParams](
         self._nested_glyphs.append(glyph)
 
         # add group to self, using wrapper svg for placement
-        wrapper_insert: SVG = self._drawing.svg(
+        wrapper_insert: svgwrite.container.SVG = self._drawing.svg(
             **glyph._get_elem_kwargs(suffix="wrapper-insert"),
             insert=insert,
         )
@@ -183,7 +183,7 @@ class BaseGlyph[ParamsT: BaseParams](
         return self
 
     @property
-    def _container(self) -> SVG:
+    def _container(self) -> svgwrite.container.SVG:
         return self._svg
 
 

@@ -29,5 +29,5 @@ class Group(
         return self._glyph_obj
 
     @property
-    def _container(self) -> Group:
-        return self._container_obj
+    def _container(self) -> svgwrite.container.Group:
+        return self._element
