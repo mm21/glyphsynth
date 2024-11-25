@@ -22,7 +22,7 @@ homepage = "https://github.com/mm21/glyphsynth"
 name = "glyphsynth"
 packages = [{include = "glyphsynth"}]
 readme = "README.md"
-version = "0.3.0"
+version = "0.3.1"
 
 [tool.poetry.dependencies]
 pydantic = "^2.5.3"
