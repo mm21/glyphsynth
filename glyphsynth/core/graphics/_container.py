@@ -95,11 +95,6 @@ class BaseContainer(TransformMixin):
     as <svg> does not support transformations in SVG 1.1.
     """
 
-    _nested_glyphs: list[BaseContainer] = []
-    """
-    List of glyphs nested under this one, mostly for debugging.
-    """
-
     def __init__(
         self,
         id_: str | None,
@@ -114,7 +109,6 @@ class BaseContainer(TransformMixin):
         self._size = size
         self._drawing = Drawing()
         self._group = self._drawing.g(**self._get_elem_kwargs(suffix="group"))
-        self._nested_glyphs = []
         self._mixin_obj = self._group
 
     @property

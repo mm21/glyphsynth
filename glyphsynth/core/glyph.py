@@ -7,7 +7,9 @@ from pydantic import BaseModel, ConfigDict
 from svgwrite.container import SVG
 
 from ._utils import extract_type_param
-from .graphics._graphics import GraphicsContainer
+from .graphics._container import BaseContainer
+from .graphics._export import ExportContainer
+from .graphics.elements.factory import ElementFactory
 from .graphics.properties import Properties
 
 __all__ = [
@@ -52,7 +54,9 @@ class BaseParams(BaseModel):
         return "__".join(params)
 
 
-class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer):
+class BaseGlyph[ParamsT: BaseParams](
+    ElementFactory, ExportContainer, BaseContainer, ABC
+):
     """
     Base class for a standalone or reusable glyph, sized in abstract
     (user) units.
@@ -75,6 +79,11 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer):
     if no type parameter provided.
     """
 
+    _nested_glyphs: list[BaseGlyph] = []
+    """
+    List of glyphs nested under this one, mostly for debugging.
+    """
+
     def __init__(
         self,
         *,
@@ -95,6 +104,7 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer):
             assert insert is None
 
         super().__init__(glyph_id, properties, size)
+        self._nested_glyphs = []
 
         # set params
         self.params = params or type(self).get_params_cls()()
@@ -167,6 +177,14 @@ class BaseGlyph[ParamsT: BaseParams](ABC, GraphicsContainer):
     @abstractmethod
     def draw(self):
         ...
+
+    @property
+    def _glyph(self) -> BaseGlyph:
+        return self
+
+    @property
+    def _container(self) -> SVG:
+        return self._svg
 
 
 class EmptyParams(BaseParams):

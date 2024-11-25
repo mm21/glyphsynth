@@ -32,7 +32,7 @@ def _normalize_color(
     )
 
 
-class BaseMixin[T]:
+class BaseWrapperMixin[T]:
     """
     Wraps an svgwrite mixin.
     """
@@ -40,7 +40,7 @@ class BaseMixin[T]:
     _mixin_obj: T
 
 
-class ViewBoxMixin(BaseMixin[svgwrite.mixins.ViewBox]):
+class ViewBoxMixin(BaseWrapperMixin[svgwrite.mixins.ViewBox]):
     def viewbox(self, min_x: float, min_y: float, width: float, height: float):
         self._mixin_obj.viewbox(min_x, min_y, width, height)
 
@@ -56,7 +56,7 @@ class ViewBoxMixin(BaseMixin[svgwrite.mixins.ViewBox]):
         self._mixin_obj.fit(horiz=horiz, vert=vert, scale=scale)
 
 
-class TransformMixin(BaseMixin[svgwrite.mixins.Transform]):
+class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
     def translate(self, x: float, y: float | None = None) -> Self:
         self._mixin_obj.translate(x, y)
         return self
@@ -106,7 +106,7 @@ class TransformMixin(BaseMixin[svgwrite.mixins.Transform]):
         return None
 
 
-class PresentationMixin(BaseMixin[svgwrite.mixins.Presentation]):
+class PresentationMixin(BaseWrapperMixin[svgwrite.mixins.Presentation]):
     def fill(
         self,
         color: str | None = None,
@@ -150,9 +150,12 @@ class PresentationMixin(BaseMixin[svgwrite.mixins.Presentation]):
         )
 
 
-class MarkersMixin(BaseMixin[svgwrite.mixins.Markers]):
+class MarkersMixin(BaseWrapperMixin[svgwrite.mixins.Markers]):
     pass
 
 
-class ClippingMixin(BaseMixin[svgwrite.mixins.Clipping]):
+# may not be necessary
+"""
+class ClippingMixin(BaseWrapperMixin[svgwrite.mixins.Clipping]):
     pass
+"""
