@@ -118,7 +118,7 @@ class DrawContainer(BaseContainer):
     ) -> LinearGradient:
         elem = LinearGradient(
             self._drawing,
-            self._svg,
+            self._drawing.defs,
             start=start,
             end=end,
             inherit=_normalize_inherit(inherit),
@@ -146,7 +146,7 @@ class DrawContainer(BaseContainer):
     ) -> RadialGradient:
         elem = RadialGradient(
             self._drawing,
-            self._svg,
+            self._drawing.defs,
             center=center,
             r=radius,
             focal=focal,
