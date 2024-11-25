@@ -227,7 +227,7 @@ def _import_all(module: ModuleType) -> list[Any]:
 
     try:
         all_ = module.__all__
-    except Exception:
+    except AttributeError:
         pass
 
     assert all_ is not None, f"Module does not have attribute __all__: {module}"
