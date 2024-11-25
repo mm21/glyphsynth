@@ -21,7 +21,7 @@ description = "Pythonic vector graphics synthesis toolkit"
 name = "glyphsynth"
 packages = [{include = "glyphsynth"}]
 readme = "README.md"
-version = "0.2.0"
+version = "0.3.0"
 
 [tool.poetry.dependencies]
 pydantic = "^2.5.3"
