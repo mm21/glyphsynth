@@ -18,6 +18,7 @@ classifiers = [
   "License :: OSI Approved :: MIT License"
 ]
 description = "Pythonic vector graphics synthesis toolkit"
+homepage = "https://github.com/mm21/glyphsynth"
 name = "glyphsynth"
 packages = [{include = "glyphsynth"}]
 readme = "README.md"
