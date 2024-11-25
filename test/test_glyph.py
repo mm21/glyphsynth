@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pytest import mark
+from pytest import mark, raises
 
 from glyphsynth import RASTER_SUPPORT, EmptyGlyph, Properties
 from glyphsynth.core.export import export_glyphs
@@ -135,9 +135,17 @@ def test_empty(output_dir: Path):
 
 
 def test_export(output_dir: Path):
+    glyph = BasicGlyph()
+
+    glyph.export(output_dir / "basic-export.svg")
+    glyph.export(output_dir / "basic-export.png")
+
+    with raises(ValueError):
+        glyph.export(output_dir / "fractal-test.invalid")
+
     export_glyphs(
         "test.glyphs.BasicGlyph",
-        output_dir,
+        output_dir / "BasicGlyph",
         output_modpath=True,
         svg=True,
         png=True,
@@ -145,7 +153,7 @@ def test_export(output_dir: Path):
 
     export_glyphs(
         "test.glyphs",
-        output_dir,
+        output_dir / "glyphs",
         output_modpath=True,
         svg=True,
         png=True,

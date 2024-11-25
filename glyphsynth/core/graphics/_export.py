@@ -28,7 +28,7 @@ class ExportContainer(BaseContainer):
             case "png":
                 self.export_png(path)
             case _:
-                raise Exception
+                raise ValueError(f"Invalid format: {out_format}")
 
     def export_svg(self, path: Path):
         """
