@@ -49,6 +49,9 @@ class BasePropertiesModel(BaseModel):
         return values
 
 
+# TODO: use appropriate type, e.g. opacity should be numeric
+
+
 class ColorPropertiesMixin(BasePropertiesModel):
     """
     Common color-related properties.
