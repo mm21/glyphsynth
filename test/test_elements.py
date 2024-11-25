@@ -22,7 +22,7 @@ def test_group(output_dir: Path):
     write_glyph(output_dir, glyph)
 
 
-def test_shapes(output_dir: Path):
+def test_fill(output_dir: Path):
     glyph = EmptyGlyph(size=(UNIT, UNIT))
 
     gradient1 = glyph.create_linear_gradient(
