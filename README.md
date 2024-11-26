@@ -6,6 +6,20 @@
 [![Coverage](./badges/cov.svg?dummy=8484744)]()
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+- [GlyphSynth: Pythonic vector graphics synthesis toolkit](#glyphsynth-pythonic-vector-graphics-synthesis-toolkit)
+  - [Motivation](#motivation)
+  - [Getting started](#getting-started)
+  - [Interface](#interface)
+  - [Exporting](#exporting)
+    - [Programmatically](#programmatically)
+    - [CLI](#cli)
+  - [Examples](#examples)
+    - [Multi-square](#multi-square)
+    - [Multi-square fractal](#multi-square-fractal)
+    - [Gradients](#gradients)
+    - [Letter combination variants](#letter-combination-variants)
+
+
 ## Motivation
 
 This project provides a Pythonic mechanism to construct SVG graphics, termed as "glyphs". Glyphs can be parameterized and leverage inheritance to promote reuse. The ability to construct many variations of glyphs programmatically is a powerful tool for creativity.
@@ -269,6 +283,61 @@ fractal = SquareFractalGlyph(
     glyph_id="multi-square-fractal",
     params=SquareFractalParams(square_params=multi_square_params),
 )
+```
+
+### Gradients
+
+[![Sunset gradient](./examples/sunset-gradients.png)]()
+
+This illustrates the use of gradients and glyph composition to create a simple ocean sunset scene.
+
+```python
+WIDTH = 400
+HEIGHT = 300
+
+class SkyGlyph(BaseGlyph):
+    size_canon = (WIDTH, HEIGHT / 2)
+
+    def draw(self):
+        sky = self.draw_rect((0, 0), (WIDTH, HEIGHT / 2))
+        sky.fill(
+            gradient=self.create_radial_gradient(
+                center=(self.width / 2, self.height),
+                radius=self.width / 2,
+                focal=(self.width / 2, self.height * 1.5),
+                colors=["yellow", "orange", "#00a6e6"],
+            )
+        )
+
+class OceanGlyph(BaseGlyph):
+    size_canon = (WIDTH, HEIGHT / 2)
+
+    def draw(self):
+        water = self.draw_rect((0, 0), (WIDTH, HEIGHT / 2))
+        water.fill(
+            gradient=self.create_linear_gradient(
+                start=(self.width / 2, 0),
+                end=(self.width / 2, self.height),
+                colors=["#7295b6", "#0f4c81"],
+            )
+        )
+
+class SceneGlyph(BaseGlyph):
+    size_canon = (WIDTH, HEIGHT)
+
+    def draw(self):
+        sky = SkyGlyph()
+        sky_reflection = SkyGlyph(properties=Properties(opacity="0.5"))
+        ocean = OceanGlyph()
+
+        # rotate reflection
+        sky_reflection.rotate(180)
+
+        self.insert_glyph(sky)
+        self.insert_glyph(ocean, insert=(0, self.height / 2))
+        self.insert_glyph(sky_reflection, insert=(0, self.height / 2))
+
+scene = SceneGlyph()
 ```
 
 ### Letter combination variants

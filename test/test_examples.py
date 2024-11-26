@@ -215,13 +215,13 @@ def test_gradients(output_dir: Path):
             sky_reflection = SkyGlyph(properties=Properties(opacity="0.5"))
             ocean = OceanGlyph()
 
-            # adjust reflection
+            # rotate reflection
             sky_reflection.rotate(180)
 
             self.insert_glyph(sky)
             self.insert_glyph(ocean, insert=(0, self.height / 2))
             self.insert_glyph(sky_reflection, insert=(0, self.height / 2))
 
-    glyph = SceneGlyph()
+    scene = SceneGlyph()
 
-    write_glyph(output_dir, glyph, scale=3)
+    write_glyph(output_dir, scene, scale=3)
