@@ -16,14 +16,16 @@ SPACING: float = UNIT / 10
 
 # TODO: after writing, verify svg with golden svg
 # - doit task to update golden svg w/testcase output
-def write_glyph(output_dir: Path, glyph: BaseGlyph, stem: str | None = None):
+def write_glyph(
+    output_dir: Path, glyph: BaseGlyph, stem: str | None = None, scale: int = 1
+):
     svg_path = output_dir / f"{stem}.svg" if stem else output_dir
     png_path = output_dir / f"{stem}.png" if stem else output_dir
 
     glyph.export_svg(svg_path)
 
     if RASTER_SUPPORT:
-        glyph.export_png(png_path)
+        glyph.export_png(png_path, scale=scale)
 
 
 def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):

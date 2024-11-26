@@ -1,6 +1,12 @@
 from pathlib import Path
 
-from glyphsynth import BaseGlyph, BaseParams, EmptyGlyph, ShapeProperties
+from glyphsynth import (
+    BaseGlyph,
+    BaseParams,
+    EmptyGlyph,
+    Properties,
+    ShapeProperties,
+)
 
 from .conftest import write_glyph
 
@@ -168,3 +174,54 @@ def test_fractal(output_dir: Path):
     fractal.export_png(
         output_dir, size=("4096px", "4096px"), in_place_raster=True
     )
+
+
+def test_gradients(output_dir: Path):
+    WIDTH = 400
+    HEIGHT = 300
+
+    class SkyGlyph(BaseGlyph):
+        size_canon = (WIDTH, HEIGHT / 2)
+
+        def draw(self):
+            sky = self.draw_rect((0, 0), (WIDTH, HEIGHT / 2))
+            sky.fill(
+                gradient=self.create_radial_gradient(
+                    center=(self.width / 2, self.height),
+                    radius=self.width / 2,
+                    focal=(self.width / 2, self.height * 1.5),
+                    colors=["yellow", "orange", "#00a6e6"],
+                )
+            )
+
+    class OceanGlyph(BaseGlyph):
+        size_canon = (WIDTH, HEIGHT / 2)
+
+        def draw(self):
+            water = self.draw_rect((0, 0), (WIDTH, HEIGHT / 2))
+            water.fill(
+                gradient=self.create_linear_gradient(
+                    start=(self.width / 2, 0),
+                    end=(self.width / 2, self.height),
+                    colors=["#7295b6", "#0f4c81"],
+                )
+            )
+
+    class SceneGlyph(BaseGlyph):
+        size_canon = (WIDTH, HEIGHT)
+
+        def draw(self):
+            sky = SkyGlyph()
+            sky_reflection = SkyGlyph(properties=Properties(opacity="0.5"))
+            ocean = OceanGlyph()
+
+            # adjust reflection
+            sky_reflection.rotate(180)
+
+            self.insert_glyph(sky)
+            self.insert_glyph(ocean, insert=(0, self.height / 2))
+            self.insert_glyph(sky_reflection, insert=(0, self.height / 2))
+
+    glyph = SceneGlyph()
+
+    write_glyph(output_dir, glyph, scale=3)

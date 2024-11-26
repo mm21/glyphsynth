@@ -83,6 +83,5 @@ class GradientGlyph(BaseGlyph):
             radius=HALF,
             colors=["red", "blue"],
         )
-        self.circle = self.draw_circle(
-            CENTER, HALF, properties=ShapeProperties(gradient=gradient)
-        )
+        self.circle = self.draw_circle(CENTER, HALF)
+        self.circle.fill(gradient=gradient)
