@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Callable, cast
 
 import svgwrite.base
 
-from .mixins import BaseWrapperMixin
+from ._mixins import BaseWrapperMixin
 
 if TYPE_CHECKING:
     from ...glyph import BaseGlyph

@@ -5,7 +5,7 @@ from typing import cast
 from svgwrite.container import SVG, Group
 from svgwrite.drawing import Drawing
 
-from .elements.mixins import TransformMixin
+from .elements._mixins import TransformMixin
 from .properties import Properties
 
 

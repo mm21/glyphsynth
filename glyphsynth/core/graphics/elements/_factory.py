@@ -14,7 +14,7 @@ from .shapes import Circle, Ellipse, Line, Polygon, Polyline, Rect
 
 if TYPE_CHECKING:
     from .base import BaseGlyph
-    from .container import Group
+    from .containers import Group
 
 __all__ = [
     "ElementFactory",
@@ -117,7 +117,7 @@ class ElementFactory(ABC):
         )
 
     def create_group(self, properties: ShapeProperties | None = None) -> Group:
-        from .container import Group
+        from .containers import Group
 
         # only use passed properties instead of inheriting from glyph
         extra = properties._get_values() if properties else {}

@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict
 from ._utils import extract_type_param
 from .graphics._container import BaseContainer
 from .graphics._export import ExportContainer
-from .graphics.elements.factory import ElementFactory
+from .graphics.elements._factory import ElementFactory
 from .graphics.properties import Properties
 
 __all__ = [

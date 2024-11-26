@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING
 
 import svgwrite.container
 
+from ._factory import ElementFactory
+from ._mixins import PresentationMixin, TransformMixin
 from .base import BaseElement
-from .factory import ElementFactory
-from .mixins import PresentationMixin, TransformMixin
 
 if TYPE_CHECKING:
     from ...glyph import BaseGlyph

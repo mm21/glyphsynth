@@ -4,8 +4,6 @@ from typing import Any, Self, cast
 
 from pydantic import BaseModel, ConfigDict
 
-from .elements.gradients import BaseGradient
-
 __all__ = [
     "PropertyValueType",
     "Properties",
@@ -86,21 +84,6 @@ class PaintingPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
     stroke_opacity: PropertyValueType = None
     stroke_width: PropertyValueType = None
     shape_rendering: PropertyValueType = None
-
-    gradient: BaseGradient | None = None
-    """
-    If set, used to set value of `fill` as a reference to this gradient.
-    """
-
-    def model_post_init(self, __context):
-        assert not (
-            self.fill and self.gradient
-        ), f"Ambiguous fill assignment: both fill={self.fill} and gradient={self.gradient} cannot be set"
-
-        if self.fill is None and self.gradient:
-            self.fill = self.gradient.get_paint_server()
-
-        return super().model_post_init(__context)
 
 
 class FontPropertiesMixin(BasePropertiesModel):

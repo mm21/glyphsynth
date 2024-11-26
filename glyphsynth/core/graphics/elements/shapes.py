@@ -1,7 +1,7 @@
 import svgwrite.shapes
 
+from ._mixins import MarkersMixin, PresentationMixin, TransformMixin
 from .base import BaseElement
-from .mixins import MarkersMixin, PresentationMixin, TransformMixin
 
 __all__ = [
     "Line",

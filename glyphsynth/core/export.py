@@ -10,10 +10,9 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Callable, Iterable, cast
 
-from glyphsynth import BaseGlyph
+from .glyph import BaseGlyph
 
 __all__ = [
-    "RASTER_SUPPORT",
     "ExportSpec",
     "export_glyphs",
 ]
@@ -66,7 +65,6 @@ def export_glyphs(
 
     The object imported from the FQCN is recursed to collect all glyph objects.
     If a `BaseGlyph` is encountered,
-
     """
 
     logging.info(f"Exporting to output path: {output_path}")
