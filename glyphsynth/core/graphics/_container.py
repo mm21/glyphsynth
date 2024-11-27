@@ -15,18 +15,26 @@ class BaseGraphicsContainer(TransformMixin):
 
     There are 2 SVG trees maintained:
 
+    **Standalone glyph**
+
     ```
-    1. Standalone glyph
-        drawing (root <svg>)
-            wrapper svg (if size provided)
-                svg (canonical)
-    2. Placement in parent glyph
-        svg-parent
-            svg-wrapper-insert (insert only)
-                group (transforms, e.g. rotation)
-                    svg-wrapper-scale (width/height/viewbox only)
-                        svg (canonical)
+    <svg> (drawing)
+        <svg> wrapper-scale (size/viewbox only, if size provided)
+            <svg> (canonical)
     ```
+
+    **Placement in parent glyph**
+
+    ```
+    <svg> (parent canonical)
+        <svg> wrapper-insert (insert only)
+            <g> wrapper-transform (transforms only, e.g. rotation)
+                <svg> wrapper-scale (size/viewbox only, if size provided)
+                    <svg> (canonical)
+    ```
+
+    Note when being placed in a parent glyph, there are additional wrappers
+    `wrapper-transform` and `wrapper-insert`.
     """
 
     DefaultProperties: type[Properties] = Properties
@@ -113,7 +121,9 @@ class BaseGraphicsContainer(TransformMixin):
         self._id = id_
         self._size = size
         self._drawing = Drawing()
-        self._group = self._drawing.g(**self._get_elem_kwargs(suffix="group"))
+        self._group = self._drawing.g(
+            **self._get_elem_kwargs(suffix="wrapper-transform")
+        )
         self._mixin_obj = self._group
 
     @property

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Literal, Self, cast
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 __all__ = [
     "Properties",
