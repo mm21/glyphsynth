@@ -184,9 +184,10 @@ class ElementFactory(ABC):
         """
         Get extra kwargs to pass to svgwrite APIs.
         """
-        # aggregate provided properties with those of the glyph
+        # override defaults from the glyph with given properties
         props = ShapeProperties._aggregate(
-            [self._glyph.properties] + ([properties] if properties else [])
+            self._glyph.properties,
+            properties,
         )
         return props._get_values()
 

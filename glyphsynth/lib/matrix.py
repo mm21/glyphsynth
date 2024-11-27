@@ -121,7 +121,7 @@ class MatrixGlyph(BaseMatrixGlyph):
         params = cls.get_params_cls()(
             rows=rows, spacing=spacing, padding=padding, center=center
         )
-        return cls(params=params, glyph_id=glyph_id)
+        return cls(glyph_id=glyph_id, params=params)
 
     @property
     def rows(self) -> list[list[BaseGlyph]]:

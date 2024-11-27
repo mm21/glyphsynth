@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Iterable, Self
+from typing import Any, Iterable, Self, cast
 
 import svgwrite.container
-from pydantic import BaseModel, ConfigDict
+from pydantic import ConfigDict
 
 from ._utils import extract_type_param
 from .graphics._container import BaseGraphicsContainer
 from .graphics._export import ExportContainer
+from .graphics._model import BaseFieldsModel
 from .graphics.elements._factory import ElementFactory
 from .graphics.properties import Properties
 
@@ -20,7 +21,7 @@ __all__ = [
 ]
 
 
-class BaseParams(BaseModel):
+class BaseParams(BaseFieldsModel):
     """
     Subclass this class to create parameters for a Glyph.
     """
@@ -67,10 +68,9 @@ class BaseGlyph[ParamsT: BaseParams](
     Instance of params with type as specified by typevar.
     """
 
-    DefaultParams: type[ParamsT] | None = None
+    default_params: ParamsT | None = None
     """
-    Subclass of ParamsT to use as defaults for this particular Glyph,
-    if no parameters provided during instantiation.
+    Params to use as defaults for this glyph
     """
 
     _params_cls: type[ParamsT]
@@ -114,7 +114,8 @@ class BaseGlyph[ParamsT: BaseParams](
         self._nested_glyphs = []
 
         # set params
-        self.params = params or type(self).get_params_cls()()
+        params_cls = cast(ParamsT, type(self).get_params_cls())
+        self.params = params_cls._aggregate(self.default_params, params)
 
         # invoke subclass's init (e.g. set properties based on params)
         self.init()
@@ -152,10 +153,9 @@ class BaseGlyph[ParamsT: BaseParams](
     def get_params_cls(cls) -> type[ParamsT]:
         """
         Returns the {obj}`BaseParams` subclass with which this class is
-        parameterized, accounting for any default values provided by
-        the subclass.
+        parameterized.
         """
-        return cls.DefaultParams or cls._params_cls
+        return cls._params_cls
 
     def insert_glyph(
         self,

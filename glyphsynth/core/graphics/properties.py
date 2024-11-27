@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Any, Literal, Self, cast
+from typing import Literal
 
-from pydantic import BaseModel
+from ._model import BaseFieldsModel
 
 __all__ = [
     "Properties",
@@ -11,35 +11,13 @@ __all__ = [
 ]
 
 
-class BasePropertiesModel(BaseModel):
+class BasePropertiesModel(BaseFieldsModel):
     """
     Encapsulates graphics properties, as defined here:
     <https://www.w3.org/TR/SVG11/intro.html#TermProperty>
 
     And listed here: <https://www.w3.org/TR/SVG11/propidx.html>
     """
-
-    @classmethod
-    def _aggregate(cls, models: list[BasePropertiesModel]) -> Self:
-        """
-        Create a new model with values aggregated from provided models.
-        """
-        values: dict[str, str] = {}
-
-        for model in models:
-            values.update(model._get_values())
-
-        return cls(**values)
-
-    def _get_values(self) -> dict[str, str]:
-        values: dict[str, str] = {}
-
-        for field in list(self.model_fields.keys()):
-            value = cast(Any | None, getattr(self, field))
-            if value is not None:
-                values[field] = str(value)
-
-        return values
 
 
 class ColorPropertiesMixin(BasePropertiesModel):
@@ -280,7 +258,7 @@ class Properties(
     def __init_subclass__(cls):
         super().__init_subclass__()
 
-        valid_properties = Properties.model_fields.keys()
+        valid_properties = Properties._get_fields()
 
         # ensure user didn't add any invalid properties
         for field in cls.model_fields.keys():

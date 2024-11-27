@@ -36,14 +36,15 @@ class LetterParams(BaseParams):
 
 
 class BaseLetterGlyph(BaseGlyph[LetterParams]):
-    _stroke_width: float
-
-    class DefaultProperties(Properties):
-        fill: str = "none"
-        stroke: str = "black"
-        stroke_linejoin: str = "bevel"
-
     size_canon = (UNIT, UNIT)
+
+    default_properties = Properties(
+        fill="none",
+        stroke="black",
+        stroke_linejoin="bevel",
+    )
+
+    _stroke_width: float
 
     def init(self):
         self._stroke_width = (self.params.stroke_pct / 100) * UNIT

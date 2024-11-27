@@ -37,27 +37,28 @@ class BaseGraphicsContainer(TransformMixin):
     `wrapper-transform` and `wrapper-insert`.
     """
 
-    DefaultProperties: type[Properties] = Properties
+    properties: Properties
     """
-    Subclass of Properties with properties set as class attributes.
-    
-    May be subclassed in-place or assigned to an existing subclass.
-    For example, subclassing in-place:
+    Properties automatically propagated to graphics objects in draw_*() APIs.
+    """
+
+    default_properties: Properties | None = None
+    """
+    Properties set on class to use as defaults; overridden by any fields 
+    of properties passed during instantiation.
+
+    For example:
 
     ```python
     class MyGlyph(BaseGlyph):
 
-        class DefaultProperties(Properties):
-            color: str = "black"
-            stroke_width: int = 10
-        
+        default_properties = Properties(
+            color="black",
+            stroke_width=10,
+        )
+
         ...
     ```
-    """
-
-    properties: Properties
-    """
-    Properties automatically propagated to graphics objects in draw_*() APIs.
     """
 
     size_canon: tuple[float | int, float | int] | None = None
@@ -75,10 +76,6 @@ class BaseGraphicsContainer(TransformMixin):
     Note that some {obj}`BaseGlyph` subclasses may require that 
     this field is not `None`.
     """
-
-    viewbox_canon: tuple[
-        tuple[float | int, float | int], tuple[float | int, float | int]
-    ] | None = None
 
     _id: str | None
     """
@@ -115,7 +112,8 @@ class BaseGraphicsContainer(TransformMixin):
         size: tuple[float, float] | None,
     ):
         self.properties = Properties._aggregate(
-            [self.DefaultProperties()] + ([properties] if properties else [])
+            self.default_properties,
+            properties,
         )
 
         self._id = id_
@@ -188,13 +186,6 @@ class BaseGraphicsContainer(TransformMixin):
                 size=self.size_canon,
             ),
         )
-
-        # set viewbox, if configured
-        if self.viewbox_canon is not None:
-            x, y = self.viewbox_canon[0]
-            w, h = self.viewbox_canon[1]
-            self._svg.viewbox(x, y, w, h)
-            self._svg.fit()
 
         # add to drawing for standalone glyph
         if self._size is None:

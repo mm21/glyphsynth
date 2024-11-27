@@ -63,8 +63,9 @@ def test_params_default():
     """
 
     class BasicGlyphTest(BasicGlyph):
-        class DefaultParams(BasicParams):
-            color1: str = "red"
+        default_params = BasicParams(
+            color1="red",
+        )
 
     glyph = BasicGlyphTest()
     assert glyph.params.color1 == "red"
