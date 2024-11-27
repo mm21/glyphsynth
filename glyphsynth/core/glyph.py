@@ -30,7 +30,7 @@ class BaseParams(BaseModel):
     @property
     def desc(self) -> str:
         """
-        Short description of params and values.
+        Short, filename-friendly description of params and values.
         """
 
         def parse_val(val: Any) -> str:
@@ -140,7 +140,7 @@ class BaseGlyph[ParamsT: BaseParams](
         cls._params_cls = extract_type_param(cls, BaseParams) or EmptyParams
 
     @property
-    def glyph_id(self) -> str:
+    def glyph_id(self) -> str | None:
         """
         A meaningful identifier to associate with this glyph. Also used as
         base name (without extension) of file to export when no filename is

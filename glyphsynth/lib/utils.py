@@ -25,7 +25,12 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
     _padding: PaddingType
 
     @classmethod
-    def new(cls, glyph: BaseGlyph, padding: float | PaddingType | None = None):
+    def new(
+        cls,
+        glyph: BaseGlyph,
+        glyph_id: str | None = None,
+        padding: float | PaddingType | None = None,
+    ):
         padding_: float | PaddingType
 
         # default padding is 10% of the minimum of width/height
@@ -36,8 +41,10 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
         # create params
         params = cls.get_params_cls()(glyph=glyph, padding=padding_)
 
-        # generate glyph id
-        glyph_id_ = f"{glyph.glyph_id}-pad"
+        # get glyph id
+        glyph_id_ = glyph_id or (
+            f"{glyph.glyph_id}-pad" if glyph.glyph_id else None
+        )
 
         return cls(glyph_id=glyph_id_, params=params)
 

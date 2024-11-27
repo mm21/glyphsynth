@@ -107,11 +107,11 @@ def _export_glyph(
     )
 
     if svg:
-        logging.info(f"Writing svg: {glyph.glyph_id} -> {path}.svg")
+        logging.info(f"Writing svg: {glyph} -> {path}.svg")
         glyph.export_svg(export_path)
 
     if png:
-        logging.info(f"Writing png: {glyph.glyph_id} -> {path}.png")
+        logging.info(f"Writing png: {glyph} -> {path}.png")
         glyph.export_png(export_path, in_place_raster=in_place_raster)
 
 

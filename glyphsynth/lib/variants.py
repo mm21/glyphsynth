@@ -165,14 +165,6 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
             for g in row
         )
 
-        """
-        for row in matrix_glyph.rows:
-            for glyph in row:
-                yield ExportSpec(
-                    wrap_padding(glyph), all_path, module=type(self).__module__
-                )
-        """
-
         # export horizontal arrays
         for harray_glyph in harray_glyphs:
             yield ExportSpec(
