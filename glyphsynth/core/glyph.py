@@ -7,7 +7,7 @@ import svgwrite.container
 from pydantic import BaseModel, ConfigDict
 
 from ._utils import extract_type_param
-from .graphics._container import BaseContainer
+from .graphics._container import BaseGraphicsContainer
 from .graphics._export import ExportContainer
 from .graphics.elements._factory import ElementFactory
 from .graphics.properties import Properties
@@ -55,7 +55,7 @@ class BaseParams(BaseModel):
 
 
 class BaseGlyph[ParamsT: BaseParams](
-    ElementFactory, ExportContainer, BaseContainer, ABC
+    ElementFactory, ExportContainer, BaseGraphicsContainer, ABC
 ):
     """
     Base class for a standalone or reusable glyph, sized in abstract

@@ -9,7 +9,7 @@ from .elements._mixins import TransformMixin
 from .properties import Properties
 
 
-class BaseContainer(TransformMixin):
+class BaseGraphicsContainer(TransformMixin):
     """
     Container for drawing and manipulation of low-level graphics objects.
 
@@ -60,8 +60,8 @@ class BaseContainer(TransformMixin):
     Used to set a consistent size for drawing, invariant of the size 
     passed upon instantiation.
 
-    May be `None`, in which case {obj}`BaseContainer.size`, 
-    {obj}`BaseContainer.width`, and {obj}`BaseContainer.height`
+    May be `None`, in which case {obj}`BaseGraphicsContainer.size`, 
+    {obj}`BaseGraphicsContainer.width`, and {obj}`BaseGraphicsContainer.height`
     will return `None`.
 
     Note that some {obj}`BaseGlyph` subclasses may require that 

@@ -15,10 +15,10 @@ from xml.etree import ElementTree
 from svgwrite.drawing import Drawing
 
 from . import RASTER_SUPPORT
-from ._container import BaseContainer
+from ._container import BaseGraphicsContainer
 
 
-class ExportContainer(BaseContainer):
+class ExportContainer(BaseGraphicsContainer):
     def export(
         self, path: Path, out_format: Literal["svg", "png"] | None = None
     ):
