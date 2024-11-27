@@ -90,9 +90,9 @@ class BaseGlyph[ParamsT: BaseParams](
         glyph_id: str | None = None,
         params: ParamsT | None = None,
         properties: Properties | None = None,
-        size: tuple[float, float] | None = None,
+        size: tuple[float | int, float | int] | None = None,
         parent: BaseGlyph | None = None,
-        insert: tuple[float, float] | None = None,
+        insert: tuple[float | int, float | int] | None = None,
     ):
         """
         :param parent: Parent glyph, or `None`{l=python} to create top-level glyph
@@ -103,7 +103,14 @@ class BaseGlyph[ParamsT: BaseParams](
         if parent is None:
             assert insert is None
 
+        if size is not None:
+            size = (float(size[0]), float(size[1]))
+
+        if insert is not None:
+            insert = (float(insert[0]), float(insert[1]))
+
         super().__init__(glyph_id, properties, size)
+
         self._nested_glyphs = []
 
         # set params
@@ -136,13 +143,10 @@ class BaseGlyph[ParamsT: BaseParams](
     def glyph_id(self) -> str:
         """
         A meaningful identifier to associate with this glyph. Also used as
-        base name (without extension) of file to write when no filename is
+        base name (without extension) of file to export when no filename is
         provided.
-
-        If no glyph_id is provided when created, it is derived from the
-        class name.
         """
-        return self._id_norm
+        return self._id
 
     @classmethod
     def get_params_cls(cls) -> type[ParamsT]:

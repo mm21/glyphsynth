@@ -14,16 +14,19 @@ class BaseContainer(TransformMixin):
     Container for drawing and manipulation of low-level graphics objects.
 
     There are 2 SVG trees maintained:
+
+    ```
     1. Standalone glyph
         drawing (root <svg>)
             wrapper svg (if size provided)
-                canonical svg
+                svg (canonical)
     2. Placement in parent glyph
         svg-parent
-            svg-wrapper-placement (insert only)
-                group (w/transforms, e.g. rotation)
-                    svg-wrapper-scaling (width/height/viewbox only)
-                        svg-canonical
+            svg-wrapper-insert (insert only)
+                group (transforms, e.g. rotation)
+                    svg-wrapper-scale (width/height/viewbox only)
+                        svg (canonical)
+    ```
     """
 
     DefaultProperties: type[Properties] = Properties
@@ -37,8 +40,8 @@ class BaseContainer(TransformMixin):
     class MyGlyph(BaseGlyph):
 
         class DefaultProperties(Properties):
-            color: PropertyValueType = "black"
-            stroke_width: PropertyValueType = "10"
+            color: str = "black"
+            stroke_width: int = 10
         
         ...
     ```
@@ -49,7 +52,7 @@ class BaseContainer(TransformMixin):
     Properties automatically propagated to graphics objects in draw_*() APIs.
     """
 
-    size_canon: tuple[float, float] | None = None
+    size_canon: tuple[float | int, float | int] | None = None
     """
     Canonical size in user units, as provided by concrete class either as class
     attribute or upon creation in {obj}`BaseGlyph.init`.
@@ -65,7 +68,9 @@ class BaseContainer(TransformMixin):
     this field is not `None`.
     """
 
-    viewbox_canon: tuple[tuple[float, float], tuple[float, float]] | None = None
+    viewbox_canon: tuple[
+        tuple[float | int, float | int], tuple[float | int, float | int]
+    ] | None = None
 
     _id: str | None
     """
@@ -138,8 +143,16 @@ class BaseContainer(TransformMixin):
         return self.size[1]
 
     @property
+    def _size_canon_norm(self) -> tuple[float, float] | None:
+        return (
+            (float(self.size_canon[0]), float(self.size_canon[1]))
+            if self.size_canon is not None
+            else None
+        )
+
+    @property
     def _size_norm(self) -> tuple[float, float] | None:
-        return self._size or self.size_canon
+        return self._size or self._size_canon_norm
 
     @property
     def _id_norm(self) -> str:
@@ -192,8 +205,7 @@ class BaseContainer(TransformMixin):
 
     def _create_wrapper_scale(self) -> SVG:
         """
-        Create SVG wrapper for canonical SVG object to handle
-        placement/scaling.
+        Create SVG wrapper for canonical SVG object to handle scaling.
         """
 
         size_kwargs = {} if self._size is None else {"size": self._size}

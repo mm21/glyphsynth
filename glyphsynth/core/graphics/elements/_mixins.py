@@ -112,7 +112,7 @@ class PresentationMixin(BaseWrapperMixin[svgwrite.mixins.Presentation]):
         color: str | None = None,
         gradient: BaseGradient | None = None,
         rule: str | None = None,
-        opacity: float | None = None,
+        opacity: float | int | None = None,
     ):
         self._mixin_obj.fill(
             color=_normalize_color(color, gradient),
@@ -125,7 +125,7 @@ class PresentationMixin(BaseWrapperMixin[svgwrite.mixins.Presentation]):
         color: str | None,
         gradient: BaseGradient | None = None,
         width: float | None = None,
-        opacity: float | None = None,
+        opacity: float | int | None = None,
         linecap: Literal["butt", "round", "square"] | None = None,
         linejoin: Literal["arcs", "bevel", "miter", "miter-clip", "round"]
         | None = None,

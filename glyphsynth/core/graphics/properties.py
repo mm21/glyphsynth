@@ -1,17 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Self, cast
+from typing import Any, Literal, Self, cast
 
 from pydantic import BaseModel, ConfigDict
 
 __all__ = [
-    "PropertyValueType",
     "Properties",
     "ShapeProperties",
     "GradientProperties",
 ]
-
-type PropertyValueType = str | None
 
 
 class BasePropertiesModel(BaseModel):
@@ -21,8 +18,6 @@ class BasePropertiesModel(BaseModel):
 
     And listed here: <https://www.w3.org/TR/SVG11/propidx.html>
     """
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @classmethod
     def _aggregate(cls, models: list[BasePropertiesModel]) -> Self:
@@ -41,13 +36,10 @@ class BasePropertiesModel(BaseModel):
 
         for field in list(self.model_fields.keys()):
             value = cast(Any | None, getattr(self, field))
-            if isinstance(value, str):
-                values[field] = value
+            if value is not None:
+                values[field] = str(value)
 
         return values
-
-
-# TODO: use appropriate type, e.g. opacity should be numeric
 
 
 class ColorPropertiesMixin(BasePropertiesModel):
@@ -55,12 +47,18 @@ class ColorPropertiesMixin(BasePropertiesModel):
     Common color-related properties.
     """
 
-    color: PropertyValueType = None
-    color_interpolation: PropertyValueType = None
-    color_interpolation_filters: PropertyValueType = None
-    color_profile: PropertyValueType = None
-    color_rendering: PropertyValueType = None
-    opacity: PropertyValueType = None
+    color: str | None = None
+    color_interpolation: Literal["auto", "sRGB", "linearRGB"] | None = None
+    color_interpolation_filters: Literal[
+        "auto", "sRGB", "linearRGB"
+    ] | None = None
+    color_profile: Literal[
+        "auto", "sRGB"
+    ] | str | None = None  # Can also be IRI
+    color_rendering: Literal[
+        "auto", "optimizeSpeed", "optimizeQuality"
+    ] | None = None
+    opacity: float | int | None = None
 
 
 class PaintingPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
@@ -68,22 +66,24 @@ class PaintingPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
     Properties related to painting operations.
     """
 
-    fill: PropertyValueType = None
-    fill_opacity: PropertyValueType = None
-    fill_rule: PropertyValueType = None
-    marker: PropertyValueType = None
-    marker_end: PropertyValueType = None
-    marker_mid: PropertyValueType = None
-    marker_start: PropertyValueType = None
-    stroke: PropertyValueType = None
-    stroke_dasharray: PropertyValueType = None
-    stroke_dashoffset: PropertyValueType = None
-    stroke_linecap: PropertyValueType = None
-    stroke_linejoin: PropertyValueType = None
-    stroke_miterlimit: PropertyValueType = None
-    stroke_opacity: PropertyValueType = None
-    stroke_width: PropertyValueType = None
-    shape_rendering: PropertyValueType = None
+    fill: str | None = None
+    fill_opacity: float | int | None = None
+    fill_rule: Literal["nonzero", "evenodd"] | None = None
+    marker: str | None = None
+    marker_end: str | None = None
+    marker_mid: str | None = None
+    marker_start: str | None = None
+    stroke: str | None = None
+    stroke_dasharray: str | None = None
+    stroke_dashoffset: float | int | str | None = None
+    stroke_linecap: Literal["butt", "round", "square"] | None = None
+    stroke_linejoin: Literal["miter", "round", "bevel"] | None = None
+    stroke_miterlimit: float | int | None = None
+    stroke_opacity: float | int | None = None
+    stroke_width: float | int | str | None = None
+    shape_rendering: Literal[
+        "auto", "optimizeSpeed", "crispEdges", "geometricPrecision"
+    ] | None = None
 
 
 class FontPropertiesMixin(BasePropertiesModel):
@@ -91,14 +91,28 @@ class FontPropertiesMixin(BasePropertiesModel):
     Properties related to font specification.
     """
 
-    font: PropertyValueType = None
-    font_family: PropertyValueType = None
-    font_size: PropertyValueType = None
-    font_size_adjust: PropertyValueType = None
-    font_stretch: PropertyValueType = None
-    font_style: PropertyValueType = None
-    font_variant: PropertyValueType = None
-    font_weight: PropertyValueType = None
+    font: str | None = None
+    font_family: str | None = None
+    font_size: str | None = None  # Can be length or percentage
+    font_size_adjust: Literal["none"] | float | int | None = None
+    font_stretch: Literal[
+        "normal",
+        "wider",
+        "narrower",
+        "ultra-condensed",
+        "extra-condensed",
+        "condensed",
+        "semi-condensed",
+        "semi-expanded",
+        "expanded",
+        "extra-expanded",
+        "ultra-expanded",
+    ] | None = None
+    font_style: Literal["normal", "italic", "oblique"] | None = None
+    font_variant: Literal["normal", "small-caps"] | None = None
+    font_weight: Literal[
+        "normal", "bold", "bolder", "lighter"
+    ] | int | None = None
 
 
 class TextPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
@@ -106,20 +120,53 @@ class TextPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
     Properties related to text layout and rendering.
     """
 
-    direction: PropertyValueType = None
-    letter_spacing: PropertyValueType = None
-    text_decoration: PropertyValueType = None
-    unicode_bidi: PropertyValueType = None
-    word_spacing: PropertyValueType = None
-    writing_mode: PropertyValueType = None
-    alignment_baseline: PropertyValueType = None
-    baseline_shift: PropertyValueType = None
-    dominant_baseline: PropertyValueType = None
-    glyph_orientation_horizontal: PropertyValueType = None
-    glyph_orientation_vertical: PropertyValueType = None
-    kerning: PropertyValueType = None
-    text_anchor: PropertyValueType = None
-    text_rendering: PropertyValueType = None
+    direction: Literal["ltr", "rtl"] | None = None
+    letter_spacing: Literal[
+        "normal"
+    ] | str | None = None  # Can be "normal" or length
+    text_decoration: Literal[
+        "none", "underline", "overline", "line-through"
+    ] | None = None
+    unicode_bidi: Literal["normal", "embed", "bidi-override"] | None = None
+    word_spacing: Literal[
+        "normal"
+    ] | str | None = None  # Can be "normal" or length
+    writing_mode: Literal[
+        "lr-tb", "rl-tb", "tb-rl", "lr", "rl", "tb"
+    ] | None = None
+    alignment_baseline: Literal[
+        "auto",
+        "baseline",
+        "before-edge",
+        "text-before-edge",
+        "middle",
+        "central",
+        "after-edge",
+        "text-after-edge",
+        "ideographic",
+        "alphabetic",
+        "hanging",
+        "mathematical",
+    ] | None = None
+    baseline_shift: str | None = None  # Can be length, percentage or keywords
+    dominant_baseline: Literal[
+        "auto",
+        "use-script",
+        "no-change",
+        "reset-size",
+        "ideographic",
+        "alphabetic",
+        "hanging",
+        "mathematical",
+        "central",
+        "middle",
+        "text-after-edge",
+        "text-before-edge",
+    ] | None = None
+    text_anchor: Literal["start", "middle", "end"] | None = None
+    text_rendering: Literal[
+        "auto", "optimizeSpeed", "optimizeLegibility", "geometricPrecision"
+    ] | None = None
 
 
 class ImagePropertiesMixin(BasePropertiesModel):
@@ -127,9 +174,12 @@ class ImagePropertiesMixin(BasePropertiesModel):
     Properties specific to image elements.
     """
 
-    # Specific to image rendering
-    image_rendering: PropertyValueType = None
-    preserve_aspect_ratio: PropertyValueType = None
+    image_rendering: Literal[
+        "auto", "optimizeSpeed", "optimizeQuality"
+    ] | None = None
+    preserve_aspect_ratio: str | None = (
+        None  # Complex value with multiple parts
+    )
 
 
 class ClippingMaskingPropertiesMixin(BasePropertiesModel):
@@ -137,10 +187,10 @@ class ClippingMaskingPropertiesMixin(BasePropertiesModel):
     Properties related to clipping and masking.
     """
 
-    clip: PropertyValueType = None
-    clip_path: PropertyValueType = None
-    clip_rule: PropertyValueType = None
-    mask: PropertyValueType = None
+    clip: str | None = None
+    clip_path: str | None = None
+    clip_rule: Literal["nonzero", "evenodd"] | None = None
+    mask: str | None = None
 
 
 class GradientPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
@@ -148,8 +198,8 @@ class GradientPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
     Properties specific to gradients.
     """
 
-    stop_color: PropertyValueType = None
-    stop_opacity: PropertyValueType = None
+    stop_color: str | None = None
+    stop_opacity: float | int | None = None
 
 
 class FilterEffectPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
@@ -157,11 +207,11 @@ class FilterEffectPropertiesMixin(ColorPropertiesMixin, BasePropertiesModel):
     Properties related to filter effects.
     """
 
-    enable_background: PropertyValueType = None
-    filter: PropertyValueType = None
-    flood_color: PropertyValueType = None
-    flood_opacity: PropertyValueType = None
-    lighting_color: PropertyValueType = None
+    enable_background: Literal["accumulate", "new"] | None = None
+    filter: str | None = None
+    flood_color: str | None = None
+    flood_opacity: float | int | None = None
+    lighting_color: str | None = None
 
 
 class CursorPropertiesMixin(BasePropertiesModel):
@@ -169,8 +219,18 @@ class CursorPropertiesMixin(BasePropertiesModel):
     Properties related to cursors.
     """
 
-    cursor: PropertyValueType = None
-    pointer_events: PropertyValueType = None
+    cursor: str | None = None  # Can be URI or keyword
+    pointer_events: Literal[
+        "visiblePainted",
+        "visibleFill",
+        "visibleStroke",
+        "visible",
+        "painted",
+        "fill",
+        "stroke",
+        "all",
+        "none",
+    ] | None = None
 
 
 class ViewportPropertiesMixin(BasePropertiesModel):
@@ -178,9 +238,27 @@ class ViewportPropertiesMixin(BasePropertiesModel):
     Properties related to the viewport.
     """
 
-    overflow: PropertyValueType = None
-    display: PropertyValueType = None
-    visibility: PropertyValueType = None
+    overflow: Literal["visible", "hidden", "scroll", "auto"] | None = None
+    display: Literal[
+        "inline",
+        "block",
+        "list-item",
+        "run-in",
+        "compact",
+        "marker",
+        "table",
+        "inline-table",
+        "table-row-group",
+        "table-header-group",
+        "table-footer-group",
+        "table-row",
+        "table-column-group",
+        "table-column",
+        "table-cell",
+        "table-caption",
+        "none",
+    ] | None = None
+    visibility: Literal["visible", "hidden", "collapse"] | None = None
 
 
 class Properties(

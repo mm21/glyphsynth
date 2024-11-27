@@ -212,7 +212,7 @@ def test_gradients(output_dir: Path):
 
         def draw(self):
             sky = SkyGlyph()
-            sky_reflection = SkyGlyph(properties=Properties(opacity="0.5"))
+            sky_reflection = SkyGlyph(properties=Properties(opacity=0.5))
             ocean = OceanGlyph()
 
             # rotate reflection

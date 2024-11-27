@@ -131,7 +131,7 @@ class ElementFactory(ABC):
         inherit: str | BaseElement | None = None,
         colors: list[str] | None = None,
         sweep_pct: tuple[float] = (0.0, 100.0),
-        opacity: float | None = None,
+        opacity: float | int | None = None,
     ) -> LinearGradient:
         elem = LinearGradient(
             self._glyph,
@@ -159,7 +159,7 @@ class ElementFactory(ABC):
         inherit: str | BaseElement | None = None,
         colors: list[str] | None = None,
         sweep_pct: tuple[float] = (0.0, 100.0),
-        opacity: float | None = None,
+        opacity: float | int | None = None,
     ) -> RadialGradient:
         elem = RadialGradient(
             self._glyph,

@@ -39,7 +39,7 @@ def test_fill(output_dir: Path):
     rect.fill(gradient=gradient1)
 
     circle = glyph.draw_circle(
-        (HALF, HALF), HALF, properties=ShapeProperties(opacity="0.8")
+        (HALF, HALF), HALF, properties=ShapeProperties(opacity=0.8)
     )
     circle.fill(gradient=gradient2)
 

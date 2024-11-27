@@ -1,12 +1,6 @@
 from __future__ import annotations
 
-from glyphsynth import (
-    BaseGlyph,
-    BaseParams,
-    Properties,
-    PropertyValueType,
-    ShapeProperties,
-)
+from glyphsynth import BaseGlyph, BaseParams, Properties, ShapeProperties
 from glyphsynth.core.graphics.elements.shapes import Circle
 from glyphsynth.lib.alphabet.minimal import UNIT, ZERO
 
@@ -23,8 +17,8 @@ class BasicParams(BaseParams):
 
 class BasicGlyph(BaseGlyph[BasicParams]):
     class DefaultProperties(Properties):
-        stroke: PropertyValueType = "black"
-        stroke_width: PropertyValueType = str(BASIC_STROKE_WIDTH)
+        stroke: str = "black"
+        stroke_width: float = BASIC_STROKE_WIDTH
 
     size_canon = (UNIT, UNIT)
 
