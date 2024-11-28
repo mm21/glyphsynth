@@ -16,7 +16,7 @@
   - [Examples](#examples)
     - [Multi-square](#multi-square)
     - [Multi-square fractal](#multi-square-fractal)
-    - [Gradients](#gradients)
+    - [Sunset gradients](#sunset-gradients)
     - [Letter combination variants](#letter-combination-variants)
 
 
@@ -285,59 +285,114 @@ fractal = SquareFractalGlyph(
 )
 ```
 
-### Gradients
+### Sunset gradients
 
-[![Sunset gradient](./examples/sunset-gradients.png)]()
+[![Sunset gradients](./examples/sunset-gradients.png)]()
 
 This illustrates the use of gradients and glyph composition to create a simple ocean sunset scene.
 
 ```python
-WIDTH = 400
-HEIGHT = 300
+WIDTH = 800
+HEIGHT = 600
 
-class SkyGlyph(BaseGlyph):
-    size_canon = (WIDTH, HEIGHT / 2)
+class BackgroundParams(BaseParams):
+    sky_colors: list[str]
+    water_colors: list[str]
 
-    def draw(self):
-        sky = self.draw_rect((0, 0), (WIDTH, HEIGHT / 2))
-        sky.fill(
-            gradient=self.create_radial_gradient(
-                center=(self.width / 2, self.height),
-                radius=self.width / 2,
-                focal=(self.width / 2, self.height * 1.5),
-                colors=["yellow", "orange", "#00a6e6"],
-            )
-        )
-
-class OceanGlyph(BaseGlyph):
-    size_canon = (WIDTH, HEIGHT / 2)
-
-    def draw(self):
-        water = self.draw_rect((0, 0), (WIDTH, HEIGHT / 2))
-        water.fill(
-            gradient=self.create_linear_gradient(
-                start=(self.width / 2, 0),
-                end=(self.width / 2, self.height),
-                colors=["#7295b6", "#0f4c81"],
-            )
-        )
-
-class SceneGlyph(BaseGlyph):
+class BackgroundGlyph(BaseGlyph[BackgroundParams]):
     size_canon = (WIDTH, HEIGHT)
 
     def draw(self):
-        sky = SkyGlyph()
-        sky_reflection = SkyGlyph(properties=Properties(opacity="0.5"))
-        ocean = OceanGlyph()
+        sky_insert, sky_size = (0.0, 0.0), (self.width, self.center_y)
+        water_insert, water_size = (0.0, self.center_y), (
+            self.width,
+            self.center_y,
+        )
 
-        # rotate reflection
-        sky_reflection.rotate(180)
+        # draw sky
+        self.draw_rect(sky_insert, sky_size).fill(
+            gradient=self.create_linear_gradient(
+                start=(self.center_x, 0),
+                end=(self.center_x, self.center_y),
+                colors=self.params.sky_colors,
+            )
+        )
 
-        self.insert_glyph(sky)
-        self.insert_glyph(ocean, insert=(0, self.height / 2))
-        self.insert_glyph(sky_reflection, insert=(0, self.height / 2))
+        # draw water
+        self.draw_rect(water_insert, water_size).fill(
+            gradient=self.create_linear_gradient(
+                start=(self.center_x, self.center_y),
+                end=(self.center_x, self.height),
+                colors=self.params.water_colors,
+            )
+        )
 
-scene = SceneGlyph()
+class SunsetParams(BaseParams):
+    stop_colors: list[StopColor]
+    focal_scale: float
+
+class SunsetGlyph(BaseGlyph[SunsetParams]):
+    size_canon = (WIDTH, HEIGHT / 2)
+
+    def draw(self):
+        insert, size = (0.0, 0.0), (self.width, self.height)
+
+        self.draw_rect(insert, size).fill(
+            gradient=self.create_radial_gradient(
+                center=(self.center_x, self.height),
+                radius=self.center_x,
+                focal=(
+                    self.center_x,
+                    self.height * self.params.focal_scale,
+                ),
+                stop_colors=self.params.stop_colors,
+            )
+        )
+
+class SceneParams(BaseParams):
+    background_params: BackgroundParams
+    sunset_params: SunsetParams
+
+class SceneGlyph(BaseGlyph[SceneParams]):
+    size_canon = (WIDTH, HEIGHT)
+
+    def draw(self):
+        # background
+        self.insert_glyph(
+            BackgroundGlyph(params=self.params.background_params),
+            insert=(0, 0),
+        )
+
+        # sunset
+        self.insert_glyph(
+            SunsetGlyph(params=self.params.sunset_params),
+            insert=(0, 0),
+        )
+
+        # sunset reflection
+        self.insert_glyph(
+            SunsetGlyph(params=self.params.sunset_params)
+            .rotate(180)
+            .fill(opacity_pct=50.0),
+            insert=(0, self.center_y),
+        )
+
+scene = SceneGlyph(
+    params=SceneParams(
+        background_params=BackgroundParams(
+            sky_colors=["#1a2b4c", "#9b4e6c"],
+            water_colors=["#2d3d5e", "#0f1c38"],
+        ),
+        sunset_params=SunsetParams(
+            stop_colors=[
+                StopColor("#ffd700", 0.0, 100.0),
+                StopColor("#ff7f50", 50.0, 90.0),
+                StopColor("#ff6b6b", 100.0, 25.0),
+            ],
+            focal_scale=1.5,
+        ),
+    )
+)
 ```
 
 ### Letter combination variants

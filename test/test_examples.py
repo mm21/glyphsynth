@@ -242,14 +242,19 @@ def test_gradients(output_dir: Path):
         size_canon = (WIDTH, HEIGHT)
 
         def draw(self):
+            # background
             self.insert_glyph(
                 BackgroundGlyph(params=self.params.background_params),
                 insert=(0, 0),
             )
+
+            # sunset
             self.insert_glyph(
                 SunsetGlyph(params=self.params.sunset_params),
                 insert=(0, 0),
             )
+
+            # sunset reflection
             self.insert_glyph(
                 SunsetGlyph(params=self.params.sunset_params)
                 .rotate(180)
