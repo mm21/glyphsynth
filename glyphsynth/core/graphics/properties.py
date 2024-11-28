@@ -258,11 +258,11 @@ class Properties(
     def __init_subclass__(cls):
         super().__init_subclass__()
 
-        valid_properties = Properties._get_fields()
-
         # ensure user didn't add any invalid properties
         for field in cls.model_fields.keys():
-            assert field in valid_properties, f"{field} is not a valid property"
+            assert (
+                field in Properties.model_fields.keys()
+            ), f"{field} is not a valid property"
 
 
 class ShapeProperties(
