@@ -213,7 +213,7 @@ def test_gradients(output_dir: Path):
             )
 
     class SunsetParams(BaseParams):
-        stop_colors: list[StopColor]
+        colors: list[StopColor]
         focal_scale: float
 
     class SunsetGlyph(BaseGlyph[SunsetParams]):
@@ -230,7 +230,7 @@ def test_gradients(output_dir: Path):
                         self.center_x,
                         self.height * self.params.focal_scale,
                     ),
-                    stop_colors=self.params.stop_colors,
+                    colors=self.params.colors,
                 )
             )
 
@@ -269,12 +269,12 @@ def test_gradients(output_dir: Path):
                 water_colors=["#2d3d5e", "#0f1c38"],
             ),
             sunset_params=SunsetParams(
-                stop_colors=[
+                colors=[
                     StopColor("#ffd700", 0.0, 100.0),
                     StopColor("#ff7f50", 50.0, 90.0),
                     StopColor("#ff6b6b", 100.0, 25.0),
                 ],
-                focal_scale=1.5,
+                focal_scale=1.2,
             ),
         )
     )

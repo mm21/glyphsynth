@@ -127,8 +127,7 @@ class ElementFactory(ABC):
         self,
         start: tuple[float, float] | None = None,
         end: tuple[float, float] | None = None,
-        colors: list[str] | None = None,
-        stop_colors: list[StopColor] | None = None,
+        colors: list[str] | list[StopColor] | None = None,
         inherit: str | BaseElement | None = None,
     ) -> LinearGradient:
         gradient = LinearGradient(
@@ -139,7 +138,7 @@ class ElementFactory(ABC):
             inherit=_normalize_inherit(inherit),
             gradientUnits="userSpaceOnUse",
         )
-        gradient._configure(colors, stop_colors)
+        gradient._configure(colors)
         return gradient
 
     def create_radial_gradient(
@@ -147,8 +146,7 @@ class ElementFactory(ABC):
         center: tuple[float, float] | None = None,
         radius: float | None = None,
         focal: tuple[float, float] | None = None,
-        colors: list[str] | None = None,
-        stop_colors: list[StopColor] | None = None,
+        colors: list[str] | list[StopColor] | None = None,
         inherit: str | BaseElement | None = None,
     ) -> RadialGradient:
         gradient = RadialGradient(
@@ -160,7 +158,7 @@ class ElementFactory(ABC):
             inherit=_normalize_inherit(inherit),
             gradientUnits="userSpaceOnUse",
         )
-        gradient._configure(colors, stop_colors)
+        gradient._configure(colors)
         return gradient
 
     def _get_extra(self, properties: ShapeProperties | None) -> dict[str, str]:

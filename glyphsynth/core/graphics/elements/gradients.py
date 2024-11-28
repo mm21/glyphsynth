@@ -41,18 +41,17 @@ class BaseGradient[GradientT: svgwrite.gradients._AbstractGradient](
                 stop.color, stop.offset_pct, opacity_pct=stop.opacity_pct
             )
 
-    def _configure(
-        self, colors: list[str] | None, stop_colors: list[StopColor] | None
-    ):
-        assert colors or stop_colors, f"No stop configurations passed"
-        assert not (
-            colors and stop_colors
-        ), f"Multiple stop configurations passed: colors={colors}, stop_colors={stop_colors}"
+    def _configure(self, colors: list[str] | list[StopColor] | None):
+        if colors is None:
+            return
 
-        if colors:
+        if all(isinstance(c, str) for c in colors):
             self.add_colors(colors)
-        elif stop_colors:
-            self.add_stop_colors(stop_colors)
+        else:
+            assert all(
+                isinstance(c, StopColor) for c in colors
+            ), f"Invalid or inconsistent types for color list: {colors}"
+            self.add_stop_colors(colors)
 
 
 class LinearGradient(BaseGradient[svgwrite.gradients.LinearGradient]):
