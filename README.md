@@ -90,7 +90,7 @@ blue_square.export_png(Path("my_glyph_renders"))
 
 This is rendered as:
 
-[![Blue-square](./examples/blue-square.png)]()
+![Blue-square](./examples/blue-square.png)
 
 Equivalently, the same glyph can be constructed from an `EmptyGlyph`:
 
@@ -161,7 +161,7 @@ Assuming the above code containing the `blue_square` is placed in `my_glyphs.py`
 
 ### Multi-square
 
-[![Multi-square](./examples/multi-square.png)]()
+![Multi-square](./examples/multi-square.png)
 
 This glyph is composed of 4 nested squares, each with a color parameter.
 
@@ -234,7 +234,7 @@ multi_square = MultiSquareGlyph(glyph_id="multi-square", params=multi_square_par
 
 ### Multi-square fractal
 
-[![Multi-square fractal](./examples/multi-square-fractal.png)]()
+![Multi-square fractal](./examples/multi-square-fractal.png)
 
 This glyph nests a square glyph recursively up to a certain depth.
 
@@ -287,7 +287,7 @@ fractal = SquareFractalGlyph(
 
 ### Sunset gradients
 
-[![Sunset gradients](./examples/sunset-gradients.png)]()
+![Sunset gradients](./examples/sunset-gradients.png)
 
 This illustrates the use of gradients and glyph composition to create a simple ocean sunset scene.
 
@@ -397,7 +397,7 @@ scene = SceneGlyph(
 
 ### Letter combination variants
 
-[![Variants matrix](./examples/variants-matrix-pad.png)]()
+![Variants matrix](./examples/variants-matrix-pad.png)
 
 This illustrates the use of letter glyphs, provided by this package as a library, to create parameterized geometric designs. Permutations of pairs of letters `A`, `M`, and `T` are selected for a range of color variants, with the second letter being rotated 180 degrees.
 

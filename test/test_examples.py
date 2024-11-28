@@ -279,7 +279,7 @@ def test_gradients(output_dir: Path):
         )
     )
 
-    write_glyph(output_dir, scene, scale=3)
+    write_glyph(output_dir, scene, scale=2)
 
     for nested in scene._nested_glyphs:
         write_glyph(output_dir, nested)
