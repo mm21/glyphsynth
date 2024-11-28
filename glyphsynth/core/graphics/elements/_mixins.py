@@ -41,19 +41,24 @@ class BaseWrapperMixin[T]:
 
 
 class ViewBoxMixin(BaseWrapperMixin[svgwrite.mixins.ViewBox]):
-    def viewbox(self, min_x: float, min_y: float, width: float, height: float):
+    def viewbox(
+        self, min_x: float, min_y: float, width: float, height: float
+    ) -> Self:
         self._mixin_obj.viewbox(min_x, min_y, width, height)
+        return self
 
-    def stretch(self):
+    def stretch(self) -> Self:
         self._mixin_obj.stretch()
+        return self
 
     def fit(
         self,
         horiz: Literal["left", "center", "right"] = "center",
         vert: Literal["top", "middle", "bottom"] = "middle",
         scale: Literal["meet", "slice"] = "meet",
-    ):
+    ) -> Self:
         self._mixin_obj.fit(horiz=horiz, vert=vert, scale=scale)
+        return self
 
 
 class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
@@ -112,42 +117,49 @@ class PresentationMixin(BaseWrapperMixin[svgwrite.mixins.Presentation]):
         color: str | None = None,
         gradient: BaseGradient | None = None,
         rule: str | None = None,
-        opacity: float | int | None = None,
-    ):
+        opacity_pct: float | int | None = None,
+    ) -> Self:
         self._mixin_obj.fill(
             color=_normalize_color(color, gradient),
             rule=rule,
-            opacity=normalize_str(opacity),
+            opacity=normalize_str(
+                opacity_pct / 100 if opacity_pct is not None else None
+            ),
         )
+        return self
 
     def stroke(
         self,
         color: str | None,
         gradient: BaseGradient | None = None,
         width: float | None = None,
-        opacity: float | int | None = None,
+        opacity_pct: float | int | None = None,
         linecap: Literal["butt", "round", "square"] | None = None,
         linejoin: Literal["arcs", "bevel", "miter", "miter-clip", "round"]
         | None = None,
         miterlimit: int | float | None = None,
-    ):
+    ) -> Self:
         self._mixin_obj.stroke(
             color=_normalize_color(color, gradient),
             width=normalize_str(width),
-            opacity=normalize_str(opacity),
+            opacity=normalize_str(
+                opacity_pct / 100 if opacity_pct is not None else None
+            ),
             linecap=normalize_str(linecap),
             linejoin=normalize_str(linejoin),
             miterlimit=normalize_str(miterlimit),
         )
+        return self
 
     def dasharray(
         self,
         dasharray: list[int | float] | None = None,
         offset: float | str | None = None,
-    ):
+    ) -> Self:
         self._mixin_obj.dasharray(
             dasharray=dasharray, offset=normalize_str(offset)
         )
+        return self
 
 
 class MarkersMixin(BaseWrapperMixin[svgwrite.mixins.Markers]):

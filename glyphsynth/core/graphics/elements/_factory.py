@@ -6,10 +6,9 @@ from typing import TYPE_CHECKING
 
 import svgwrite.base
 
-from ..._utils import normalize_str
 from ..properties import ShapeProperties
 from .base import BaseElement
-from .gradients import LinearGradient, RadialGradient
+from .gradients import LinearGradient, RadialGradient, StopColor
 from .shapes import Circle, Ellipse, Line, Polygon, Polyline, Rect
 
 if TYPE_CHECKING:
@@ -128,12 +127,11 @@ class ElementFactory(ABC):
         self,
         start: tuple[float, float] | None = None,
         end: tuple[float, float] | None = None,
-        inherit: str | BaseElement | None = None,
         colors: list[str] | None = None,
-        sweep_pct: tuple[float] = (0.0, 100.0),
-        opacity: float | int | None = None,
+        stop_colors: list[StopColor] | None = None,
+        inherit: str | BaseElement | None = None,
     ) -> LinearGradient:
-        elem = LinearGradient(
+        gradient = LinearGradient(
             self._glyph,
             self._glyph._svg.defs,
             start=start,
@@ -141,27 +139,19 @@ class ElementFactory(ABC):
             inherit=_normalize_inherit(inherit),
             gradientUnits="userSpaceOnUse",
         )
-
-        if colors:
-            elem._element.add_colors(
-                colors,
-                sweep=[s / 100 for s in sweep_pct],
-                opacity=normalize_str(opacity),
-            )
-
-        return elem
+        gradient._configure(colors, stop_colors)
+        return gradient
 
     def create_radial_gradient(
         self,
         center: tuple[float, float] | None = None,
         radius: float | None = None,
         focal: tuple[float, float] | None = None,
-        inherit: str | BaseElement | None = None,
         colors: list[str] | None = None,
-        sweep_pct: tuple[float] = (0.0, 100.0),
-        opacity: float | int | None = None,
+        stop_colors: list[StopColor] | None = None,
+        inherit: str | BaseElement | None = None,
     ) -> RadialGradient:
-        elem = RadialGradient(
+        gradient = RadialGradient(
             self._glyph,
             self._glyph._svg.defs,
             center=center,
@@ -170,15 +160,8 @@ class ElementFactory(ABC):
             inherit=_normalize_inherit(inherit),
             gradientUnits="userSpaceOnUse",
         )
-
-        if colors:
-            elem._element.add_colors(
-                colors,
-                sweep=[s / 100 for s in sweep_pct],
-                opacity=normalize_str(opacity),
-            )
-
-        return elem
+        gradient._configure(colors, stop_colors)
+        return gradient
 
     def _get_extra(self, properties: ShapeProperties | None) -> dict[str, str]:
         """

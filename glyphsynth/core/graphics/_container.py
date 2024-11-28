@@ -151,6 +151,18 @@ class BaseGraphicsContainer(TransformMixin):
         return self.size[1]
 
     @property
+    def center_x(self) -> float:
+        return self.width / 2
+
+    @property
+    def center_y(self) -> float:
+        return self.height / 2
+
+    @property
+    def center(self) -> tuple[float, float]:
+        return (self.center_x, self.center_y)
+
+    @property
     def _size_canon_norm(self) -> tuple[float, float] | None:
         return (
             (float(self.size_canon[0]), float(self.size_canon[1]))

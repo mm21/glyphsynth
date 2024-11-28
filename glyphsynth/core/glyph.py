@@ -11,6 +11,7 @@ from .graphics._container import BaseGraphicsContainer
 from .graphics._export import ExportContainer
 from .graphics._model import BaseFieldsModel
 from .graphics.elements._factory import ElementFactory
+from .graphics.elements._mixins import PresentationMixin, TransformMixin
 from .graphics.properties import Properties
 
 __all__ = [
@@ -56,7 +57,12 @@ class BaseParams(BaseFieldsModel):
 
 
 class BaseGlyph[ParamsT: BaseParams](
-    ElementFactory, ExportContainer, BaseGraphicsContainer, ABC
+    ElementFactory,
+    ExportContainer,
+    BaseGraphicsContainer,
+    TransformMixin,
+    PresentationMixin,
+    ABC,
 ):
     """
     Base class for a standalone or reusable glyph, sized in abstract
@@ -160,7 +166,7 @@ class BaseGlyph[ParamsT: BaseParams](
     def insert_glyph(
         self,
         glyph: BaseGlyph,
-        insert: tuple[float, float] | None = None,
+        insert: tuple[float | int, float | int] | None = None,
     ) -> Self:
         self._nested_glyphs.append(glyph)
 
