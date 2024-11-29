@@ -34,6 +34,9 @@ logging.basicConfig(
 
 
 # TODO: take size, dpi
+# TODO: take params_file: str | None
+# - if provided, use as params for BaseGlyph subclass imported by fqcn
+# - contains mappings of glyph_id to params dict
 @app.command(no_args_is_help=True)
 def export(
     fqcn: str = typer.Argument(help="FQCN of glyph(s) to export"),
