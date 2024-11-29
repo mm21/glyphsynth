@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Iterable, Self, cast
+from typing import Any, Iterable, cast
 
 import svgwrite.container
 from pydantic import ConfigDict
@@ -85,7 +85,7 @@ class BaseGlyph[ParamsT: BaseParams](
     if no type parameter provided.
     """
 
-    _nested_glyphs: list[BaseGlyph] = []
+    _nested_glyphs: list[BaseGlyph]
     """
     List of glyphs nested under this one, mostly for debugging.
     """
@@ -162,24 +162,6 @@ class BaseGlyph[ParamsT: BaseParams](
         parameterized.
         """
         return cls._params_cls
-
-    def insert_glyph(
-        self,
-        glyph: BaseGlyph,
-        insert: tuple[float | int, float | int] | None = None,
-    ) -> Self:
-        self._nested_glyphs.append(glyph)
-
-        # add group to self, using wrapper svg for placement
-        wrapper_insert: svgwrite.container.SVG = self._drawing.svg(
-            **glyph._get_elem_kwargs(suffix="wrapper-insert"),
-            insert=insert,
-        )
-
-        wrapper_insert.add(glyph._group)
-        self._svg.add(wrapper_insert)
-
-        return self
 
     def init(self):
         ...

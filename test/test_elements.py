@@ -3,7 +3,7 @@ from pathlib import Path
 from glyphsynth import EmptyGlyph, ShapeProperties
 
 from .conftest import write_glyph
-from .glyphs import HALF, ORIGIN, UNIT, BasicGlyph
+from .glyphs import HALF, ORIGIN, UNIT, BasicGlyph, BasicParams
 
 
 def test_group(output_dir: Path):
@@ -17,6 +17,12 @@ def test_group(output_dir: Path):
     )
     g2.draw_circle(
         (HALF, HALF), UNIT / 4, properties=ShapeProperties(fill="blue")
+    )
+
+    g1.insert_glyph(
+        BasicGlyph(params=BasicParams(color1="orange", color2="yellow")).rotate(
+            90
+        )
     )
 
     write_glyph(output_dir, glyph)

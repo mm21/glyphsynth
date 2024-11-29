@@ -32,7 +32,6 @@ class BasicGlyph(BaseGlyph[BasicParams]):
     )
 
     def init(self):
-        self.properties.color = self.params.color1
         self.properties.stroke = self.params.color1
 
     def draw(self):

@@ -48,13 +48,13 @@ def test_params():
     glyph3: BasicGlyph = BasicGlyph(params=params3)
 
     assert glyph1.params.color1 == "black"
-    assert glyph1.properties.color == "black"
+    assert glyph1.properties.stroke == "black"
 
     assert glyph2.params.color1 == "black"
-    assert glyph2.properties.color == "black"
+    assert glyph2.properties.stroke == "black"
 
     assert glyph3.params.color1 == "red"
-    assert glyph3.properties.color == "red"
+    assert glyph3.properties.stroke == "red"
 
 
 def test_params_default():

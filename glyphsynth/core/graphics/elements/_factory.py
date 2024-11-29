@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 
 import svgwrite.base
+import svgwrite.container
 
 from ..properties import ShapeProperties
 from .base import BaseElement
@@ -171,6 +172,24 @@ class ElementFactory(ABC):
             properties,
         )
         return props._get_values()
+
+    def insert_glyph(
+        self,
+        glyph: BaseGlyph,
+        insert: tuple[float | int, float | int] | None = None,
+    ) -> Self:
+        self._glyph._nested_glyphs.append(glyph)
+
+        # add group to self, using wrapper svg for placement
+        wrapper_insert: svgwrite.container.SVG = self._glyph._drawing.svg(
+            **glyph._get_elem_kwargs(suffix="wrapper-insert"),
+            insert=insert,
+        )
+
+        wrapper_insert.add(glyph._group)
+        self._container.add(wrapper_insert)
+
+        return self
 
 
 def _normalize_inherit(inherit: str | BaseElement | None) -> str | None:

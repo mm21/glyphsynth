@@ -62,12 +62,14 @@ class ViewBoxMixin(BaseWrapperMixin[svgwrite.mixins.ViewBox]):
 
 
 class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
-    def translate(self, x: float, y: float | None = None) -> Self:
+    def translate(self, x: float | int, y: float | int | None = None) -> Self:
         self._mixin_obj.translate(x, y)
         return self
 
     def rotate(
-        self, angle: float, center: tuple[float, float] | None = None
+        self,
+        angle: float | int,
+        center: tuple[float | int, float | int] | None = None,
     ) -> Self:
         # set center if none was provided and we have a size
         if center is None:
@@ -77,26 +79,26 @@ class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
         self._mixin_obj.rotate(angle, center=center)
         return self
 
-    def scale(self, x: float, y: float | None = None) -> Self:
+    def scale(self, x: float | int, y: float | int | None = None) -> Self:
         self._mixin_obj.scale(x, y)
         return self
 
-    def skew_x(self, angle: float) -> Self:
+    def skew_x(self, angle: float | int) -> Self:
         self._mixin_obj.skewX(angle)
         return self
 
-    def skew_y(self, angle: float) -> Self:
+    def skew_y(self, angle: float | int) -> Self:
         self._mixin_obj.skewY(angle)
         return self
 
     def matrix(
         self,
-        scale_x: float,
-        scale_y: float,
-        skew_x: float,
-        skew_y: float,
-        translate_x: float,
-        translate_y: float,
+        scale_x: float | int,
+        scale_y: float | int,
+        skew_x: float | int,
+        skew_y: float | int,
+        translate_x: float | int,
+        translate_y: float | int,
     ) -> Self:
         self._mixin_obj.matrix(
             scale_x, scale_y, skew_x, skew_y, translate_x, translate_y
