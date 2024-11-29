@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import copy
 import logging
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import xml.dom.minidom as minidom
 from pathlib import Path
-from shutil import which
-from typing import Literal
+from typing import Literal, cast
 from xml.etree import ElementTree
 
 from svgwrite.drawing import Drawing
@@ -70,13 +70,64 @@ class ExportContainer(BaseGraphicsContainer):
         # if no drawing provided, default to drawing for this glyph
         drawing_: Drawing = drawing or self._drawing
 
-        # get element as string
-        xml_str: str = ElementTree.tostring(
-            drawing_.get_xml(), encoding="utf-8", xml_declaration=True
-        ).decode("utf-8")
+        # get xml tree
+        xml = self._fixup_xml(drawing_.get_xml())
 
-        xml_tree = minidom.parseString(xml_str)
-        return xml_tree.toprettyxml(indent="  ")
+        # get as string
+        xml_bytes = cast(
+            bytes, ElementTree.tostring(xml, "utf-8", xml_declaration=True)
+        )
+        xml_str: str = xml_bytes.decode("utf-8")
+
+        # return formatted string
+        return minidom.parseString(xml_str).toprettyxml(indent="  ")
+
+    def _fixup_xml(self, xml: ElementTree.Element):
+        """
+        Traverse element tree and replace ids to ensure determinism
+        (same glyph xml is generated each time). Since svgwrite's id factory
+        is global, the ids can be changed by unrelated glyph creation.
+        """
+
+        # mapping of old ids to new ones
+        id_map: dict[str, str] = {}
+
+        # convert old to new id
+        def convert_id(id_: str) -> str:
+            if id_ not in id_map:
+                id_map[id_] = f"id{len(id_map) + 1}"
+            return id_map[id_]
+
+        # convert a value like "url(#id7)" to the remapped id, otherwise
+        # pass through existing value
+        def convert_val(val: str) -> str:
+            def replace_match(match: re.Match):
+                return f"#{convert_id(match.group(1))}"
+
+            return re.sub(r"#(id\d+)", replace_match, val)
+
+        # process <defs>
+        def process_defs(defs: ElementTree.Element):
+            for e in defs:
+                id_ = e.get("id")
+                assert id_ is not None
+                e.set("id", convert_id(id_))
+
+        def process_elem(elem: ElementTree.Element):
+            # handle any <defs>
+            if (defs := elem.find("defs")) is not None:
+                process_defs(defs)
+
+            # handle any replacements in this element
+            for attr, val in elem.attrib.items():
+                elem.set(attr, convert_val(val))
+
+            # recurse into children
+            for e in elem:
+                process_elem(e)
+
+        process_elem(xml)
+        return xml
 
     def _rasterize(
         self,
@@ -91,7 +142,7 @@ class ExportContainer(BaseGraphicsContainer):
                 "Conversion to .png only supported on Linux due to availability of rsvg-convert"
             )
 
-        if (path_rsvg_convert := which("rsvg-convert")) is None:
+        if (path_rsvg_convert := shutil.which("rsvg-convert")) is None:
             sys.exit("Could not find path to rsvg-convert")
 
         logging.debug(f"Found path to rsvg-convert: {path_rsvg_convert}")
