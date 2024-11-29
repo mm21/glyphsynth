@@ -89,13 +89,19 @@ class ExportContainer(BaseGraphicsContainer):
         is global, the ids can be changed by unrelated glyph creation.
         """
 
+        pattern = r"(id\d+)"
+
         # mapping of old ids to new ones
         id_map: dict[str, str] = {}
 
         # convert old to new id
         def convert_id(id_: str) -> str:
             if id_ not in id_map:
-                id_map[id_] = f"id{len(id_map) + 1}"
+                id_map[id_] = (
+                    f"id{len(id_map) + 1}"
+                    if re.match(f"^{pattern}$", id_)
+                    else id_
+                )
             return id_map[id_]
 
         # convert a value like "url(#id7)" to the remapped id, otherwise
@@ -104,7 +110,7 @@ class ExportContainer(BaseGraphicsContainer):
             def replace_match(match: re.Match):
                 return f"#{convert_id(match.group(1))}"
 
-            return re.sub(r"#(id\d+)", replace_match, val)
+            return re.sub(f"#{pattern}", replace_match, val)
 
         # process <defs>
         def process_defs(defs: ElementTree.Element):
