@@ -33,8 +33,14 @@ class BaseFieldsModel(BaseModel):
     ) -> dict[str, str]:
         values: dict[str, str] = {}
 
-        for field in self.model_fields_set:
-            if field_filter is None or field in field_filter:
-                values[field] = getattr(self, field)
+        for field in self.model_fields.keys():
+            # handle filter if provided
+            if field_filter is not None and field not in field_filter:
+                continue
+
+            # set value if non-None or explicitly set
+            value = getattr(self, field)
+            if value is not None or field in self.model_fields_set:
+                values[field] = value
 
         return values
