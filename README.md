@@ -454,16 +454,13 @@ import itertools
 from glyphsynth.lib.variants import BaseVariantExportFactory
 
 # Factory to create variants of AMTComboGlyph
-class VariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
+class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
 
     # Width of resulting matrix
     MATRIX_WIDTH = len(COLORS)
 
     # Top-level padding and space between glyph variants
     SPACING = UNIT / 10
-
-    # Glyph subclass from which to generate variants
-    glyph_cls = AMTComboGlyph
 
     # Generate variants of colors and letter combinations
     def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
@@ -477,4 +474,4 @@ class VariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
             )
 ```
 
-The fully-qualified class name of `VariantFactory` can be passed as an argument to `glyphsynth-export`. This will result in a folder structure containing each variant individually, as well as the variant matrix and each individual row/column.
+The fully-qualified class name of `AMTVariantFactory` can be passed as an argument to `glyphsynth-export`. This will result in a folder structure containing each variant individually, as well as the variant matrix and each individual row/column.

@@ -8,7 +8,7 @@ from glyphsynth import RASTER_SUPPORT, BaseGlyph
 from glyphsynth.lib.alphabet.minimal import UNIT
 from glyphsynth.lib.arrays import HArrayGlyph, VArrayGlyph
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 OUTPUT_PATH = Path(os.getcwd()) / "test" / "__out__"
 SPACING: float = UNIT / 10

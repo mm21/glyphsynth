@@ -46,10 +46,9 @@ class AMTComboGlyph(BaseLetterComboGlyph[AMTComboParams]):
         letter2.rotate(180)
 
 
-class VariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
+class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
     MATRIX_WIDTH = len(COLORS)
     SPACING = UNIT / 10
-    glyph_cls = AMTComboGlyph
 
     # generate variants of colors and letter combinations
     def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
@@ -87,5 +86,5 @@ def test_matrix(output_dir: Path):
 
 
 def test_variants(output_dir: Path):
-    for spec in VariantFactory():
+    for spec in AMTVariantFactory():
         write_glyph(output_dir / spec.path, spec.glyph)

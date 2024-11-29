@@ -16,6 +16,7 @@ from glyphsynth import (
     VArrayGlyph,
 )
 
+from ..core._utils import extract_type_param
 from ..core.export import ExportSpec
 
 __all__ = [
@@ -29,7 +30,7 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
     Encapsulates a BaseGlyph subclass and parameter variants.
     """
 
-    glyph_cls: type[GlyphT]
+    _glyph_cls: type[GlyphT]
     """
     BaseGlyph subclass to instantiate.
     """
@@ -69,13 +70,22 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
         """
         for params in self.get_params_variants():
             glyph_id = _derive_glyph_id(params)
-            yield self.glyph_cls(glyph_id=glyph_id, params=params)
+            yield self._glyph_cls(glyph_id=glyph_id, params=params)
 
     def get_params_variants(self) -> Generator[BaseParams, None, None]:
         """
         Override to yield parameter variants to export.
         """
-        yield self.glyph_cls.get_params_cls()()
+        yield self._glyph_cls.get_params_cls()()
+
+    def __init_subclass__(cls):
+        """
+        Populate _glyph_cls with the parameterized class.
+        """
+        glyph_cls = extract_type_param(cls, BaseGlyph)
+        assert glyph_cls is not None
+
+        cls._glyph_cls = glyph_cls
 
 
 class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
