@@ -173,6 +173,7 @@ class ElementFactory(ABC):
         )
         return props._get_values()
 
+    # TODO: if glyph has glyph_id, add to defs (if not present) and insert <use>
     def insert_glyph(
         self,
         glyph: BaseGlyph,
