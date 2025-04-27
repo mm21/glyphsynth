@@ -31,7 +31,7 @@ class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
                 self.params.rows[i - 1]
             ), f"Row lengths inconsistent: {self.params.rows}"
 
-        self.size_canon = self._get_size()
+        self.canonical_size = self._get_size()
 
     def draw(self):
         if len(self.params.rows) == 0:

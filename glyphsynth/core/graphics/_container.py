@@ -61,7 +61,7 @@ class BaseGraphicsContainer(TransformMixin):
     ```
     """
 
-    size_canon: tuple[float | int, float | int] | None = None
+    canonical_size: tuple[float | int, float | int] | None = None
     """
     Canonical size in user units, as provided by concrete class either as class
     attribute or upon creation in {obj}`BaseGlyph.init`.
@@ -163,16 +163,16 @@ class BaseGraphicsContainer(TransformMixin):
         return (self.center_x, self.center_y)
 
     @property
-    def _size_canon_norm(self) -> tuple[float, float] | None:
+    def _canonical_size_norm(self) -> tuple[float, float] | None:
         return (
-            (float(self.size_canon[0]), float(self.size_canon[1]))
-            if self.size_canon is not None
+            (float(self.canonical_size[0]), float(self.canonical_size[1]))
+            if self.canonical_size is not None
             else None
         )
 
     @property
     def _size_norm(self) -> tuple[float, float] | None:
-        return self._size or self._size_canon_norm
+        return self._size or self._canonical_size_norm
 
     @property
     def _id_norm(self) -> str:
@@ -195,7 +195,7 @@ class BaseGraphicsContainer(TransformMixin):
             SVG,
             self._drawing.svg(
                 **self._get_elem_kwargs(),
-                size=self.size_canon,
+                size=self.canonical_size,
             ),
         )
 
@@ -245,9 +245,12 @@ class BaseGraphicsContainer(TransformMixin):
                 svg["width"] = str(size[0])
                 svg["height"] = str(size[1])
 
-            if self.size_canon is not None:
+            if self.canonical_size is not None:
                 svg.viewbox(
-                    0, 0, round(self.size_canon[0]), round(self.size_canon[1])
+                    0,
+                    0,
+                    round(self.canonical_size[0]),
+                    round(self.canonical_size[1]),
                 )
                 svg.fit()
 

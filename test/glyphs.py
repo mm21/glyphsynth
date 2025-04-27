@@ -23,7 +23,7 @@ class BasicParams(BaseParams):
 
 
 class BasicGlyph(BaseGlyph[BasicParams]):
-    size_canon = (UNIT, UNIT)
+    canonical_size = (UNIT, UNIT)
 
     default_properties = Properties(
         stroke_width=BASIC_STROKE_WIDTH,
@@ -49,14 +49,14 @@ class ParentGlyph(BaseGlyph):
     child1: BasicGlyph
     child2: BasicGlyph
 
-    size_canon = BasicGlyph.size_canon
+    canonical_size = BasicGlyph.canonical_size
 
     def draw(self):
         params2: BasicParams = BasicParams(color1="red")
 
-        self.child1 = BasicGlyph(size=self.size_canon, parent=self)
+        self.child1 = BasicGlyph(size=self.canonical_size, parent=self)
         self.child2 = BasicGlyph(
-            size=self.size_canon, params=params2, parent=self
+            size=self.canonical_size, params=params2, parent=self
         )
 
         # rotate child2
@@ -68,15 +68,15 @@ class ParentGlyph(BaseGlyph):
 
 class ParentGlyph2(ParentGlyph):
     def init(self):
-        assert BasicGlyph.size_canon is not None
-        self.size_canon = (
-            BasicGlyph.size_canon[0] * 10,
-            BasicGlyph.size_canon[1] * 10,
+        assert BasicGlyph.canonical_size is not None
+        self.canonical_size = (
+            BasicGlyph.canonical_size[0] * 10,
+            BasicGlyph.canonical_size[1] * 10,
         )
 
 
 class GradientGlyph(BaseGlyph):
-    size_canon = (UNIT, UNIT)
+    canonical_size = (UNIT, UNIT)
 
     circle: Circle
 

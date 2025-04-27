@@ -126,7 +126,7 @@ class BaseGlyph[ParamsT: BaseParams](
         # invoke subclass's init (e.g. set properties based on params)
         self.init()
 
-        # invoke post-init since size_canon may be set in init()
+        # invoke post-init since canonical_size may be set in init()
         self._init_post()
 
         # invoke subclass's drawing logic

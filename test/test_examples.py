@@ -26,7 +26,7 @@ class MySquareParams(BaseParams):
 
 
 class MySquareGlyph(BaseGlyph[MySquareParams]):
-    size_canon = (100.0, 100.0)
+    canonical_size = (100.0, 100.0)
 
     def draw(self):
         # Draw a centered square using the provided color
@@ -48,7 +48,7 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
 
 
 class UnitGlyph[ParamsT: BaseParams](BaseGlyph[ParamsT]):
-    size_canon = UNIT_SIZE
+    canonical_size = UNIT_SIZE
 
 
 class MultiSquareParams(BaseParams):
@@ -185,7 +185,7 @@ def test_gradients(output_dir: Path):
         water_colors: list[str]
 
     class BackgroundGlyph(BaseGlyph[BackgroundParams]):
-        size_canon = (WIDTH, HEIGHT)
+        canonical_size = (WIDTH, HEIGHT)
 
         def draw(self):
             sky_insert, sky_size = (0.0, 0.0), (self.width, self.center_y)
@@ -217,7 +217,7 @@ def test_gradients(output_dir: Path):
         focal_scale: float
 
     class SunsetGlyph(BaseGlyph[SunsetParams]):
-        size_canon = (WIDTH, HEIGHT / 2)
+        canonical_size = (WIDTH, HEIGHT / 2)
 
         def draw(self):
             insert, size = (0.0, 0.0), (self.width, self.height)
@@ -239,7 +239,7 @@ def test_gradients(output_dir: Path):
         sunset_params: SunsetParams
 
     class SceneGlyph(BaseGlyph[SceneParams]):
-        size_canon = (WIDTH, HEIGHT)
+        canonical_size = (WIDTH, HEIGHT)
 
         def draw(self):
             # background

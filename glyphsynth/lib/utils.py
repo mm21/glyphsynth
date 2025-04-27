@@ -50,7 +50,7 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
 
     def init(self):
         self._padding = self._get_padding()
-        self.size_canon = self._get_size()
+        self.canonical_size = self._get_size()
 
     def draw(self):
         self.insert_glyph(

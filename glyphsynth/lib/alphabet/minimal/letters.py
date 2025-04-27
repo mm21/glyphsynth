@@ -36,7 +36,7 @@ class LetterParams(BaseParams):
 
 
 class BaseLetterGlyph(BaseGlyph[LetterParams]):
-    size_canon = (UNIT, UNIT)
+    canonical_size = (UNIT, UNIT)
 
     default_properties = Properties(
         fill="none",
@@ -77,7 +77,7 @@ class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
     Glyph which encapsulates a combination of overlayed letter glyphs.
     """
 
-    size_canon = (UNIT, UNIT)
+    canonical_size = (UNIT, UNIT)
 
     def draw_letter[
         LetterT: BaseLetterGlyph

@@ -58,7 +58,7 @@ class MySquareParams(BaseParams):
 class MySquareGlyph(BaseGlyph[MySquareParams]):
 
     # Canonical size for glyph construction, can be rescaled upon creation
-    size_canon = (100.0, 100.0)
+    canonical_size = (100.0, 100.0)
 
     def draw(self):
 
@@ -186,7 +186,7 @@ class MultiSquareParams(BaseParams):
 # Multi-square glyph class
 class MultiSquareGlyph(BaseGlyph[MultiSquareParams]):
 
-    size_canon = UNIT_SIZE
+    canonical_size = UNIT_SIZE
 
     def draw(self):
 
@@ -251,7 +251,7 @@ class SquareFractalParams(BaseParams):
 
 class SquareFractalGlyph(BaseGlyph[SquareFractalParams]):
 
-    size_canon = UNIT_SIZE
+    canonical_size = UNIT_SIZE
 
     def draw(self):
 
@@ -301,7 +301,7 @@ class BackgroundParams(BaseParams):
     water_colors: list[str]
 
 class BackgroundGlyph(BaseGlyph[BackgroundParams]):
-    size_canon = (WIDTH, HEIGHT)
+    canonical_size = (WIDTH, HEIGHT)
 
     def draw(self):
         sky_insert, sky_size = (0.0, 0.0), (self.width, self.center_y)
@@ -333,7 +333,7 @@ class SunsetParams(BaseParams):
     focal_scale: float
 
 class SunsetGlyph(BaseGlyph[SunsetParams]):
-    size_canon = (WIDTH, HEIGHT / 2)
+    canonical_size = (WIDTH, HEIGHT / 2)
 
     def draw(self):
         insert, size = (0.0, 0.0), (self.width, self.height)
@@ -355,7 +355,7 @@ class SceneParams(BaseParams):
     sunset_params: SunsetParams
 
 class SceneGlyph(BaseGlyph[SceneParams]):
-    size_canon = (WIDTH, HEIGHT)
+    canonical_size = (WIDTH, HEIGHT)
 
     def draw(self):
         # background
