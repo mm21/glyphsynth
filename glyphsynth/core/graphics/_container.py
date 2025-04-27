@@ -69,10 +69,6 @@ class BaseGraphicsContainer(TransformMixin):
     Used to set a consistent size for drawing, invariant of the size 
     passed upon instantiation.
 
-    May be `None`, in which case {obj}`BaseGraphicsContainer.size`, 
-    {obj}`BaseGraphicsContainer.width`, and {obj}`BaseGraphicsContainer.height`
-    will return `None`.
-
     Note that some {obj}`BaseGlyph` subclasses may require that 
     this field is not `None`.
     """
@@ -246,8 +242,6 @@ class BaseGraphicsContainer(TransformMixin):
                 svg["height"] = str(size[1])
 
             if self.canonical_size is not None:
-                # TODO: use self.viewbox_origin
-
                 svg.viewbox(
                     0,
                     0,
