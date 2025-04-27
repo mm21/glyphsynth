@@ -97,25 +97,14 @@ class BaseGlyph[ParamsT: BaseParams](
         params: ParamsT | None = None,
         properties: Properties | None = None,
         size: tuple[float | int, float | int] | None = None,
-        parent: BaseGlyph | None = None,
-        insert: tuple[float | int, float | int] | None = None,
     ):
         """
         :param parent: Parent glyph, or `None`{l=python} to create top-level glyph
         :param glyph_id: Unique identifier, or `None`{l=python} to generate one
         """
 
-        # if parent not provided, ensure insert/size_inst not provided
-        if parent is None:
-            assert insert is None
-
-        if size is not None:
-            size = (float(size[0]), float(size[1]))
-
-        if insert is not None:
-            insert = (float(insert[0]), float(insert[1]))
-
-        super().__init__(glyph_id, properties, size)
+        size_ = (float(size[0]), float(size[1])) if size else None
+        super().__init__(glyph_id, properties, size_)
 
         self._nested_glyphs = []
 
@@ -131,9 +120,6 @@ class BaseGlyph[ParamsT: BaseParams](
 
         # invoke subclass's drawing logic
         self.draw()
-
-        if parent is not None:
-            parent.insert_glyph(self, insert)
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}(glyph_id={self.glyph_id})"
