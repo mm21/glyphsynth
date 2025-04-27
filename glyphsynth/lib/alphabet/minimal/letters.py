@@ -82,12 +82,12 @@ class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
     def draw_letter[
         LetterT: BaseLetterGlyph
     ](self, letter_cls: type[LetterT]) -> LetterT:
-        return letter_cls(parent=self, params=self.params.letter_params)
+        return self.insert_glyph(letter_cls(params=self.params.letter_params))
 
     def draw_combo[
         ComboT: BaseLetterComboGlyph
     ](self, combo_cls: type[ComboT]) -> ComboT:
-        return combo_cls(parent=self, params=self.params)
+        return self.insert_glyph(combo_cls(params=self.params))
 
 
 class A(BaseLetterGlyph):

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING
 
 import svgwrite.base
 import svgwrite.container
@@ -162,23 +162,14 @@ class ElementFactory(ABC):
         gradient._configure(colors)
         return gradient
 
-    def _get_extra(self, properties: ShapeProperties | None) -> dict[str, str]:
-        """
-        Get extra kwargs to pass to svgwrite APIs.
-        """
-        # override defaults from the glyph with given properties
-        props = ShapeProperties._aggregate(
-            self._glyph.properties,
-            properties,
-        )
-        return props._get_values()
-
     # TODO: if glyph has glyph_id, add to defs (if not present) and insert <use>
-    def insert_glyph(
+    def insert_glyph[
+        GlyphT: BaseGlyph
+    ](
         self,
-        glyph: BaseGlyph,
+        glyph: GlyphT,
         insert: tuple[float | int, float | int] | None = None,
-    ) -> Self:
+    ) -> GlyphT:
         self._glyph._nested_glyphs.append(glyph)
 
         # add group to self, using wrapper svg for placement
@@ -190,7 +181,18 @@ class ElementFactory(ABC):
         wrapper_insert.add(glyph._group)
         self._container.add(wrapper_insert)
 
-        return self
+        return glyph
+
+    def _get_extra(self, properties: ShapeProperties | None) -> dict[str, str]:
+        """
+        Get extra kwargs to pass to svgwrite APIs.
+        """
+        # override defaults from the glyph with given properties
+        props = ShapeProperties._aggregate(
+            self._glyph.properties,
+            properties,
+        )
+        return props._get_values()
 
 
 def _normalize_inherit(inherit: str | BaseElement | None) -> str | None:

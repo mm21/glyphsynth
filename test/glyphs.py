@@ -54,9 +54,9 @@ class ParentGlyph(BaseGlyph):
     def draw(self):
         params2: BasicParams = BasicParams(color1="red")
 
-        self.child1 = BasicGlyph(size=self.canonical_size, parent=self)
-        self.child2 = BasicGlyph(
-            size=self.canonical_size, params=params2, parent=self
+        self.child1 = self.insert_glyph(BasicGlyph(size=self.canonical_size))
+        self.child2 = self.insert_glyph(
+            BasicGlyph(size=self.canonical_size, params=params2)
         )
 
         # rotate child2
