@@ -246,6 +246,8 @@ class BaseGraphicsContainer(TransformMixin):
                 svg["height"] = str(size[1])
 
             if self.canonical_size is not None:
+                # TODO: use self.viewbox_origin
+
                 svg.viewbox(
                     0,
                     0,
