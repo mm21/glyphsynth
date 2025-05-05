@@ -234,19 +234,21 @@ class BaseGraphicsContainer(TransformMixin):
         self,
         svg: SVG,
         size: tuple[float, float] | tuple[str, str] | None,
+        from_size: tuple[float, float] | None = None,
         set_size: bool = False,
     ):
         if size is not None:
+            from_size_norm = from_size or self.canonical_size
             if set_size:
                 svg["width"] = str(size[0])
                 svg["height"] = str(size[1])
 
-            if self.canonical_size is not None:
+            if from_size_norm is not None:
                 svg.viewbox(
                     0,
                     0,
-                    round(self.canonical_size[0]),
-                    round(self.canonical_size[1]),
+                    from_size_norm[0],
+                    from_size_norm[1],
                 )
                 svg.fit()
 

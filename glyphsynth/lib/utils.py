@@ -94,20 +94,20 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
 
 
 def extend_line(
-    point: tuple[float, float], ref: tuple[float, float], scale: float = 1.0
+    start: tuple[float, float], end: tuple[float, float], scale: float = 1.0
 ) -> tuple[float, float]:
     """
     Convenience function to return a point along a line collinear with
-    the provided point and a reference point.
+    the provided start and end.
 
     The distance between `point` and the returned point is the distance between
     `point` and `ref` scaled by the provided `scale`.
     """
 
-    offset: tuple[float, float] = (point[0] - ref[0], point[1] - ref[1])
+    offset: tuple[float, float] = (end[0] - start[0], end[1] - start[1])
     offset_scale: tuple[float, float] = (offset[0] * scale, offset[1] * scale)
 
     return (
-        point[0] + offset_scale[0],
-        point[1] + offset_scale[1],
+        end[0] + offset_scale[0],
+        end[1] + offset_scale[1],
     )

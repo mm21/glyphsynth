@@ -7,17 +7,12 @@ set of arrays.
 from pathlib import Path
 from typing import Generator
 
-from glyphsynth import (
-    BaseGlyph,
-    BaseParams,
-    HArrayGlyph,
-    MatrixGlyph,
-    PaddingGlyph,
-    VArrayGlyph,
-)
-
+from ..core import BaseGlyph, BaseParams
 from ..core._utils import extract_type_param
 from ..core.export import ExportSpec
+from .array import HArrayGlyph, VArrayGlyph
+from .matrix import MatrixGlyph
+from .utils import PaddingGlyph
 
 __all__ = [
     "BaseVariantFactory",

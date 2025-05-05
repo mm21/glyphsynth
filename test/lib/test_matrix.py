@@ -2,15 +2,17 @@ import itertools
 from pathlib import Path
 from typing import Generator
 
-from glyphsynth.lib.alphabet.minimal import (
-    UNIT,
+from glyphsynth.lib.alphabets.latin.traditional import (
     A,
+    M,
+    T,
+    TraditionalLetterParams,
+)
+from glyphsynth.lib.letter import (
+    UNIT,
     BaseLetterComboGlyph,
     BaseLetterGlyph,
     LetterComboParams,
-    LetterParams,
-    M,
-    T,
 )
 from glyphsynth.lib.matrix import MatrixGlyph
 from glyphsynth.lib.variants import BaseVariantExportFactory
@@ -56,7 +58,7 @@ class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
             LETTERS, LETTERS, COLORS
         ):
             yield AMTComboParams(
-                letter_params=LetterParams(color=color),
+                letter_params=TraditionalLetterParams(color=color),
                 letter1=letter1,
                 letter2=letter2,
             )
@@ -71,7 +73,7 @@ def test_matrix(output_dir: Path):
         for color in COLORS:
             glyph = AMTComboGlyph(
                 params=AMTComboParams(
-                    letter_params=LetterParams(color=color),
+                    letter_params=TraditionalLetterParams(color=color),
                     letter1=letter1,
                     letter2=letter2,
                 )

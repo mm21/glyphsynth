@@ -141,6 +141,29 @@ class BaseGlyph[ParamsT: BaseParams](
         """
         return self._id
 
+    @property
+    def canonical_width(self) -> float:
+        """
+        Accessor for canonical width.
+        """
+        assert self.canonical_size
+        return self.canonical_size[0]
+
+    @property
+    def canonical_height(self) -> float:
+        """
+        Accessor for canonical height.
+        """
+        assert self.canonical_size
+        return self.canonical_size[1]
+
+    @property
+    def canonical_center(self) -> tuple[float, float]:
+        """
+        Accessor for canonical center.
+        """
+        return (self.canonical_width / 2, self.canonical_height / 2)
+
     @classmethod
     def get_params_cls(cls) -> type[ParamsT]:
         """
@@ -151,6 +174,27 @@ class BaseGlyph[ParamsT: BaseParams](
 
     def init(self):
         ...
+
+    def insert_glyph[
+        GlyphT: BaseGlyph
+    ](
+        self,
+        glyph: GlyphT,
+        insert: tuple[float | int, float | int] | None = None,
+    ) -> GlyphT:
+        if insert:
+            insert_norm = insert
+        elif self.canonical_size is not None:
+            # if insert not given, default to center of this glyph
+            center = self.canonical_center
+            insert_norm = (
+                center[0] - glyph.width / 2,
+                center[1] - glyph.height / 2,
+            )
+        else:
+            insert_norm = None
+
+        return super().insert_glyph(glyph, insert=insert_norm)
 
     @abstractmethod
     def draw(self):

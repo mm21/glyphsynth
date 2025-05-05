@@ -5,8 +5,9 @@ from pathlib import Path
 from pytest import FixtureRequest, fixture
 
 from glyphsynth import RASTER_SUPPORT, BaseGlyph
-from glyphsynth.lib.alphabet.minimal import UNIT
-from glyphsynth.lib.arrays import HArrayGlyph, VArrayGlyph
+from glyphsynth.lib.array import HArrayGlyph, VArrayGlyph
+from glyphsynth.lib.letter import UNIT
+from glyphsynth.lib.utils import PaddingGlyph
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,7 +26,7 @@ def write_glyph(
     glyph.export_svg(svg_path)
 
     if RASTER_SUPPORT:
-        glyph.export_png(png_path, scale=scale)
+        glyph.export_png(png_path, scale=scale, in_place_raster=True)
 
 
 def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
@@ -35,15 +36,19 @@ def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
     """
 
     # write arrays
-    array_h = HArrayGlyph.new(glyphs, spacing=SPACING)
-    array_v = VArrayGlyph.new(glyphs, spacing=SPACING)
+    array_h = PaddingGlyph.new(
+        HArrayGlyph.new(glyphs, spacing=SPACING), padding=SPACING
+    )
+    array_v = PaddingGlyph.new(
+        VArrayGlyph.new(glyphs, spacing=SPACING), padding=SPACING
+    )
 
     array_h.export_svg(output_dir / "_array-h.svg")
     array_v.export_svg(output_dir / "_array-v.svg")
 
     if RASTER_SUPPORT:
-        array_h.export_png(output_dir / "_array-h.png")
-        array_v.export_png(output_dir / "_array-v.png")
+        array_h.export_png(output_dir / "_array-h.png", scale=5)
+        array_v.export_png(output_dir / "_array-v.png", scale=5)
 
     # write individual glyphs
     for glyph in glyphs:

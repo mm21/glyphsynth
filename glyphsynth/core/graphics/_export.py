@@ -207,7 +207,9 @@ class ExportContainer(BaseGraphicsContainer):
         # - required even if size provided to rsvg-convert
         drawing_tmp: Drawing = copy.copy(self._drawing)
 
-        self._rescale_svg(drawing_tmp, size_raster, set_size=True)
+        self._rescale_svg(
+            drawing_tmp, size_raster, self._size_norm, set_size=True
+        )
 
         svg_str = self._get_svg(drawing_tmp)
 
