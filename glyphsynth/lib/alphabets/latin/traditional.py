@@ -52,27 +52,27 @@ class A(BaseTraditionalLetterGlyph):
         )
 
 
-class B(BaseLetterGlyph):
+class B(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class C(BaseLetterGlyph):
+class C(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class D(BaseLetterGlyph):
+class D(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class E(BaseLetterGlyph):
+class E(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class F(BaseLetterGlyph):
+class F(BaseTraditionalLetterGlyph):
     def draw(self):
         # vertical line
         self.draw_polyline(
@@ -91,17 +91,17 @@ class F(BaseLetterGlyph):
         )
 
 
-class G(BaseLetterGlyph):
+class G(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class H(BaseLetterGlyph):
+class H(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class I(BaseLetterGlyph):
+class I(BaseTraditionalLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -111,22 +111,22 @@ class I(BaseLetterGlyph):
         )
 
 
-class J(BaseLetterGlyph):
+class J(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class K(BaseLetterGlyph):
+class K(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class L(BaseLetterGlyph):
+class L(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class M(BaseLetterGlyph):
+class M(BaseTraditionalLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -142,37 +142,37 @@ class M(BaseLetterGlyph):
         )
 
 
-class N(BaseLetterGlyph):
+class N(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class O(BaseLetterGlyph):
+class O(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class P(BaseLetterGlyph):
+class P(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class Q(BaseLetterGlyph):
+class Q(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class R(BaseLetterGlyph):
+class R(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class S(BaseLetterGlyph):
+class S(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class T(BaseLetterGlyph):
+class T(BaseTraditionalLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -189,32 +189,32 @@ class T(BaseLetterGlyph):
         )
 
 
-class U(BaseLetterGlyph):
+class U(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class V(BaseLetterGlyph):
+class V(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class W(BaseLetterGlyph):
+class W(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class X(BaseLetterGlyph):
+class X(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class Y(BaseLetterGlyph):
+class Y(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 
 
-class Z(BaseLetterGlyph):
+class Z(BaseTraditionalLetterGlyph):
     def draw(self):
         ...
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from functools import cached_property
 from typing import Any, Iterable, cast
 
 import svgwrite.container
@@ -141,7 +142,7 @@ class BaseGlyph[ParamsT: BaseParams](
         """
         return self._id
 
-    @property
+    @cached_property
     def canonical_width(self) -> float:
         """
         Accessor for canonical width.
@@ -149,7 +150,7 @@ class BaseGlyph[ParamsT: BaseParams](
         assert self.canonical_size
         return self.canonical_size[0]
 
-    @property
+    @cached_property
     def canonical_height(self) -> float:
         """
         Accessor for canonical height.
@@ -157,7 +158,7 @@ class BaseGlyph[ParamsT: BaseParams](
         assert self.canonical_size
         return self.canonical_size[1]
 
-    @property
+    @cached_property
     def canonical_center(self) -> tuple[float, float]:
         """
         Accessor for canonical center.

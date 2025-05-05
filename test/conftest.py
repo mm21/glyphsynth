@@ -26,7 +26,7 @@ def write_glyph(
     glyph.export_svg(svg_path)
 
     if RASTER_SUPPORT:
-        glyph.export_png(png_path, scale=scale, in_place_raster=True)
+        glyph.export_png(png_path, scale=scale)
 
 
 def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
