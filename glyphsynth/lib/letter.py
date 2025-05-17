@@ -49,42 +49,6 @@ class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseGlyph[ParamsT]):
         return self.stroke_width / 2
 
     @cached_property
-    def left_top(self) -> tuple[float, float]:
-        return (0.0, 0.0)
-
-    @cached_property
-    def left_center(self) -> tuple[float, float]:
-        return (0.0, self.canonical_height / 2)
-
-    @cached_property
-    def left_bot(self) -> tuple[float, float]:
-        return (0.0, self.canonical_height)
-
-    @cached_property
-    def center_top(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, 0.0)
-
-    @cached_property
-    def center(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, self.canonical_height / 2)
-
-    @cached_property
-    def center_bot(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, self.canonical_height)
-
-    @cached_property
-    def right_top(self) -> tuple[float, float]:
-        return (self.canonical_width, 0.0)
-
-    @cached_property
-    def right_center(self) -> tuple[float, float]:
-        return (self.canonical_width, self.canonical_height / 2)
-
-    @cached_property
-    def right_bot(self) -> tuple[float, float]:
-        return (self.canonical_width, self.canonical_height)
-
-    @cached_property
     def inset_width(self) -> float:
         """
         Width of inset drawing area.

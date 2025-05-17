@@ -119,7 +119,7 @@ class G(BaseRunicLetterGlyph):
                 self.inset_center_bot,
                 (self.inset_right, self.inset_quarter_height(3)),
                 self.inset_right_center,
-                self.center,
+                self.canonical_center,
             ]
         )
 
