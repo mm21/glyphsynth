@@ -33,7 +33,7 @@ class BaseFieldsModel(BaseModel):
     ) -> dict[str, str]:
         values: dict[str, str] = {}
 
-        for field in self.model_fields.keys():
+        for field in type(self).model_fields.keys():
             # handle filter if provided
             if field_filter is not None and field not in field_filter:
                 continue
