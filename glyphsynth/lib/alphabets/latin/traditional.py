@@ -30,12 +30,12 @@ class A(BaseTraditionalLetterGlyph):
         self.draw_polyline(
             [
                 extend_line(
-                    self.inset_top_center,
+                    self.inset_center_top,
                     (self.stroke_half, self.canonical_height),
                 ),
-                self.inset_top_center,
+                self.inset_center_top,
                 extend_line(
-                    self.inset_top_center,
+                    self.inset_center_top,
                     (
                         self.canonical_width - self.stroke_half,
                         self.canonical_height,

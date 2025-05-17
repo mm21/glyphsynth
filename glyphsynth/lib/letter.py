@@ -49,35 +49,39 @@ class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseGlyph[ParamsT]):
         return self.stroke_width / 2
 
     @cached_property
-    def top_left(self) -> tuple[float, float]:
+    def left_top(self) -> tuple[float, float]:
         return (0.0, 0.0)
-
-    @cached_property
-    def top_center(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, 0.0)
-
-    @cached_property
-    def top_right(self) -> tuple[float, float]:
-        return (self.canonical_width, 0.0)
 
     @cached_property
     def left_center(self) -> tuple[float, float]:
         return (0.0, self.canonical_height / 2)
 
     @cached_property
+    def left_bot(self) -> tuple[float, float]:
+        return (0.0, self.canonical_height)
+
+    @cached_property
+    def center_top(self) -> tuple[float, float]:
+        return (self.canonical_width / 2, 0.0)
+
+    @cached_property
+    def center(self) -> tuple[float, float]:
+        return (self.canonical_width / 2, self.canonical_height / 2)
+
+    @cached_property
+    def center_bot(self) -> tuple[float, float]:
+        return (self.canonical_width / 2, self.canonical_height)
+
+    @cached_property
+    def right_top(self) -> tuple[float, float]:
+        return (self.canonical_width, 0.0)
+
+    @cached_property
     def right_center(self) -> tuple[float, float]:
         return (self.canonical_width, self.canonical_height / 2)
 
     @cached_property
-    def bot_left(self) -> tuple[float, float]:
-        return (0.0, self.canonical_height)
-
-    @cached_property
-    def bot_center(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, self.canonical_height)
-
-    @cached_property
-    def bot_right(self) -> tuple[float, float]:
+    def right_bot(self) -> tuple[float, float]:
         return (self.canonical_width, self.canonical_height)
 
     @cached_property
@@ -101,48 +105,48 @@ class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseGlyph[ParamsT]):
         return self.stroke_half
 
     @cached_property
-    def inset_left(self) -> float:
-        return self.stroke_half
-
-    @cached_property
     def inset_bot(self) -> float:
         return self.canonical_height - self.stroke_half
 
     @cached_property
-    def inset_right(self) -> float:
-        return self.canonical_width - self.stroke_half
+    def inset_left(self) -> float:
+        return self.stroke_half
 
     @cached_property
-    def inset_top_left(self) -> tuple[float, float]:
+    def inset_left_top(self) -> tuple[float, float]:
         return (self.inset_left, self.inset_top)
-
-    @cached_property
-    def inset_top_center(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, self.inset_top)
-
-    @cached_property
-    def inset_top_right(self) -> tuple[float, float]:
-        return (self.inset_right, self.inset_top)
 
     @cached_property
     def inset_left_center(self) -> tuple[float, float]:
         return (self.inset_left, self.canonical_height / 2)
 
     @cached_property
+    def inset_left_bot(self) -> tuple[float, float]:
+        return (self.inset_left, self.inset_bot)
+
+    @cached_property
+    def inset_right(self) -> float:
+        return self.canonical_width - self.stroke_half
+
+    @cached_property
+    def inset_right_top(self) -> tuple[float, float]:
+        return (self.inset_right, self.inset_top)
+
+    @cached_property
     def inset_right_center(self) -> tuple[float, float]:
         return (self.inset_right, self.canonical_height / 2)
 
     @cached_property
-    def inset_bot_left(self) -> tuple[float, float]:
-        return (self.inset_left, self.inset_bot)
-
-    @cached_property
-    def inset_bot_center(self) -> tuple[float, float]:
-        return (self.canonical_width / 2, self.inset_bot)
-
-    @cached_property
-    def inset_bot_right(self) -> tuple[float, float]:
+    def inset_right_bot(self) -> tuple[float, float]:
         return (self.inset_right, self.inset_bot)
+
+    @cached_property
+    def inset_center_top(self) -> tuple[float, float]:
+        return (self.canonical_width / 2, self.inset_top)
+
+    @cached_property
+    def inset_center_bot(self) -> tuple[float, float]:
+        return (self.canonical_width / 2, self.inset_bot)
 
     def inset_quarter_width(self, ordinal: int) -> float:
         return self.inset_left + self.inset_width * (ordinal / 4)

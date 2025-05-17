@@ -24,9 +24,9 @@ class A(BaseRunicLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                self.inset_bot_left,
-                self.inset_top_center,
-                self.inset_bot_right,
+                self.inset_left_bot,
+                self.inset_center_top,
+                self.inset_right_bot,
             ]
         )
         self.draw_polyline(
@@ -39,14 +39,14 @@ class A(BaseRunicLetterGlyph):
 
 class B(BaseRunicLetterGlyph):
     def draw(self):
-        self.draw_polyline([self.inset_top_left, self.inset_bot_left])
+        self.draw_polyline([self.inset_left_top, self.inset_left_bot])
         self.draw_polyline(
             [
-                self.inset_top_left,
+                self.inset_left_top,
                 (self.inset_right, self.inset_quarter_height(1)),
                 self.inset_left_center,
                 (self.inset_right, self.inset_quarter_height(3)),
-                self.inset_bot_left,
+                self.inset_left_bot,
             ]
         )
 
@@ -55,9 +55,9 @@ class C(BaseRunicLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                self.inset_top_right,
+                self.inset_right_top,
                 self.inset_left_center,
-                self.inset_bot_right,
+                self.inset_right_bot,
             ]
         )
 
@@ -111,11 +111,11 @@ class M(BaseRunicLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                self.inset_bot_left,
-                self.inset_top_left,
-                self.inset_bot_center,
-                self.inset_top_right,
-                self.inset_bot_right,
+                self.inset_left_bot,
+                self.inset_left_top,
+                self.inset_center_bot,
+                self.inset_right_top,
+                self.inset_right_bot,
             ]
         )
 
@@ -154,14 +154,14 @@ class T(BaseRunicLetterGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                self.inset_top_center,
-                self.inset_bot_center,
+                self.inset_center_top,
+                self.inset_center_bot,
             ]
         )
         self.draw_polyline(
             [
-                self.inset_top_left,
-                self.inset_top_right,
+                self.inset_left_top,
+                self.inset_right_top,
             ]
         )
 
