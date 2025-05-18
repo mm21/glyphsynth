@@ -17,15 +17,15 @@ from .graphics.properties import Properties
 
 __all__ = [
     "BaseParams",
-    "BaseGlyph",
+    "BaseDrawing",
     "EmptyParams",
-    "EmptyGlyph",
+    "Drawing",
 ]
 
 
 class BaseParams(BaseFieldsModel):
     """
-    Subclass this class to create parameters for a Glyph.
+    Subclass this class to create parameters for a Drawing.
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -57,7 +57,7 @@ class BaseParams(BaseFieldsModel):
         return "__".join(params)
 
 
-class BaseGlyph[ParamsT: BaseParams](
+class BaseDrawing[ParamsT: BaseParams](
     ElementFactory,
     ExportContainer,
     BaseGraphicsContainer,
@@ -66,7 +66,7 @@ class BaseGlyph[ParamsT: BaseParams](
     ABC,
 ):
     """
-    Base class for a standalone or reusable glyph, sized in abstract
+    Base class for a standalone or reusable drawing, sized in abstract
     (user) units.
     """
 
@@ -77,7 +77,7 @@ class BaseGlyph[ParamsT: BaseParams](
 
     default_params: ParamsT | None = None
     """
-    Params to use as defaults for this glyph
+    Params to use as defaults for this drawing
     """
 
     _params_cls: type[ParamsT]
@@ -86,7 +86,7 @@ class BaseGlyph[ParamsT: BaseParams](
     if no type parameter provided.
     """
 
-    _nested_glyphs: list[BaseGlyph]
+    _nested_glyphs: list[BaseDrawing]
     """
     List of glyphs nested under this one, mostly for debugging.
     """
@@ -94,18 +94,18 @@ class BaseGlyph[ParamsT: BaseParams](
     def __init__(
         self,
         *,
-        glyph_id: str | None = None,
+        drawing_id: str | None = None,
         params: ParamsT | None = None,
         properties: Properties | None = None,
         size: tuple[float | int, float | int] | None = None,
     ):
         """
-        :param parent: Parent glyph, or `None`{l=python} to create top-level glyph
-        :param glyph_id: Unique identifier, or `None`{l=python} to generate one
+        :param parent: Parent drawing, or `None`{l=python} to create top-level drawing
+        :param drawing_id: Unique identifier, or `None`{l=python} to generate one
         """
 
         size_ = (float(size[0]), float(size[1])) if size else None
-        super().__init__(glyph_id, properties, size_)
+        super().__init__(drawing_id, properties, size_)
 
         self._nested_glyphs = []
 
@@ -123,20 +123,20 @@ class BaseGlyph[ParamsT: BaseParams](
         self.draw()
 
     def __repr__(self) -> str:
-        return f"{type(self).__name__}(glyph_id={self.glyph_id})"
+        return f"{type(self).__name__}(drawing_id={self.drawing_id})"
 
     def __init_subclass__(cls):
         """
         Populate _params_cls with the class representing the parameters for
-        this glyph. If not subscripted with a type arg by the subclass,
+        this drawing. If not subscripted with a type arg by the subclass,
         _params_cls is set to EmptyParams.
         """
         cls._params_cls = extract_type_param(cls, BaseParams) or EmptyParams
 
     @property
-    def glyph_id(self) -> str | None:
+    def drawing_id(self) -> str | None:
         """
-        A meaningful identifier to associate with this glyph. Also used as
+        A meaningful identifier to associate with this drawing. Also used as
         base name (without extension) of file to export when no filename is
         provided.
         """
@@ -176,33 +176,33 @@ class BaseGlyph[ParamsT: BaseParams](
     def init(self):
         ...
 
-    def insert_glyph[
-        GlyphT: BaseGlyph
+    def insert_drawing[
+        DrawingT: BaseDrawing
     ](
         self,
-        glyph: GlyphT,
+        drawing: DrawingT,
         insert: tuple[float | int, float | int] | None = None,
-    ) -> GlyphT:
+    ) -> DrawingT:
         if insert:
             insert_norm = insert
         elif self.canonical_size is not None:
-            # if insert not given, default to center of this glyph
+            # if insert not given, default to center of this drawing
             center = self.canonical_center
             insert_norm = (
-                center[0] - glyph.width / 2,
-                center[1] - glyph.height / 2,
+                center[0] - drawing.width / 2,
+                center[1] - drawing.height / 2,
             )
         else:
             insert_norm = None
 
-        return super().insert_glyph(glyph, insert=insert_norm)
+        return super().insert_drawing(drawing, insert=insert_norm)
 
     @abstractmethod
     def draw(self):
         ...
 
     @property
-    def _glyph(self) -> BaseGlyph:
+    def _glyph(self) -> BaseDrawing:
         return self
 
     @property
@@ -214,27 +214,27 @@ class EmptyParams(BaseParams):
     pass
 
 
-class EmptyGlyph(BaseGlyph[EmptyParams]):
+class Drawing(BaseDrawing[EmptyParams]):
     """
-    Glyph to use as an on-the-fly alternative to subclassing
-    {obj}`BaseGlyph`. It has an empty {obj}`BaseGlyph.draw`
+    Empty drawing to use as an on-the-fly alternative to subclassing
+    {obj}`BaseDrawing`. It has an empty {obj}`BaseDrawing.draw`
     implementation; the user can then add graphics objects
     and other glyphs after creation.
 
     Example:
 
     ```python
-    glyph1 = MyGlyph1()
-    glyph2 = MyGlyph2()
+    glyph1 = MyDrawing1()
+    glyph2 = MyDrawing2()
 
-    # create an empty glyph with unspecified size
-    glyph = EmptyGlyph()
+    # create an empty drawing with unspecified size
+    drawing = Drawing()
 
-    # insert a glyph
-    glyph.insert_glyph(glyph1)
+    # insert a drawing
+    drawing.insert_drawing(glyph1)
 
-    # insert another glyph in a different position
-    glyph.insert_glyph(glyph2, (100, 100))
+    # insert another drawing in a different position
+    drawing.insert_drawing(glyph2, (100, 100))
     ```
     """
 

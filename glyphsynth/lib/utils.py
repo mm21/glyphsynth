@@ -1,11 +1,11 @@
 from typing import Literal
 
-from ..core import BaseGlyph, BaseParams
+from ..core import BaseDrawing, BaseParams
 
 __all__ = [
     "PaddingType",
     "PaddingParams",
-    "PaddingGlyph",
+    "PaddingDrawing",
     "extend_line",
 ]
 
@@ -17,44 +17,46 @@ SIDES: list[SideType] = ["top", "bottom", "left", "right"]
 
 
 class PaddingParams(BaseParams):
-    glyph: BaseGlyph
+    drawing: BaseDrawing
     padding: float | PaddingType = 0.0
 
 
-class PaddingGlyph(BaseGlyph[PaddingParams]):
+class PaddingDrawing(BaseDrawing[PaddingParams]):
     _padding: PaddingType
 
     @classmethod
     def new(
         cls,
-        glyph: BaseGlyph,
-        glyph_id: str | None = None,
+        drawing: BaseDrawing,
+        drawing_id: str | None = None,
         padding: float | PaddingType | None = None,
     ):
         padding_: float | PaddingType
 
         # default padding is 10% of the minimum of width/height
         padding_ = (
-            min(glyph.width, glyph.height) / 10 if padding is None else padding
+            min(drawing.width, drawing.height) / 10
+            if padding is None
+            else padding
         )
 
         # create params
-        params = cls.get_params_cls()(glyph=glyph, padding=padding_)
+        params = cls.get_params_cls()(drawing=drawing, padding=padding_)
 
-        # get glyph id
-        glyph_id_ = glyph_id or (
-            f"{glyph.glyph_id}-pad" if glyph.glyph_id else None
+        # get drawing id
+        glyph_id_ = drawing_id or (
+            f"{drawing.drawing_id}-pad" if drawing.drawing_id else None
         )
 
-        return cls(glyph_id=glyph_id_, params=params)
+        return cls(drawing_id=glyph_id_, params=params)
 
     def init(self):
         self._padding = self._get_padding()
         self.canonical_size = self._get_size()
 
     def draw(self):
-        self.insert_glyph(
-            self.params.glyph, (self._padding["left"], self._padding["top"])
+        self.insert_drawing(
+            self.params.drawing, (self._padding["left"], self._padding["top"])
         )
 
     def _get_padding(self) -> PaddingType:
@@ -76,12 +78,12 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
 
     def _get_size(self) -> tuple[float, float]:
         width = float(
-            self.params.glyph.size[0]
+            self.params.drawing.size[0]
             + self._padding["left"]
             + self._padding["right"]
         )
         height = float(
-            self.params.glyph.size[1]
+            self.params.drawing.size[1]
             + self._padding["top"]
             + self._padding["bottom"]
         )
@@ -89,7 +91,7 @@ class PaddingGlyph(BaseGlyph[PaddingParams]):
         return (width, height)
 
 
-# TODO: caption glyph
+# TODO: caption drawing
 # - optional custom caption; default based on class name and params
 
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from glyphsynth import BaseGlyph, BaseParams, Properties, ShapeProperties
+from glyphsynth import BaseDrawing, BaseParams, Properties, ShapeProperties
 from glyphsynth.core.graphics.elements.shapes import Circle
 
-__all__ = ["BasicGlyph", "ParentGlyph", "ParentGlyph2"]
+__all__ = ["BasicDrawing", "ParentDrawing", "ParentDrawing2"]
 
 ZERO = 0.0
 ORIGIN = (ZERO, ZERO)
@@ -22,7 +22,7 @@ class BasicParams(BaseParams):
     color2: str = "blue"
 
 
-class BasicGlyph(BaseGlyph[BasicParams]):
+class BasicDrawing(BaseDrawing[BasicParams]):
     canonical_size = (UNIT, UNIT)
 
     default_properties = Properties(
@@ -45,18 +45,20 @@ class BasicGlyph(BaseGlyph[BasicParams]):
         )
 
 
-class ParentGlyph(BaseGlyph):
-    child1: BasicGlyph
-    child2: BasicGlyph
+class ParentDrawing(BaseDrawing):
+    child1: BasicDrawing
+    child2: BasicDrawing
 
-    canonical_size = BasicGlyph.canonical_size
+    canonical_size = BasicDrawing.canonical_size
 
     def draw(self):
         params2: BasicParams = BasicParams(color1="red")
 
-        self.child1 = self.insert_glyph(BasicGlyph(size=self.canonical_size))
-        self.child2 = self.insert_glyph(
-            BasicGlyph(size=self.canonical_size, params=params2)
+        self.child1 = self.insert_drawing(
+            BasicDrawing(size=self.canonical_size)
+        )
+        self.child2 = self.insert_drawing(
+            BasicDrawing(size=self.canonical_size, params=params2)
         )
 
         # rotate child2
@@ -66,16 +68,16 @@ class ParentGlyph(BaseGlyph):
         assert self.child2.params.color2 == "blue"
 
 
-class ParentGlyph2(ParentGlyph):
+class ParentDrawing2(ParentDrawing):
     def init(self):
-        assert BasicGlyph.canonical_size is not None
+        assert BasicDrawing.canonical_size is not None
         self.canonical_size = (
-            BasicGlyph.canonical_size[0] * 10,
-            BasicGlyph.canonical_size[1] * 10,
+            BasicDrawing.canonical_size[0] * 10,
+            BasicDrawing.canonical_size[1] * 10,
         )
 
 
-class GradientGlyph(BaseGlyph):
+class GradientDrawing(BaseDrawing):
     canonical_size = (UNIT, UNIT)
 
     circle: Circle

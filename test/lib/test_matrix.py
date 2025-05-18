@@ -9,10 +9,10 @@ from glyphsynth.lib.letter import (
     BaseLetterGlyph,
     LetterComboParams,
 )
-from glyphsynth.lib.matrix import MatrixGlyph
+from glyphsynth.lib.matrix import MatrixDrawing
 from glyphsynth.lib.variants import BaseVariantExportFactory
 
-from ..conftest import write_glyph
+from ..conftest import write_drawing
 
 LETTERS = [
     A,
@@ -66,22 +66,25 @@ def test_matrix(output_dir: Path):
         row = []
 
         for color in COLORS:
-            glyph = AMTComboGlyph(
+            drawing = AMTComboGlyph(
                 params=AMTComboParams(
                     letter_params=RunicLetterParams(color=color),
                     letter1=letter1,
                     letter2=letter2,
                 )
             )
-            row.append(glyph)
+            row.append(drawing)
         rows.append(row)
 
-    matrix = MatrixGlyph.new(
-        rows, glyph_id="amt-combo-matrix", spacing=UNIT / 10, padding=UNIT / 10
+    matrix = MatrixDrawing.new(
+        rows,
+        drawing_id="amt-combo-matrix",
+        spacing=UNIT / 10,
+        padding=UNIT / 10,
     )
-    write_glyph(output_dir, matrix)
+    write_drawing(output_dir, matrix)
 
 
 def test_variants(output_dir: Path):
     for spec in AMTVariantFactory():
-        write_glyph(output_dir / spec.path, spec.glyph)
+        write_drawing(output_dir / spec.path, spec.drawing)

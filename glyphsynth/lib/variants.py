@@ -7,12 +7,12 @@ set of arrays.
 from pathlib import Path
 from typing import Generator
 
-from ..core import BaseGlyph, BaseParams
+from ..core import BaseDrawing, BaseParams
 from ..core._utils import extract_type_param
 from ..core.export import ExportSpec
-from .array import HArrayGlyph, VArrayGlyph
-from .matrix import MatrixGlyph
-from .utils import PaddingGlyph
+from .array import HArrayDrawing, VArrayDrawing
+from .matrix import MatrixDrawing
+from .utils import PaddingDrawing
 
 __all__ = [
     "BaseVariantFactory",
@@ -20,31 +20,31 @@ __all__ = [
 ]
 
 
-class BaseVariantFactory[GlyphT: BaseGlyph]:
+class BaseVariantFactory[DrawingT: BaseDrawing]:
     """
-    Encapsulates a BaseGlyph subclass and parameter variants.
+    Encapsulates a BaseDrawing subclass and parameter variants.
     """
 
-    _glyph_cls: type[GlyphT]
+    _glyph_cls: type[DrawingT]
     """
-    BaseGlyph subclass to instantiate.
+    BaseDrawing subclass to instantiate.
     """
 
     def create_matrix_glyph(
         self,
-        glyph_id: str | None = None,
+        drawing_id: str | None = None,
         width: int = 1,
         spacing: float = 0.0,
         padding: float = 0.0,
-    ) -> MatrixGlyph:
+    ) -> MatrixDrawing:
         """
-        Creates a matrix glyph of the provided width by iterating over all
+        Creates a matrix drawing of the provided width by iterating over all
         variants.
         """
-        rows: list[list[GlyphT]] = []
+        rows: list[list[DrawingT]] = []
 
         # get list of all glyphs
-        all_glyphs: list[GlyphT] = list(self.get_variants())
+        all_glyphs: list[DrawingT] = list(self.get_variants())
 
         col_count = width
         row_count = len(all_glyphs) // col_count
@@ -54,18 +54,18 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
                 all_glyphs[row_idx * col_count : (row_idx + 1) * col_count]
             )
 
-        # create matrix glyph
-        return MatrixGlyph.new(
-            rows, glyph_id=glyph_id, spacing=spacing, padding=padding
+        # create matrix drawing
+        return MatrixDrawing.new(
+            rows, drawing_id=drawing_id, spacing=spacing, padding=padding
         )
 
-    def get_variants(self) -> Generator[GlyphT, None, None]:
+    def get_variants(self) -> Generator[DrawingT, None, None]:
         """
         Yield all variants.
         """
         for params in self.get_params_variants():
-            glyph_id = _derive_glyph_id(params)
-            yield self._glyph_cls(glyph_id=glyph_id, params=params)
+            drawing_id = _derive_glyph_id(params)
+            yield self._glyph_cls(drawing_id=drawing_id, params=params)
 
     def get_params_variants(self) -> Generator[BaseParams, None, None]:
         """
@@ -77,20 +77,22 @@ class BaseVariantFactory[GlyphT: BaseGlyph]:
         """
         Populate _glyph_cls with the parameterized class.
         """
-        glyph_cls = extract_type_param(cls, BaseGlyph)
+        glyph_cls = extract_type_param(cls, BaseDrawing)
         assert glyph_cls is not None
 
         cls._glyph_cls = glyph_cls
 
 
-class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
+class BaseVariantExportFactory[DrawingT: BaseDrawing](
+    BaseVariantFactory[DrawingT]
+):
     """
     Encapsulates a variant factory which creates and exports arrays of
-    glyphs with combinations of glyph parameters and properties.
+    glyphs with combinations of drawing parameters and properties.
 
-    Exports a hierarchy of glyph variants:
+    Exports a hierarchy of drawing variants:
 
-    - all/[glyph_id].[svg/png]
+    - all/[drawing_id].[svg/png]
     - matrix/
         - All glyphs combined in matrix
     - harrays/
@@ -101,11 +103,11 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
 
     MATRIX_WIDTH: int = 1
     """
-    Width of the resulting matrix glyph. If kept as the default of 1, creates a
+    Width of the resulting matrix drawing. If kept as the default of 1, creates a
     vertical array.
 
     If set, should equal the number of elements in outermost dimension 
-    of the glyph iterable output.
+    of the drawing iterable output.
 
     If a dynamic value is required, override the property `matrix_width`.
     """
@@ -121,12 +123,12 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         concrete VariantFactory.
         """
 
-        def wrap_padding(glyph: BaseGlyph):
-            return PaddingGlyph.new(glyph, padding=self.SPACING)
+        def wrap_padding(drawing: BaseDrawing):
+            return PaddingDrawing.new(drawing, padding=self.SPACING)
 
         # lists of arrays
-        harray_glyphs: list[HArrayGlyph] = []
-        varray_glyphs: list[VArrayGlyph] = []
+        harray_glyphs: list[HArrayDrawing] = []
+        varray_glyphs: list[VArrayDrawing] = []
 
         # relative paths for exporting
         variants_path = Path("variants")
@@ -136,7 +138,7 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         matrix_path = variants_path / "matrix"
 
         matrix_glyph = self.create_matrix_glyph(
-            glyph_id="matrix",
+            drawing_id="matrix",
             width=self.matrix_width,
             spacing=self.SPACING,
             padding=self.SPACING,
@@ -145,9 +147,9 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
         # create array glyphs
         for i, row in enumerate(matrix_glyph.rows):
             harray_glyphs.append(
-                HArrayGlyph.new(
+                HArrayDrawing.new(
                     row,
-                    glyph_id=f"row_{i}",
+                    drawing_id=f"row_{i}",
                     spacing=self.SPACING,
                     padding=self.SPACING,
                 )
@@ -155,9 +157,9 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
 
         for i, col in enumerate(matrix_glyph.cols):
             varray_glyphs.append(
-                VArrayGlyph.new(
+                VArrayDrawing.new(
                     col,
-                    glyph_id=f"col_{i}",
+                    drawing_id=f"col_{i}",
                     spacing=self.SPACING,
                     padding=self.SPACING,
                 )
@@ -186,7 +188,7 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
                 module=type(self).__module__,
             )
 
-        # export matrix glyph
+        # export matrix drawing
         yield ExportSpec(
             matrix_glyph,
             matrix_path,
@@ -204,6 +206,6 @@ class BaseVariantExportFactory[GlyphT: BaseGlyph](BaseVariantFactory[GlyphT]):
 
 def _derive_glyph_id(params: BaseParams) -> str:
     """
-    Derive a glyph_id from params.
+    Derive a drawing_id from params.
     """
     return params.desc

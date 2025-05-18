@@ -13,7 +13,7 @@ from .gradients import LinearGradient, RadialGradient, StopColor
 from .shapes import Circle, Ellipse, Line, Polygon, Polyline, Rect
 
 if TYPE_CHECKING:
-    from .base import BaseGlyph
+    from ...drawing import BaseDrawing
     from .containers import Group
 
 __all__ = [
@@ -24,7 +24,7 @@ __all__ = [
 class ElementFactory(ABC):
     @property
     @abstractmethod
-    def _glyph(self) -> BaseGlyph:
+    def _glyph(self) -> BaseDrawing:
         ...
 
     @property
@@ -119,7 +119,7 @@ class ElementFactory(ABC):
     def create_group(self, properties: ShapeProperties | None = None) -> Group:
         from .containers import Group
 
-        # only use passed properties instead of inheriting from glyph
+        # only use passed properties instead of inheriting from drawing
         extra = properties._get_values() if properties else {}
 
         return Group(self._glyph, self._container, **extra)
@@ -162,32 +162,32 @@ class ElementFactory(ABC):
         gradient._configure(colors)
         return gradient
 
-    # TODO: if glyph has glyph_id, add to defs (if not present) and insert <use>
-    def insert_glyph[
-        GlyphT: BaseGlyph
+    # TODO: if drawing has drawing_id, add to defs (if not present) and insert <use>
+    def insert_drawing[
+        DrawingT: BaseDrawing
     ](
         self,
-        glyph: GlyphT,
+        drawing: DrawingT,
         insert: tuple[float | int, float | int] | None = None,
-    ) -> GlyphT:
-        self._glyph._nested_glyphs.append(glyph)
+    ) -> DrawingT:
+        self._glyph._nested_glyphs.append(drawing)
 
         # add group to self, using wrapper svg for placement
         wrapper_insert: svgwrite.container.SVG = self._glyph._drawing.svg(
-            **glyph._get_elem_kwargs(suffix="wrapper-insert"),
+            **drawing._get_elem_kwargs(suffix="wrapper-insert"),
             insert=insert,
         )
 
-        wrapper_insert.add(glyph._group)
+        wrapper_insert.add(drawing._group)
         self._container.add(wrapper_insert)
 
-        return glyph
+        return drawing
 
     def _get_extra(self, properties: ShapeProperties | None) -> dict[str, str]:
         """
         Get extra kwargs to pass to svgwrite APIs.
         """
-        # override defaults from the glyph with given properties
+        # override defaults from the drawing with given properties
         props = ShapeProperties._aggregate(
             self._glyph.properties,
             properties,

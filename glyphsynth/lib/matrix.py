@@ -1,25 +1,25 @@
-from ..core import BaseGlyph, BaseParams
+from ..core import BaseDrawing, BaseParams
 
 __all__ = [
     "MatrixParams",
-    "MatrixGlyph",
+    "MatrixDrawing",
 ]
 
 
 class MatrixParams(BaseParams):
-    rows: list[list[BaseGlyph]]
+    rows: list[list[BaseDrawing]]
     spacing: float = 0.0
     padding: float = 0.0
     center: bool = True
 
 
-class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
+class BaseMatrixDrawing(BaseDrawing[MatrixParams]):
     """
-    Base matrix class, used for matrix glyph and array glyphs.
+    Base matrix class, used for matrix drawing and array glyphs.
     """
 
-    _rows: list[list[BaseGlyph]]
-    _cols: list[list[BaseGlyph]]
+    _rows: list[list[BaseDrawing]]
+    _cols: list[list[BaseDrawing]]
 
     _max_width: float
     _max_height: float
@@ -38,7 +38,7 @@ class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
             return
 
         for row_idx, row in enumerate(self._rows):
-            for col_idx, glyph in enumerate(row):
+            for col_idx, drawing in enumerate(row):
                 insert_x: float
                 insert_y: float
 
@@ -48,15 +48,15 @@ class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
 
                 # adjust insert point if centered
                 if self.params.center:
-                    insert_x += (self._max_width - glyph.size[0]) / 2
-                    insert_y += (self._max_height - glyph.size[1]) / 2
+                    insert_x += (self._max_width - drawing.size[0]) / 2
+                    insert_y += (self._max_height - drawing.size[1]) / 2
 
                 # add padding
                 insert_x += self.params.padding
                 insert_y += self.params.padding
 
-                # insert glyph
-                self.insert_glyph(glyph, (insert_x, insert_y))
+                # insert drawing
+                self.insert_drawing(drawing, (insert_x, insert_y))
 
     def _get_size(self) -> tuple[float, float]:
         """
@@ -69,10 +69,10 @@ class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
         if len(self.params.rows) == 0:
             return (0.0, 0.0)
 
-        rows: list[list[BaseGlyph]] = list(
+        rows: list[list[BaseDrawing]] = list(
             [list(row) for row in self.params.rows]
         )
-        cols: list[list[BaseGlyph]] = list(map(list, zip(*rows)))
+        cols: list[list[BaseDrawing]] = list(map(list, zip(*rows)))
 
         # get column widths
         col_widths = [max([g.size[0] for g in col]) for col in cols]
@@ -101,9 +101,9 @@ class BaseMatrixGlyph(BaseGlyph[MatrixParams]):
         return (width, height)
 
 
-class MatrixGlyph(BaseMatrixGlyph):
+class MatrixDrawing(BaseMatrixDrawing):
     """
-    Glyph encapsulating a matrix of glyphs with constant spacing between them
+    Drawing encapsulating a matrix of glyphs with constant spacing between them
     and padding around the edges.
 
     If `center` is `True`, glyphs are center aligned.
@@ -112,8 +112,8 @@ class MatrixGlyph(BaseMatrixGlyph):
     @classmethod
     def new(
         cls,
-        rows: list[list[BaseGlyph]],
-        glyph_id: str | None = None,
+        rows: list[list[BaseDrawing]],
+        drawing_id: str | None = None,
         spacing: float = 0.0,
         padding: float = 0.0,
         center: bool = True,
@@ -121,12 +121,12 @@ class MatrixGlyph(BaseMatrixGlyph):
         params = cls.get_params_cls()(
             rows=rows, spacing=spacing, padding=padding, center=center
         )
-        return cls(glyph_id=glyph_id, params=params)
+        return cls(drawing_id=drawing_id, params=params)
 
     @property
-    def rows(self) -> list[list[BaseGlyph]]:
+    def rows(self) -> list[list[BaseDrawing]]:
         return self._rows
 
     @property
-    def cols(self) -> list[list[BaseGlyph]]:
+    def cols(self) -> list[list[BaseDrawing]]:
         return self._cols

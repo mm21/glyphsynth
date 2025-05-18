@@ -10,21 +10,21 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Callable, Iterable, cast
 
-from .glyph import BaseGlyph
+from .drawing import BaseDrawing
 
 __all__ = [
     "ExportSpec",
-    "export_glyphs",
+    "export_drawings",
 ]
 
-type GlyphObjType = type[BaseGlyph] | BaseGlyph | ExportSpec
+type DrawingObjType = type[BaseDrawing] | BaseDrawing | ExportSpec
 """
-Represents a glyph to be exported. If a BaseGlyph subclass or instance is
+Represents a drawing to be exported. If a BaseDrawing subclass or instance is
 provided, an ExportSpec is automatically created using the output path.
 """
 
-type GlyphSpecType = GlyphObjType | Iterable[GlyphSpecType] | Callable[
-    [], GlyphSpecType
+type DrawingSpecType = DrawingObjType | Iterable[DrawingSpecType] | Callable[
+    [], DrawingSpecType
 ]
 """
 Recursive type to represent an object which can be handled by exporter.
@@ -36,16 +36,16 @@ INDENT = 4
 @dataclass
 class ExportSpec:
     """
-    Container for a glyph instance and path in which to place the exported
+    Container for a drawing instance and path in which to place the exported
     artifact.
     """
 
-    glyph: BaseGlyph
+    drawing: BaseDrawing
     path: Path
     module: str | None = None
 
 
-def export_glyphs(
+def export_drawings(
     fqcn: str,
     output_path: Path,
     output_modpath: bool = False,
@@ -54,17 +54,17 @@ def export_glyphs(
     in_place_raster: bool = False,
 ):
     """
-    Export all glyphs from the object imported from the fully-qualified
+    Export all drawings from the object imported from the fully-qualified
     class name, which may be any of the following:
 
     - ExportSpec
-    - BaseGlyph subclass or instance
+    - BaseDrawing subclass or instance
     - Iterable
     - Callable
     - Module with symbol names provided via `__all__`
 
-    The object imported from the FQCN is recursed to collect all glyph objects.
-    If a `BaseGlyph` is encountered,
+    The object imported from the FQCN is recursed to collect all drawing objects.
+    If a `BaseDrawing` is encountered,
     """
 
     logging.info(f"Exporting to output path: {output_path}")
@@ -75,16 +75,16 @@ def export_glyphs(
         export_path: Path
 
         if output_modpath:
-            # if enabled, include glyph's modpath in output path hierarchy
-            module = container.module or container.glyph.__module__
+            # if enabled, include drawing's modpath in output path hierarchy
+            module = container.module or container.drawing.__module__
             export_path = (
                 output_path / module.replace(".", "/") / container.path
             )
         else:
             export_path = output_path / container.path
 
-        _export_glyph(
-            container.glyph,
+        _export_drawing(
+            container.drawing,
             export_path,
             svg,
             png,
@@ -92,8 +92,8 @@ def export_glyphs(
         )
 
 
-def _export_glyph(
-    glyph: BaseGlyph,
+def _export_drawing(
+    drawing: BaseDrawing,
     export_path: Path,
     svg: bool,
     png: bool,
@@ -107,39 +107,39 @@ def _export_glyph(
     )
 
     if svg:
-        logging.info(f"Writing svg: {glyph} -> {path}.svg")
-        glyph.export_svg(export_path)
+        logging.info(f"Writing svg: {drawing} -> {path}.svg")
+        drawing.export_svg(export_path)
 
     if png:
-        logging.info(f"Writing png: {glyph} -> {path}.png")
-        glyph.export_png(export_path, in_place_raster=in_place_raster)
+        logging.info(f"Writing png: {drawing} -> {path}.png")
+        drawing.export_png(export_path, in_place_raster=in_place_raster)
 
 
 def _extract_containers(fqcn: str) -> list[ExportSpec]:
     """
-    Extract all glyphs from the provided FQCN, which may be any of the
+    Extract all drawings from the provided FQCN, which may be any of the
     following:
 
-    - BaseGlyph subclass or instance
+    - BaseDrawing subclass or instance
     - Iterable of the above (subclasses and instances can be intermixed)
     - Callable which returns any of the above
     - Module containing any of the above, with symbol names provided via
       `__all__`
     """
 
-    glyph_specs: list[GlyphSpecType]
+    drawing_specs: list[DrawingSpecType]
 
-    glyph_specs = _import_glyph_specs(fqcn)
-    containers: list[ExportSpec] = _normalize_glyph_specs(glyph_specs)
+    drawing_specs = _import_drawing_specs(fqcn)
+    containers: list[ExportSpec] = _normalize_drawing_specs(drawing_specs)
 
     return containers
 
 
-def _import_glyph_specs(fqcn: str) -> list[GlyphSpecType]:
-    glyph_specs: list[GlyphSpecType]
+def _import_drawing_specs(fqcn: str) -> list[DrawingSpecType]:
+    drawing_specs: list[DrawingSpecType]
 
     module: ModuleType | None = None
-    obj: GlyphSpecType | None = None
+    obj: DrawingSpecType | None = None
     import_excep: ImportError | AttributeError | None = None
 
     try:
@@ -167,12 +167,12 @@ def _import_glyph_specs(fqcn: str) -> list[GlyphSpecType]:
 
     assert module is not None
 
-    glyph_specs: list[Any] = _import_all(module) if obj is None else [obj]
-    return cast(list[GlyphSpecType], glyph_specs)
+    drawing_specs: list[Any] = _import_all(module) if obj is None else [obj]
+    return cast(list[DrawingSpecType], drawing_specs)
 
 
-def _normalize_glyph_specs(
-    glyph_specs: list[GlyphSpecType],
+def _normalize_drawing_specs(
+    drawing_specs: list[DrawingSpecType],
 ) -> list[ExportSpec]:
     """
     Take an object and return a list of ExportSpec instances.
@@ -180,8 +180,8 @@ def _normalize_glyph_specs(
 
     containers: list[ExportSpec] = []
 
-    for glyph_spec in glyph_specs:
-        containers_extract = _recurse_glyph_spec(glyph_spec)
+    for drawing_spec in drawing_specs:
+        containers_extract = _recurse_drawing_spec(drawing_spec)
 
         # validate returned objects
         for container in containers_extract:
@@ -191,30 +191,32 @@ def _normalize_glyph_specs(
     return containers
 
 
-def _recurse_glyph_spec(glyph_spec: GlyphSpecType) -> list[GlyphSpecType]:
+def _recurse_drawing_spec(
+    drawing_spec: DrawingSpecType,
+) -> list[DrawingSpecType]:
     """
-    Recurse into glyph spec until we find a glyph class, glyph instance, or
+    Recurse into drawing spec until we find a drawing class, drawing instance, or
     export spec. A container will be created if not found.
     """
 
     ret: list[ExportSpec] = []
 
-    if isinstance(glyph_spec, ExportSpec):
-        ret.append(glyph_spec)
+    if isinstance(drawing_spec, ExportSpec):
+        ret.append(drawing_spec)
 
-    elif isinstance(glyph_spec, BaseGlyph):
-        ret.append(ExportSpec(glyph_spec, Path()))
+    elif isinstance(drawing_spec, BaseDrawing):
+        ret.append(ExportSpec(drawing_spec, Path()))
 
-    elif isinstance(glyph_spec, Iterable):
-        for spec in glyph_spec:
-            ret += _recurse_glyph_spec(spec)
+    elif isinstance(drawing_spec, Iterable):
+        for spec in drawing_spec:
+            ret += _recurse_drawing_spec(spec)
 
-    # function, BaseGlyph subclass, or BaseVariantExportFactory subclass
-    elif isinstance(glyph_spec, Callable):
-        ret += _recurse_glyph_spec(glyph_spec())
+    # function, BaseDrawing subclass, or BaseVariantExportFactory subclass
+    elif isinstance(drawing_spec, Callable):
+        ret += _recurse_drawing_spec(drawing_spec())
 
     else:
-        raise Exception(f"Invalid glyph_spec: {glyph_spec}")
+        raise Exception(f"Invalid drawing_spec: {drawing_spec}")
 
     return ret
 

@@ -9,7 +9,7 @@ from ._mixins import PresentationMixin, TransformMixin
 from .base import BaseElement
 
 if TYPE_CHECKING:
-    from ...glyph import BaseGlyph
+    from ...drawing import BaseDrawing
 
 __all__ = [
     "Group",
@@ -25,7 +25,7 @@ class Group(
     _api_name = "g"
 
     @property
-    def _glyph(self) -> BaseGlyph:
+    def _glyph(self) -> BaseDrawing:
         return self._glyph_obj
 
     @property

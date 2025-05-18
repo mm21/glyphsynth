@@ -7,8 +7,8 @@ from functools import cached_property
 
 from pydantic import Field
 
-from ..core.glyph import BaseGlyph, BaseParams
-from .utils import PaddingGlyph, PaddingParams
+from ..core.drawing import BaseDrawing, BaseParams
+from .utils import PaddingDrawing, PaddingParams
 
 __all__ = [
     "BaseLetterParams",
@@ -40,7 +40,7 @@ class BaseLetterParams(BaseParams):
         return UNIT * self.stroke_pct / 100
 
 
-class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseGlyph[ParamsT]):
+class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseDrawing[ParamsT]):
     @cached_property
     def stroke_width(self) -> float:
         return self.params.stroke_width
@@ -138,7 +138,7 @@ class LetterComboParams(BaseParams):
     letter_params: BaseLetterParams = Field(default_factory=BaseLetterParams)
 
 
-class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
+class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseDrawing[ParamsT]):
     """
     Glyph which encapsulates a combination of overlayed letter glyphs.
     """
@@ -153,16 +153,16 @@ class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
         LetterT: BaseLetterGlyph
     ](
         self, letter_cls: type[LetterT], params: BaseLetterParams | None = None
-    ) -> PaddingGlyph:
+    ) -> PaddingDrawing:
         params_norm = params or self.params.letter_params
         letter = letter_cls(params=params_norm)
-        padding = PaddingGlyph(
-            params=PaddingParams(glyph=letter), size=self.canonical_size
+        padding = PaddingDrawing(
+            params=PaddingParams(drawing=letter), size=self.canonical_size
         )
-        self.insert_glyph(padding)
+        self.insert_drawing(padding)
         return padding
 
     def draw_combo[
         ComboT: BaseLetterComboGlyph
     ](self, combo_cls: type[ComboT]) -> ComboT:
-        return self.insert_glyph(combo_cls(params=self.params))
+        return self.insert_drawing(combo_cls(params=self.params))

@@ -9,7 +9,7 @@ import svgwrite.base
 from ._mixins import BaseWrapperMixin
 
 if TYPE_CHECKING:
-    from ...glyph import BaseGlyph
+    from ...drawing import BaseDrawing
 
 __all__ = [
     "BaseElement",
@@ -31,11 +31,11 @@ class BaseElement[ElementT: svgwrite.base.BaseElement](BaseWrapperMixin):
     Instance of svgwrite element.
     """
 
-    _glyph_obj: BaseGlyph
+    _glyph_obj: BaseDrawing
 
     def __init__(
         self,
-        glyph: BaseGlyph,
+        drawing: BaseDrawing,
         container: svgwrite.base.BaseElement,
         *args,
         **kwargs,
@@ -45,9 +45,9 @@ class BaseElement[ElementT: svgwrite.base.BaseElement](BaseWrapperMixin):
         extra kwargs. Should not be instantiated directly; use draw APIs.
         """
 
-        self._glyph_obj = glyph
+        self._glyph_obj = drawing
 
-        api_attr = getattr(glyph._drawing, self._api_name)
+        api_attr = getattr(drawing._drawing, self._api_name)
         api = cast(Callable[..., ElementT], api_attr)
 
         self._element = api(*args, **kwargs)

@@ -1,18 +1,18 @@
 from abc import ABC
 
-from ..core import BaseGlyph
+from ..core import BaseDrawing
 
 __all__ = [
-    "HArrayGlyph",
-    "VArrayGlyph",
+    "HArrayDrawing",
+    "VArrayDrawing",
 ]
 
-from .matrix import BaseMatrixGlyph
+from .matrix import BaseMatrixDrawing
 
 
-class BaseArrayGlyph(BaseMatrixGlyph, ABC):
+class BaseArrayDrawing(BaseMatrixDrawing, ABC):
     """
-    Glyph encapsulating an array of glyphs with constant spacing between them,
+    Drawing encapsulating an array of glyphs with constant spacing between them,
     either horizontal or vertical.
 
     Horizontal arrays grow to the right, and vertical arrays grow downwards.
@@ -27,8 +27,8 @@ class BaseArrayGlyph(BaseMatrixGlyph, ABC):
     @classmethod
     def new(
         cls,
-        glyphs: list[BaseGlyph],
-        glyph_id: str | None = None,
+        glyphs: list[BaseDrawing],
+        drawing_id: str | None = None,
         spacing: float = 0.0,
         padding: float = 0.0,
         center: bool = True,
@@ -38,12 +38,12 @@ class BaseArrayGlyph(BaseMatrixGlyph, ABC):
         params = cls.get_params_cls()(
             rows=rows, spacing=spacing, padding=padding, center=center
         )
-        return cls(glyph_id=glyph_id, params=params)
+        return cls(drawing_id=drawing_id, params=params)
 
 
-class HArrayGlyph(BaseArrayGlyph):
+class HArrayDrawing(BaseArrayDrawing):
     _horizontal = True
 
 
-class VArrayGlyph(BaseArrayGlyph):
+class VArrayDrawing(BaseArrayDrawing):
     _horizontal = False

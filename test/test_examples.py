@@ -1,14 +1,14 @@
 from pathlib import Path
 
 from glyphsynth import (
-    BaseGlyph,
+    BaseDrawing,
     BaseParams,
-    EmptyGlyph,
+    Drawing,
     ShapeProperties,
     StopColor,
 )
 
-from .conftest import write_glyph
+from .conftest import write_drawing
 
 ZERO: float = 0.0
 UNIT: float = 1000.0
@@ -25,7 +25,7 @@ class MySquareParams(BaseParams):
     color: str
 
 
-class MySquareGlyph(BaseGlyph[MySquareParams]):
+class MySquareDrawing(BaseDrawing[MySquareParams]):
     canonical_size = (100.0, 100.0)
 
     def draw(self):
@@ -47,7 +47,7 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
         )
 
 
-class UnitGlyph[ParamsT: BaseParams](BaseGlyph[ParamsT]):
+class UnitDrawing[ParamsT: BaseParams](BaseDrawing[ParamsT]):
     canonical_size = UNIT_SIZE
 
 
@@ -58,7 +58,7 @@ class MultiSquareParams(BaseParams):
     color_lower_right: str
 
 
-class MultiSquareGlyph(UnitGlyph[MultiSquareParams]):
+class MultiSquareDrawing(UnitDrawing[MultiSquareParams]):
     def draw(self):
         size: tuple[float, float] = (HALF, HALF)
 
@@ -96,34 +96,36 @@ class SquareFractalParams(BaseParams):
     depth: int = FRACTAL_DEPTH
 
 
-class SquareFractalGlyph(UnitGlyph[SquareFractalParams]):
+class SquareFractalDrawing(UnitDrawing[SquareFractalParams]):
     def draw(self):
         # draw square
-        self.insert_glyph(MultiSquareGlyph(params=self.params.square_params))
+        self.insert_drawing(
+            MultiSquareDrawing(params=self.params.square_params)
+        )
 
         if self.params.depth > 1:
-            # draw another fractal glyph, half the size and rotated 90 degrees
+            # draw another fractal drawing, half the size and rotated 90 degrees
 
             child_params = SquareFractalParams(
                 square_params=self.params.square_params,
                 depth=self.params.depth - 1,
             )
-            child_glyph = SquareFractalGlyph(
+            child_glyph = SquareFractalDrawing(
                 params=child_params, size=(HALF, HALF)
             )
 
             child_glyph.rotate(90.0)
-            self.insert_glyph(child_glyph, insert=(HALF / 2, HALF / 2))
+            self.insert_drawing(child_glyph, insert=(HALF / 2, HALF / 2))
 
 
 def test_blue_square(output_dir: Path):
-    blue_square = MySquareGlyph(
-        glyph_id="blue-square", params=MySquareParams(color="blue")
+    blue_square = MySquareDrawing(
+        drawing_id="blue-square", params=MySquareParams(color="blue")
     )
 
-    write_glyph(output_dir, blue_square)
+    write_drawing(output_dir, blue_square)
 
-    blue_square2 = EmptyGlyph(glyph_id="blue-square-2", size=(100, 100))
+    blue_square2 = Drawing(drawing_id="blue-square-2", size=(100, 100))
 
     # Draw a centered square
     blue_square2.draw_rect(
@@ -140,7 +142,7 @@ def test_blue_square(output_dir: Path):
         ),
     )
 
-    write_glyph(output_dir, blue_square2)
+    write_drawing(output_dir, blue_square2)
 
 
 def test_square(output_dir: Path):
@@ -151,10 +153,10 @@ def test_square(output_dir: Path):
         color_lower_left="blue",
     )
 
-    multi_square = MultiSquareGlyph(
-        glyph_id="multi-square", params=multi_square_params
+    multi_square = MultiSquareDrawing(
+        drawing_id="multi-square", params=multi_square_params
     )
-    write_glyph(output_dir, multi_square)
+    write_drawing(output_dir, multi_square)
 
 
 def test_fractal(output_dir: Path):
@@ -165,8 +167,8 @@ def test_fractal(output_dir: Path):
         color_lower_left="rgb(0, 50, 250)",
     )
 
-    fractal = SquareFractalGlyph(
-        glyph_id="multi-square-fractal",
+    fractal = SquareFractalDrawing(
+        drawing_id="multi-square-fractal",
         params=SquareFractalParams(square_params=multi_square_params),
     )
 
@@ -184,7 +186,7 @@ def test_gradients(output_dir: Path):
         sky_colors: list[str]
         water_colors: list[str]
 
-    class BackgroundGlyph(BaseGlyph[BackgroundParams]):
+    class BackgroundDrawing(BaseDrawing[BackgroundParams]):
         canonical_size = (WIDTH, HEIGHT)
 
         def draw(self):
@@ -216,7 +218,7 @@ def test_gradients(output_dir: Path):
         colors: list[StopColor]
         focal_scale: float
 
-    class SunsetGlyph(BaseGlyph[SunsetParams]):
+    class SunsetDrawing(BaseDrawing[SunsetParams]):
         canonical_size = (WIDTH, HEIGHT / 2)
 
         def draw(self):
@@ -238,31 +240,31 @@ def test_gradients(output_dir: Path):
         background_params: BackgroundParams
         sunset_params: SunsetParams
 
-    class SceneGlyph(BaseGlyph[SceneParams]):
+    class SceneDrawing(BaseDrawing[SceneParams]):
         canonical_size = (WIDTH, HEIGHT)
 
         def draw(self):
             # background
-            self.insert_glyph(
-                BackgroundGlyph(params=self.params.background_params),
+            self.insert_drawing(
+                BackgroundDrawing(params=self.params.background_params),
                 insert=(0, 0),
             )
 
             # sunset
-            self.insert_glyph(
-                SunsetGlyph(params=self.params.sunset_params),
+            self.insert_drawing(
+                SunsetDrawing(params=self.params.sunset_params),
                 insert=(0, 0),
             )
 
             # sunset reflection
-            self.insert_glyph(
-                SunsetGlyph(params=self.params.sunset_params)
+            self.insert_drawing(
+                SunsetDrawing(params=self.params.sunset_params)
                 .rotate(180)
                 .fill(opacity_pct=50.0),
                 insert=(0, self.center_y),
             )
 
-    scene = SceneGlyph(
+    scene = SceneDrawing(
         params=SceneParams(
             background_params=BackgroundParams(
                 sky_colors=["#1a2b4c", "#9b4e6c"],
@@ -279,14 +281,14 @@ def test_gradients(output_dir: Path):
         )
     )
 
-    write_glyph(output_dir, scene, scale=2)
+    write_drawing(output_dir, scene, scale=2)
 
     for nested in scene._nested_glyphs:
-        write_glyph(output_dir, nested)
+        write_drawing(output_dir, nested)
 
 
 def test_logo(output_dir: Path):
     from glyphsynth.lib.logo import GlyphSynthLogo
 
     logo = GlyphSynthLogo()
-    write_glyph(output_dir, logo)
+    write_drawing(output_dir, logo)

@@ -4,10 +4,10 @@ from pathlib import Path
 
 from pytest import FixtureRequest, fixture
 
-from glyphsynth import RASTER_SUPPORT, BaseGlyph
-from glyphsynth.lib.array import HArrayGlyph, VArrayGlyph
+from glyphsynth import RASTER_SUPPORT, BaseDrawing
+from glyphsynth.lib.array import HArrayDrawing, VArrayDrawing
 from glyphsynth.lib.letter import UNIT
-from glyphsynth.lib.utils import PaddingGlyph
+from glyphsynth.lib.utils import PaddingDrawing
 
 logging.basicConfig(level=logging.INFO)
 
@@ -17,30 +17,33 @@ SPACING: float = UNIT / 10
 
 # TODO: after writing, verify svg with golden svg
 # - doit task to update golden svg w/testcase output
-def write_glyph(
-    output_dir: Path, glyph: BaseGlyph, stem: str | None = None, scale: int = 1
+def write_drawing(
+    output_dir: Path,
+    drawing: BaseDrawing,
+    stem: str | None = None,
+    scale: int = 1,
 ):
     svg_path = output_dir / f"{stem}.svg" if stem else output_dir
     png_path = output_dir / f"{stem}.png" if stem else output_dir
 
-    glyph.export_svg(svg_path)
+    drawing.export_svg(svg_path)
 
     if RASTER_SUPPORT:
-        glyph.export_png(png_path, scale=scale)
+        drawing.export_png(png_path, scale=scale)
 
 
-def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
+def write_glyphs(output_dir: Path, glyphs: list[BaseDrawing]):
     """
     Create horizontal and vertical arrays and save them to the provided path,
-    in addition to an svg per individual glyph.
+    in addition to an svg per individual drawing.
     """
 
     # write arrays
-    array_h = PaddingGlyph.new(
-        HArrayGlyph.new(glyphs, spacing=SPACING), padding=SPACING
+    array_h = PaddingDrawing.new(
+        HArrayDrawing.new(glyphs, spacing=SPACING), padding=SPACING
     )
-    array_v = PaddingGlyph.new(
-        VArrayGlyph.new(glyphs, spacing=SPACING), padding=SPACING
+    array_v = PaddingDrawing.new(
+        VArrayDrawing.new(glyphs, spacing=SPACING), padding=SPACING
     )
 
     array_h.export_svg(output_dir / "_array-h.svg")
@@ -51,8 +54,8 @@ def write_glyphs(output_dir: Path, glyphs: list[BaseGlyph]):
         array_v.export_png(output_dir / "_array-v.png", scale=5)
 
     # write individual glyphs
-    for glyph in glyphs:
-        glyph.export_svg(output_dir)
+    for drawing in glyphs:
+        drawing.export_svg(output_dir)
 
 
 @fixture

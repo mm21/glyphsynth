@@ -23,7 +23,11 @@ Pythonic vector graphics synthesis toolkit
 
 ## Motivation
 
-This project provides a Pythonic mechanism to construct SVG graphics, termed as "glyphs". Glyphs can be parameterized and leverage inheritance to promote reuse. The ability to construct many variations of glyphs programmatically is a powerful tool for creativity.
+This project provides a Pythonic mechanism to construct SVG graphics. Top-level drawings can be parameterized and leverage composition and inheritance to promote reuse. The ability to construct many variations of drawings programmatically can be a powerful tool for creativity.
+
+This project's goal was initially to specialize in the creation of glyphs -- symbols conveying some meaning. It is ideal for anything from logos to artwork.
+
+Nonetheless, it evolved to become a more general-purpose vector graphics framework, providing a layer of abstraction on top of `svgwrite`. The underlying graphics synthesis capability is planned to be split off into a separate project, with this one continuing to offer a more specialized interface for glyphs specifically.
 
 ## Getting started
 
@@ -33,31 +37,31 @@ First, install using pip:
 pip install glyphsynth
 ```
 
-The user is intended to develop glyphs using their own Python modules. A typical workflow might be to create a number of `BaseGlyph` subclasses, set them in `__all__`, and invoke `glyphsynth-export` passing in the module and output path. See below for more details.
+The user is intended to develop graphics using their own Python modules. A typical workflow might be to create a number of `BaseDrawing` subclasses, set them in `__all__`, and invoke `glyphsynth-export` passing in the module and output path. See below for more details.
 
 ## Interface
 
-Glyphs can be constructed in two ways, or a combination of both:
+The interface largely borrows the structure and terminology of `svgwrite`, with some enhancements along with type safety. The top-level graphics element is therefore the "drawing". Drawings can be constructed in two ways, or a combination of both:
 
-- Subclass `BaseGlyph` and implement `draw()`
-    - Parameterize with a subclass of `BaseParams` corresponding to the glyph
-- Create an instance of `EmptyGlyph` (or any other `BaseGlyph` subclass) and invoke draw APIs
+- Subclass `BaseDrawing` and implement `draw()`
+    - Parameterize with a subclass of `BaseParams` corresponding to the drawing
+- Create an instance of `Drawing` (or any other `BaseDrawing` subclass) and invoke draw APIs
 
-In its `draw()` method, a `BaseGlyph` subclass can invoke drawing APIs which create corresponding SVG objects. SVG properties are automatically propagated to SVG objects from the glyph's properties, `BaseGlyph.properties`, which can be provided at runtime with defaults being specified by the subclass.
+In its `draw()` method, a `BaseDrawing` subclass can invoke drawing APIs which create corresponding SVG objects. SVG properties are automatically propagated to SVG objects from the drawing's properties, `BaseDrawing.properties`, which can be provided at runtime with defaults being specified by the subclass.
 
 A simple example of implementing `draw()` to draw a blue square:
 
 ```python
-from glyphsynth import BaseParams, BaseGlyph, ShapeProperties
+from glyphsynth import BaseParams, BaseDrawing, ShapeProperties
 
-# Glyph params
+# Drawing params
 class MySquareParams(BaseParams):
     color: str
 
-# Glyph subclass
-class MySquareGlyph(BaseGlyph[MySquareParams]):
+# Drawing subclass
+class MySquareDrawing(BaseDrawing[MySquareParams]):
 
-    # Canonical size for glyph construction, can be rescaled upon creation
+    # Canonical size for drawing construction, can be rescaled upon creation
     canonical_size = (100.0, 100.0)
 
     def draw(self):
@@ -80,25 +84,25 @@ class MySquareGlyph(BaseGlyph[MySquareParams]):
         )
 
 
-# Create glyph instance
-blue_square = MySquareGlyph(
-    glyph_id="blue-square", params=MySquareParams(color="blue")
+# Create drawing instance
+blue_square = MySquareDrawing(
+    drawing_id="blue-square", params=MySquareParams(color="blue")
 )
 
 # Render as image
-blue_square.export_png(Path("my_glyph_renders"))
+blue_square.export_png(Path("my_drawing_renders"))
 ```
 
 This is rendered as:
 
 ![Blue-square](./examples/blue-square.png)
 
-Equivalently, the same glyph can be constructed from an `EmptyGlyph`:
+Equivalently, the same drawing can be constructed from an `Drawing`:
 
 ```python
-from glyphsynth import EmptyGlyph
+from glyphsynth import Drawing
 
-blue_square = EmptyGlyph(glyph_id="blue-square", size=(100, 100))
+blue_square = Drawing(drawing_id="blue-square", size=(100, 100))
 
 # Draw a centered square
 blue_square.draw_rect(
@@ -120,43 +124,43 @@ blue_square.draw_polyline(
 
 ### Programmatically
 
-A glyph is exported as an `.svg` file. Rasterizing to `.png` is supported on Linux and requires the following packages:
+A drawing is exported as an `.svg` file. Rasterizing to `.png` is supported on Linux and requires the following packages:
 
 ```bash
 sudo apt install librsvg2-bin libmagickwand-dev
 ```
 
-A glyph can be exported using `BaseGlyph.export()`, `BaseGlyph.export_svg()`, or `BaseGlyph.export_png()`. If a folder is passed as the output path, the glyph's `glyph_id` will be used to derive the filename.
+A drawing can be exported using `BaseDrawing.export()`, `BaseDrawing.export_svg()`, or `BaseDrawing.export_png()`. If a folder is passed as the output path, the drawing's `drawing_id` will be used to derive the filename.
 
 ```python
 from pathlib import Path
 
 # Export to specific path
-blue_square.export(Path("my_glyph_renders/blue-square.svg"))
-blue_square.export(Path("my_glyph_renders/blue-square.png"))
+blue_square.export(Path("my_drawing_renders/blue-square.svg"))
+blue_square.export(Path("my_drawing_renders/blue-square.png"))
 
 # Export using class name as filename
-blue_square.export_svg(Path("my_glyph_renders")) # blue-square.svg 
-blue_square.export_png(Path("my_glyph_renders")) # blue-square.png
+blue_square.export_svg(Path("my_drawing_renders")) # blue-square.svg 
+blue_square.export_png(Path("my_drawing_renders")) # blue-square.png
 ```
 
 ### CLI
 
-The CLI tool `glyphsynth-export` exports glyphs by importing a Python object. See `glyphsynth-export --help` for full details.
+The CLI tool `glyphsynth-export` exports drawings by importing a Python object. See `glyphsynth-export --help` for full details.
 
 The object can be any of the following:
 
 - Module, from which objects will be extracted via `__all__`
-- `BaseGlyph` subclass
-- `BaseGlyph` instance
+- `BaseDrawing` subclass
+- `BaseDrawing` instance
 - Iterable
 - Callable
 
-Any `BaseGlyph` subclasses found will be instantiated using their respective default parameters. For `Iterable` and `Callable`, the object is traversed or invoked recursively until glyph subclasses or instances are found.
+Any `BaseDrawing` subclasses found will be instantiated using their respective default parameters. For `Iterable` and `Callable`, the object is traversed or invoked recursively until drawing subclasses or instances are found.
 
-Assuming the above code containing the `blue_square` is placed in `my_glyphs.py`, the glyph can be exported to `my_glyph_renders/` via the following command:
+Assuming the above code containing the `blue_square` is placed in `my_drawings.py`, the drawing can be exported to `my_drawing_renders/` via the following command:
 
-`glyphsynth-export my_glyphs.blue_square my_glyph_renders --svg --png`
+`glyphsynth-export my_drawings.blue_square my_drawing_renders --svg --png`
 
 ## Examples
 
@@ -164,10 +168,10 @@ Assuming the above code containing the `blue_square` is placed in `my_glyphs.py`
 
 ![Multi-square](./examples/multi-square.png)
 
-This glyph is composed of 4 nested squares, each with a color parameter.
+This drawing is composed of 4 nested squares, each with a color parameter.
 
 ```python
-from glyphsynth import BaseParams, BaseGlyph
+from glyphsynth import BaseParams, BaseDrawing
 
 # Definitions
 ZERO: float = 0.0
@@ -183,8 +187,8 @@ class MultiSquareParams(BaseParams):
     color_lower_left: str
     color_lower_right: str
 
-# Multi-square glyph class
-class MultiSquareGlyph(BaseGlyph[MultiSquareParams]):
+# Multi-square drawing class
+class MultiSquareDrawing(BaseDrawing[MultiSquareParams]):
 
     canonical_size = UNIT_SIZE
 
@@ -229,18 +233,18 @@ multi_square_params = MultiSquareParams(
     color_lower_left="blue",
 )
 
-# Create glyph
-multi_square = MultiSquareGlyph(glyph_id="multi-square", params=multi_square_params)
+# Create drawing
+multi_square = MultiSquareDrawing(drawing_id="multi-square", params=multi_square_params)
 ```
 
 ### Multi-square fractal
 
 ![Multi-square fractal](./examples/multi-square-fractal.png)
 
-This glyph nests a square glyph recursively up to a certain depth.
+This drawing nests a square drawing recursively up to a certain depth.
 
 ```python
-from glyphsynth import BaseParams, BaseGlyph
+from glyphsynth import BaseParams, BaseDrawing
 
 # Maximum recursion depth for creating fractal
 FRACTAL_DEPTH = 10
@@ -249,29 +253,29 @@ class SquareFractalParams(BaseParams):
     square_params: MultiSquareParams
     depth: int = FRACTAL_DEPTH
 
-class SquareFractalGlyph(BaseGlyph[SquareFractalParams]):
+class SquareFractalDrawing(BaseDrawing[SquareFractalParams]):
 
     canonical_size = UNIT_SIZE
 
     def draw(self):
 
         # Draw square
-        self.insert_glyph(MultiSquareGlyph(params=self.params.square_params))
+        self.insert_drawing(MultiSquareDrawing(params=self.params.square_params))
 
         if self.params.depth > 1:
-            # Draw another fractal glyph, half the size and rotated 90 degrees
+            # Draw another fractal drawing, half the size and rotated 90 degrees
 
             child_params = SquareFractalParams(
                 square_params=self.params.square_params,
                 depth=self.params.depth - 1,
             )
-            child_glyph = SquareFractalGlyph(
+            child_drawing = SquareFractalDrawing(
                 params=child_params, size=(HALF, HALF)
             )
 
             # Rotate and insert in center
-            child_glyph.rotate(90.0)
-            self.insert_glyph(child_glyph, insert=(HALF / 2, HALF / 2))
+            child_drawing.rotate(90.0)
+            self.insert_drawing(child_drawing, insert=(HALF / 2, HALF / 2))
 
 multi_square_params = MultiSquareParams(
     color_upper_left="rgb(250, 50, 0)",
@@ -280,8 +284,8 @@ multi_square_params = MultiSquareParams(
     color_lower_left="rgb(0, 50, 250)",
 )
 
-fractal = SquareFractalGlyph(
-    glyph_id="multi-square-fractal",
+fractal = SquareFractalDrawing(
+    drawing_id="multi-square-fractal",
     params=SquareFractalParams(square_params=multi_square_params),
 )
 ```
@@ -290,7 +294,7 @@ fractal = SquareFractalGlyph(
 
 ![Sunset gradients](./examples/sunset-gradients.png)
 
-This illustrates the use of gradients and glyph composition to create a simple ocean sunset scene.
+This illustrates the use of gradients and drawing composition to create a simple ocean sunset scene.
 
 ```python
 WIDTH = 800
@@ -300,7 +304,7 @@ class BackgroundParams(BaseParams):
     sky_colors: list[str]
     water_colors: list[str]
 
-class BackgroundGlyph(BaseGlyph[BackgroundParams]):
+class BackgroundDrawing(BaseDrawing[BackgroundParams]):
     canonical_size = (WIDTH, HEIGHT)
 
     def draw(self):
@@ -332,7 +336,7 @@ class SunsetParams(BaseParams):
     colors: list[StopColor]
     focal_scale: float
 
-class SunsetGlyph(BaseGlyph[SunsetParams]):
+class SunsetDrawing(BaseDrawing[SunsetParams]):
     canonical_size = (WIDTH, HEIGHT / 2)
 
     def draw(self):
@@ -354,31 +358,31 @@ class SceneParams(BaseParams):
     background_params: BackgroundParams
     sunset_params: SunsetParams
 
-class SceneGlyph(BaseGlyph[SceneParams]):
+class SceneDrawing(BaseDrawing[SceneParams]):
     canonical_size = (WIDTH, HEIGHT)
 
     def draw(self):
         # background
-        self.insert_glyph(
-            BackgroundGlyph(params=self.params.background_params),
+        self.insert_drawing(
+            BackgroundDrawing(params=self.params.background_params),
             insert=(0, 0),
         )
 
         # sunset
-        self.insert_glyph(
-            SunsetGlyph(params=self.params.sunset_params),
+        self.insert_drawing(
+            SunsetDrawing(params=self.params.sunset_params),
             insert=(0, 0),
         )
 
         # sunset reflection
-        self.insert_glyph(
-            SunsetGlyph(params=self.params.sunset_params)
+        self.insert_drawing(
+            SunsetDrawing(params=self.params.sunset_params)
             .rotate(180)
             .fill(opacity_pct=50.0),
             insert=(0, self.center_y),
         )
 
-scene = SceneGlyph(
+scene = SceneDrawing(
     params=SceneParams(
         background_params=BackgroundParams(
             sky_colors=["#1a2b4c", "#9b4e6c"],
@@ -460,7 +464,7 @@ class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
     # Width of resulting matrix
     MATRIX_WIDTH = len(COLORS)
 
-    # Top-level padding and space between glyph variants
+    # Top-level padding and space between drawing variants
     SPACING = UNIT / 10
 
     # Generate variants of colors and letter combinations

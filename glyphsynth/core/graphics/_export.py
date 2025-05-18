@@ -67,7 +67,7 @@ class ExportContainer(BaseGraphicsContainer):
         Get a string containing the full XML content.
         """
 
-        # if no drawing provided, default to drawing for this glyph
+        # if no drawing provided, default to drawing for this drawing
         drawing_: Drawing = drawing or self._drawing
 
         # get xml tree
@@ -85,8 +85,8 @@ class ExportContainer(BaseGraphicsContainer):
     def _fixup_xml(self, xml: ElementTree.Element):
         """
         Traverse element tree and replace ids to ensure determinism
-        (same glyph xml is generated each time). Since svgwrite's id factory
-        is global, the ids can be changed by unrelated glyph creation.
+        (same drawing xml is generated each time). Since svgwrite's id factory
+        is global, the ids can be changed by unrelated drawing creation.
         """
 
         pattern = r"(id\d+)"
@@ -165,7 +165,7 @@ class ExportContainer(BaseGraphicsContainer):
 
         if size_raster is None:
             logging.warning(
-                f"Rasterizing a glyph which has no outermost size, output image size may be unexpected: {self}"
+                f"Rasterizing a drawing which has no outermost size, output image size may be unexpected: {self}"
             )
 
         logging.debug(
