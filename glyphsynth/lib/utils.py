@@ -18,7 +18,7 @@ SIDES: list[SideType] = ["top", "bottom", "left", "right"]
 
 class PaddingParams(BaseParams):
     glyph: BaseGlyph
-    padding: float | PaddingType
+    padding: float | PaddingType = 0.0
 
 
 class PaddingGlyph(BaseGlyph[PaddingParams]):

@@ -8,6 +8,7 @@ from functools import cached_property
 from pydantic import Field
 
 from ..core.glyph import BaseGlyph, BaseParams
+from .utils import PaddingGlyph, PaddingParams
 
 __all__ = [
     "BaseLetterParams",
@@ -150,8 +151,13 @@ class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
 
     def draw_letter[
         LetterT: BaseLetterGlyph
-    ](self, letter_cls: type[LetterT]) -> LetterT:
-        return self.insert_glyph(letter_cls(params=self.params.letter_params))
+    ](self, letter_cls: type[LetterT]) -> PaddingGlyph:
+        letter = letter_cls(params=self.params.letter_params)
+        padding = PaddingGlyph(
+            params=PaddingParams(glyph=letter), size=self.canonical_size
+        )
+        self.insert_glyph(padding)
+        return padding
 
     def draw_combo[
         ComboT: BaseLetterComboGlyph
