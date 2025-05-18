@@ -115,7 +115,9 @@ class G(BaseRunicLetterGlyph):
             [
                 (self.inset_right, self.inset_quarter_height(1)),
                 self.inset_center_top,
-                self.inset_left_center,
+                (self.inset_left, self.inset_quarter_height(1)),
+                # self.inset_left_center,
+                (self.inset_left, self.inset_quarter_height(3)),
                 self.inset_center_bot,
                 (self.inset_right, self.inset_quarter_height(3)),
                 self.inset_right_center,
@@ -158,17 +160,42 @@ class I(BaseRunicLetterGlyph):
 
 class J(BaseRunicLetterGlyph):
     def draw(self):
-        ...
+        self.draw_polyline(
+            [
+                self.inset_right_top,
+                (self.inset_right, self.inset_quarter_height(3)),
+                self.inset_center_bot,
+                (self.inset_left, self.inset_quarter_height(3)),
+            ]
+        )
 
 
 class K(BaseRunicLetterGlyph):
     def draw(self):
-        ...
+        self.draw_polyline(
+            [
+                self.inset_left_top,
+                self.inset_left_bot,
+            ]
+        )
+        self.draw_polyline(
+            [
+                self.inset_right_top,
+                self.inset_left_center,
+                self.inset_right_bot,
+            ]
+        )
 
 
 class L(BaseRunicLetterGlyph):
     def draw(self):
-        ...
+        self.draw_polyline(
+            [
+                self.inset_left_top,
+                self.inset_left_bot,
+                self.inset_right_bot,
+            ]
+        )
 
 
 class M(BaseRunicLetterGlyph):
@@ -186,17 +213,39 @@ class M(BaseRunicLetterGlyph):
 
 class N(BaseRunicLetterGlyph):
     def draw(self):
-        ...
+        self.draw_polyline(
+            [
+                self.inset_left_bot,
+                self.inset_left_top,
+                self.inset_right_bot,
+                self.inset_right_top,
+            ]
+        )
 
 
 class O(BaseRunicLetterGlyph):
     def draw(self):
-        ...
+        self.draw_polyline(
+            [
+                self.inset_center_top,
+                self.inset_right_center,
+                self.inset_center_bot,
+                self.inset_left_center,
+                self.inset_center_top,
+            ]
+        )
 
 
 class P(BaseRunicLetterGlyph):
     def draw(self):
-        ...
+        self.draw_polyline(
+            [
+                self.inset_left_bot,
+                self.inset_left_top,
+                (self.inset_right, self.inset_quarter_height(1)),
+                self.inset_left_center,
+            ]
+        )
 
 
 class Q(BaseRunicLetterGlyph):
