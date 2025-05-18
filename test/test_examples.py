@@ -283,3 +283,10 @@ def test_gradients(output_dir: Path):
 
     for nested in scene._nested_glyphs:
         write_glyph(output_dir, nested)
+
+
+def test_logo(output_dir: Path):
+    from glyphsynth.lib.logo import GlyphSynthLogo
+
+    logo = GlyphSynthLogo()
+    write_glyph(output_dir, logo)

@@ -151,8 +151,11 @@ class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseGlyph[ParamsT]):
 
     def draw_letter[
         LetterT: BaseLetterGlyph
-    ](self, letter_cls: type[LetterT]) -> PaddingGlyph:
-        letter = letter_cls(params=self.params.letter_params)
+    ](
+        self, letter_cls: type[LetterT], params: BaseLetterParams | None = None
+    ) -> PaddingGlyph:
+        params_norm = params or self.params.letter_params
+        letter = letter_cls(params=params_norm)
         padding = PaddingGlyph(
             params=PaddingParams(glyph=letter), size=self.canonical_size
         )
