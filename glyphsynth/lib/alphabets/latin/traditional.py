@@ -5,27 +5,23 @@ https://en.wikipedia.org/wiki/Latin_alphabet#/media/File:Abecedarium_latinum_cla
 
 import sys
 
-from ...letter import LETTERS, BaseLetterGlyph, BaseLetterParams
+from ....glyph.glyph import BaseGlyph, GlyphParams
+from ....glyph.letters import LETTERS
 from ...utils import extend_line
 
 __all__ = [
-    "TraditionalLetterParams",
     "LETTER_CLASSES",
     *LETTERS,
 ]
 
 
-class TraditionalLetterParams(BaseLetterParams):
-    pass
-
-
-class BaseTraditionalLetterGlyph(BaseLetterGlyph[TraditionalLetterParams]):
+class BaseTraditionalGlyph(BaseGlyph[GlyphParams]):
     def init(self):
         super().init()
         self.properties.stroke_linejoin = "miter"
 
 
-class A(BaseTraditionalLetterGlyph):
+class A(BaseTraditionalGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -52,27 +48,27 @@ class A(BaseTraditionalLetterGlyph):
         )
 
 
-class B(BaseTraditionalLetterGlyph):
+class B(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class C(BaseTraditionalLetterGlyph):
+class C(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class D(BaseTraditionalLetterGlyph):
+class D(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class E(BaseTraditionalLetterGlyph):
+class E(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class F(BaseTraditionalLetterGlyph):
+class F(BaseTraditionalGlyph):
     def draw(self):
         # vertical line
         self.draw_polyline(
@@ -91,17 +87,17 @@ class F(BaseTraditionalLetterGlyph):
         )
 
 
-class G(BaseTraditionalLetterGlyph):
+class G(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class H(BaseTraditionalLetterGlyph):
+class H(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class I(BaseTraditionalLetterGlyph):
+class I(BaseTraditionalGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -111,22 +107,22 @@ class I(BaseTraditionalLetterGlyph):
         )
 
 
-class J(BaseTraditionalLetterGlyph):
+class J(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class K(BaseTraditionalLetterGlyph):
+class K(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class L(BaseTraditionalLetterGlyph):
+class L(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class M(BaseTraditionalLetterGlyph):
+class M(BaseTraditionalGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -142,37 +138,37 @@ class M(BaseTraditionalLetterGlyph):
         )
 
 
-class N(BaseTraditionalLetterGlyph):
+class N(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class O(BaseTraditionalLetterGlyph):
+class O(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class P(BaseTraditionalLetterGlyph):
+class P(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class Q(BaseTraditionalLetterGlyph):
+class Q(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class R(BaseTraditionalLetterGlyph):
+class R(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class S(BaseTraditionalLetterGlyph):
+class S(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class T(BaseTraditionalLetterGlyph):
+class T(BaseTraditionalGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -189,37 +185,37 @@ class T(BaseTraditionalLetterGlyph):
         )
 
 
-class U(BaseTraditionalLetterGlyph):
+class U(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class V(BaseTraditionalLetterGlyph):
+class V(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class W(BaseTraditionalLetterGlyph):
+class W(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class X(BaseTraditionalLetterGlyph):
+class X(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class Y(BaseTraditionalLetterGlyph):
+class Y(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-class Z(BaseTraditionalLetterGlyph):
+class Z(BaseTraditionalGlyph):
     def draw(self):
         ...
 
 
-LETTER_CLASSES: list[type[BaseLetterGlyph]] = [
+LETTER_CLASSES: list[type[BaseTraditionalGlyph]] = [
     getattr(sys.modules[__name__], l) for l in LETTERS
 ]
 """

@@ -2,13 +2,8 @@ import itertools
 from pathlib import Path
 from typing import Generator
 
-from glyphsynth.lib.alphabets.latin.runic import A, M, RunicLetterParams, T
-from glyphsynth.lib.letter import (
-    UNIT,
-    BaseLetterComboGlyph,
-    BaseLetterGlyph,
-    LetterComboParams,
-)
+from glyphsynth.glyph.glyph import UNIT, BaseGlyph, GlyphParams
+from glyphsynth.lib.alphabets.latin.runic import A, M, T
 from glyphsynth.lib.matrix import MatrixDrawing
 from glyphsynth.lib.variants import BaseVariantExportFactory
 
@@ -28,16 +23,16 @@ COLORS = [
 ]
 
 
-class AMTComboParams(LetterComboParams):
-    letter1: type[BaseLetterGlyph]
-    letter2: type[BaseLetterGlyph]
+class AMTComboParams(GlyphParams):
+    letter1: type[BaseGlyph]
+    letter2: type[BaseGlyph]
 
 
-class AMTComboGlyph(BaseLetterComboGlyph[AMTComboParams]):
+class AMTComboGlyph(BaseGlyph[AMTComboParams]):
     def draw(self):
         # draw letters given by params
-        self.draw_letter(self.params.letter1)
-        letter2 = self.draw_letter(self.params.letter2)
+        self.draw_glyph(self.params.letter1)
+        letter2 = self.draw_glyph(self.params.letter2)
 
         # additionally rotate letter2
         letter2.rotate(180)
@@ -53,7 +48,7 @@ class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
             LETTERS, LETTERS, COLORS
         ):
             yield AMTComboParams(
-                letter_params=RunicLetterParams(color=color),
+                letter_params=GlyphParams(color=color),
                 letter1=letter1,
                 letter2=letter2,
             )
@@ -68,7 +63,7 @@ def test_matrix(output_dir: Path):
         for color in COLORS:
             drawing = AMTComboGlyph(
                 params=AMTComboParams(
-                    letter_params=RunicLetterParams(color=color),
+                    letter_params=GlyphParams(color=color),
                     letter1=letter1,
                     letter2=letter2,
                 )

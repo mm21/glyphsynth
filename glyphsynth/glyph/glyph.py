@@ -1,24 +1,16 @@
 """
-Base letter and letter combination glyphs.
+Base glyph classes.
 """
+from __future__ import annotations
 
-import string
 from functools import cached_property
 
-from pydantic import Field
-
 from ..core.drawing import BaseDrawing, BaseParams
-from .utils import PaddingDrawing, PaddingParams
 
 __all__ = [
-    "BaseLetterParams",
-    "BaseLetterGlyph",
+    "GlyphParams",
+    "BaseGlyph",
 ]
-
-LETTERS: list[str] = [l for l in string.ascii_uppercase]
-"""
-List of letters A-Z.
-"""
 
 ZERO = 0.0
 UNIT = 100.0
@@ -26,9 +18,9 @@ HALF = UNIT / 2
 QUART = HALF / 2
 
 
-class BaseLetterParams(BaseParams):
+class GlyphParams(BaseParams):
     """
-    Common letter parameters.
+    Common glyph parameters.
     """
 
     color: str = "black"
@@ -40,7 +32,11 @@ class BaseLetterParams(BaseParams):
         return UNIT * self.stroke_pct / 100
 
 
-class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseDrawing[ParamsT]):
+class BaseGlyph[ParamsT: GlyphParams](BaseDrawing[ParamsT]):
+    """
+    Base glyph class to be subclassed by user.
+    """
+
     @cached_property
     def stroke_width(self) -> float:
         return self.params.stroke_width
@@ -129,40 +125,13 @@ class BaseLetterGlyph[ParamsT: BaseLetterParams](BaseDrawing[ParamsT]):
             self.inset_height + self.stroke_width,
         )
 
-
-class LetterComboParams(BaseParams):
-    """
-    Contains parameters to propagate to letters.
-    """
-
-    letter_params: BaseLetterParams = Field(default_factory=BaseLetterParams)
-
-
-class BaseLetterComboGlyph[ParamsT: LetterComboParams](BaseDrawing[ParamsT]):
-    """
-    Glyph which encapsulates a combination of overlayed letter glyphs.
-    """
-
-    def init(self):
-        self.canonical_size = (
-            UNIT + self.params.letter_params.stroke_width,
-            UNIT + self.params.letter_params.stroke_width,
-        )
-
-    def draw_letter[
-        LetterT: BaseLetterGlyph
+    def draw_glyph[
+        GlyphT: BaseGlyph
     ](
-        self, letter_cls: type[LetterT], params: BaseLetterParams | None = None
-    ) -> PaddingDrawing:
-        params_norm = params or self.params.letter_params
-        letter = letter_cls(params=params_norm)
-        padding = PaddingDrawing(
-            params=PaddingParams(drawing=letter), size=self.canonical_size
-        )
-        self.insert_drawing(padding)
-        return padding
+        self, glyph_cls: type[GlyphT], params: GlyphParams | None = None
+    ) -> GlyphT:
+        params_norm = params or self.params
+        glyph = glyph_cls(params=params_norm)
 
-    def draw_combo[
-        ComboT: BaseLetterComboGlyph
-    ](self, combo_cls: type[ComboT]) -> ComboT:
-        return self.insert_drawing(combo_cls(params=self.params))
+        self.insert_drawing(glyph)
+        return glyph

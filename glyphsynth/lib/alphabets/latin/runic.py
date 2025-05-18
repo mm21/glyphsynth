@@ -1,26 +1,22 @@
 import sys
 
-from ...letter import LETTERS, BaseLetterGlyph, BaseLetterParams
+from ....glyph.glyph import BaseGlyph, GlyphParams
+from ....glyph.letters import LETTERS
 
 __all__ = [
-    "RunicLetterParams",
     "LETTER_CLASSES",
     *LETTERS,
 ]
 
 
-class RunicLetterParams(BaseLetterParams):
-    pass
-
-
-class BaseRunicLetterGlyph(BaseLetterGlyph[RunicLetterParams]):
+class BaseRunicGlyph(BaseGlyph[GlyphParams]):
     def init(self):
         super().init()
         self.properties.stroke_linejoin = "round"
         self.properties.stroke_linecap = "round"
 
 
-class A(BaseRunicLetterGlyph):
+class A(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -35,7 +31,7 @@ class A(BaseRunicLetterGlyph):
         )
 
 
-class B(BaseRunicLetterGlyph):
+class B(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline([self.inset_left_top, self.inset_left_bot])
         self.draw_polyline(
@@ -49,7 +45,7 @@ class B(BaseRunicLetterGlyph):
         )
 
 
-class C(BaseRunicLetterGlyph):
+class C(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -60,7 +56,7 @@ class C(BaseRunicLetterGlyph):
         )
 
 
-class D(BaseRunicLetterGlyph):
+class D(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -72,7 +68,7 @@ class D(BaseRunicLetterGlyph):
         )
 
 
-class E(BaseRunicLetterGlyph):
+class E(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -88,7 +84,7 @@ class E(BaseRunicLetterGlyph):
         )
 
 
-class F(BaseRunicLetterGlyph):
+class F(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -103,7 +99,7 @@ class F(BaseRunicLetterGlyph):
         )
 
 
-class G(BaseRunicLetterGlyph):
+class G(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -120,7 +116,7 @@ class G(BaseRunicLetterGlyph):
         )
 
 
-class H(BaseRunicLetterGlyph):
+class H(BaseRunicGlyph):
     def draw(self):
         self.draw_line(
             self.inset_left_top,
@@ -136,7 +132,7 @@ class H(BaseRunicLetterGlyph):
         )
 
 
-class I(BaseRunicLetterGlyph):
+class I(BaseRunicGlyph):
     def draw(self):
         self.draw_line(
             self.inset_center_top,
@@ -144,7 +140,7 @@ class I(BaseRunicLetterGlyph):
         )
 
 
-class J(BaseRunicLetterGlyph):
+class J(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -156,7 +152,7 @@ class J(BaseRunicLetterGlyph):
         )
 
 
-class K(BaseRunicLetterGlyph):
+class K(BaseRunicGlyph):
     def draw(self):
         self.draw_line(
             self.inset_left_top,
@@ -171,7 +167,7 @@ class K(BaseRunicLetterGlyph):
         )
 
 
-class L(BaseRunicLetterGlyph):
+class L(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -182,7 +178,7 @@ class L(BaseRunicLetterGlyph):
         )
 
 
-class M(BaseRunicLetterGlyph):
+class M(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -195,7 +191,7 @@ class M(BaseRunicLetterGlyph):
         )
 
 
-class N(BaseRunicLetterGlyph):
+class N(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -207,7 +203,7 @@ class N(BaseRunicLetterGlyph):
         )
 
 
-class O(BaseRunicLetterGlyph):
+class O(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -220,7 +216,7 @@ class O(BaseRunicLetterGlyph):
         )
 
 
-class P(BaseRunicLetterGlyph):
+class P(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -232,7 +228,7 @@ class P(BaseRunicLetterGlyph):
         )
 
 
-class Q(BaseRunicLetterGlyph):
+class Q(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -249,7 +245,7 @@ class Q(BaseRunicLetterGlyph):
         )
 
 
-class R(BaseRunicLetterGlyph):
+class R(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -262,7 +258,7 @@ class R(BaseRunicLetterGlyph):
         )
 
 
-class S(BaseRunicLetterGlyph):
+class S(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -286,7 +282,7 @@ class S(BaseRunicLetterGlyph):
         # )
 
 
-class T(BaseRunicLetterGlyph):
+class T(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -302,7 +298,7 @@ class T(BaseRunicLetterGlyph):
         )
 
 
-class U(BaseRunicLetterGlyph):
+class U(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -315,7 +311,7 @@ class U(BaseRunicLetterGlyph):
         )
 
 
-class V(BaseRunicLetterGlyph):
+class V(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -326,7 +322,7 @@ class V(BaseRunicLetterGlyph):
         )
 
 
-class W(BaseRunicLetterGlyph):
+class W(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -339,7 +335,7 @@ class W(BaseRunicLetterGlyph):
         )
 
 
-class X(BaseRunicLetterGlyph):
+class X(BaseRunicGlyph):
     def draw(self):
         self.draw_line(
             self.inset_left_top,
@@ -351,7 +347,7 @@ class X(BaseRunicLetterGlyph):
         )
 
 
-class Y(BaseRunicLetterGlyph):
+class Y(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -366,7 +362,7 @@ class Y(BaseRunicLetterGlyph):
         )
 
 
-class Z(BaseRunicLetterGlyph):
+class Z(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
@@ -378,7 +374,7 @@ class Z(BaseRunicLetterGlyph):
         )
 
 
-LETTER_CLASSES: list[type[BaseLetterGlyph]] = [
+LETTER_CLASSES: list[type[BaseRunicGlyph]] = [
     getattr(sys.modules[__name__], l) for l in LETTERS
 ]
 """

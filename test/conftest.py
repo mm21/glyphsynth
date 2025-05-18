@@ -5,8 +5,8 @@ from pathlib import Path
 from pytest import FixtureRequest, fixture
 
 from glyphsynth import RASTER_SUPPORT, BaseDrawing
+from glyphsynth.glyph.glyph import UNIT
 from glyphsynth.lib.array import HArrayDrawing, VArrayDrawing
-from glyphsynth.lib.letter import UNIT
 from glyphsynth.lib.utils import PaddingDrawing
 
 logging.basicConfig(level=logging.INFO)

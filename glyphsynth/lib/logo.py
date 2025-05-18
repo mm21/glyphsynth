@@ -2,16 +2,14 @@
 Logo for GlyphSynth.
 """
 
-from .alphabets.latin.runic import G, RunicLetterParams, S
-from .letter import BaseLetterComboGlyph, LetterComboParams
+from ..glyph.glyph import BaseGlyph, GlyphParams
+from .alphabets.latin.runic import G, S
 
 
-class GlyphSynthLogo(BaseLetterComboGlyph[LetterComboParams]):
+class GlyphSynthLogo(BaseGlyph[GlyphParams]):
     def draw(self):
-        self.draw_letter(G)
-        self.draw_letter(
+        self.draw_glyph(G)
+        self.draw_glyph(
             S,
-            params=RunicLetterParams(
-                stroke_pct=self.params.letter_params.stroke_pct * 2
-            ),
+            params=GlyphParams(stroke_pct=self.params.stroke_pct * 2),
         ).scale(0.5, 0.5).translate(self.width / 2, self.height / 2)

@@ -443,8 +443,8 @@ class AMTComboGlyph(BaseLetterComboGlyph[AMTComboParams]):
     def draw(self):
         
         # draw letters given by params
-        self.draw_letter(self.params.letter1)
-        letter2 = self.draw_letter(self.params.letter2)
+        self.draw_glyph(self.params.letter1)
+        letter2 = self.draw_glyph(self.params.letter2)
 
         # additionally rotate letter2
         letter2.rotate(180)
