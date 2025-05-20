@@ -142,3 +142,6 @@ class Glyph(BaseGlyph[GlyphParams]):
     """
     Glyph which uses the base `GlyphParams`.
     """
+
+    def draw(self):
+        pass
