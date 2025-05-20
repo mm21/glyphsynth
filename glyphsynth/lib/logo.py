@@ -2,11 +2,11 @@
 Logo for GlyphSynth.
 """
 
-from ..glyph.glyph import BaseGlyph, GlyphParams
+from ..glyph.glyph import Glyph, GlyphParams
 from .alphabets.latin.runic import G, S
 
 
-class GlyphSynthLogo(BaseGlyph[GlyphParams]):
+class GlyphSynthLogo(Glyph):
     def draw(self):
         self.draw_glyph(G)
         self.draw_glyph(

@@ -5,7 +5,7 @@ https://en.wikipedia.org/wiki/Latin_alphabet#/media/File:Abecedarium_latinum_cla
 
 import sys
 
-from ....glyph.glyph import BaseGlyph, GlyphParams
+from ....glyph.glyph import Glyph
 from ....glyph.letters import LETTERS
 from ...utils import extend_line
 
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 
-class BaseTraditionalGlyph(BaseGlyph[GlyphParams]):
+class BaseTraditionalGlyph(Glyph):
     def init(self):
         super().init()
         self.properties.stroke_linejoin = "miter"

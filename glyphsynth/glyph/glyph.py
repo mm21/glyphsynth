@@ -10,6 +10,7 @@ from ..core.drawing import BaseDrawing, BaseParams
 __all__ = [
     "GlyphParams",
     "BaseGlyph",
+    "Glyph",
 ]
 
 ZERO = 0.0
@@ -135,3 +136,9 @@ class BaseGlyph[ParamsT: GlyphParams](BaseDrawing[ParamsT]):
 
         self.insert_drawing(glyph)
         return glyph
+
+
+class Glyph(BaseGlyph[GlyphParams]):
+    """
+    Glyph which uses the base `GlyphParams`.
+    """

@@ -1,6 +1,6 @@
 import sys
 
-from ....glyph.glyph import BaseGlyph, GlyphParams
+from ....glyph.glyph import Glyph
 from ....glyph.letters import LETTERS
 
 __all__ = [
@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-class BaseRunicGlyph(BaseGlyph[GlyphParams]):
+class BaseRunicGlyph(Glyph):
     def init(self):
         super().init()
         self.properties.stroke_linejoin = "round"
