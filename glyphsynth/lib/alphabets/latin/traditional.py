@@ -26,14 +26,14 @@ class A(BaseTraditionalGlyph):
         self.draw_polyline(
             [
                 extend_line(
-                    self.inset_center_top,
-                    (self.stroke_half, self.canonical_height),
+                    self.inset.center_top,
+                    (self.params.stroke_half, self.canonical_height),
                 ),
-                self.inset_center_top,
+                self.inset.center_top,
                 extend_line(
-                    self.inset_center_top,
+                    self.inset.center_top,
                     (
-                        self.canonical_width - self.stroke_half,
+                        self.canonical_width - self.params.stroke_half,
                         self.canonical_height,
                     ),
                 ),
@@ -72,11 +72,17 @@ class F(BaseTraditionalGlyph):
     def draw(self):
         # vertical line
         self.draw_polyline(
-            [(self.stroke_half, 0.0), (self.stroke_half, self.canonical_height)]
+            [
+                (self.params.stroke_half, 0.0),
+                (self.params.stroke_half, self.canonical_height),
+            ]
         )
         # top horizontal line
         self.draw_polyline(
-            [(0.0, self.stroke_half), (self.canonical_width, self.stroke_half)]
+            [
+                (0.0, self.params.stroke_half),
+                (self.canonical_width, self.params.stroke_half),
+            ]
         )
         # middle horizontal line
         self.draw_polyline(
@@ -126,12 +132,12 @@ class M(BaseTraditionalGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                (self.stroke_half, self.canonical_height),
-                (self.stroke_half, 0.0),
+                (self.params.stroke_half, self.canonical_height),
+                (self.params.stroke_half, 0.0),
                 (self.canonical_width / 2, self.canonical_height),
-                (self.canonical_width - self.stroke_half, 0.0),
+                (self.canonical_width - self.params.stroke_half, 0.0),
                 (
-                    self.canonical_width - self.stroke_half,
+                    self.canonical_width - self.params.stroke_half,
                     self.canonical_height,
                 ),
             ]
@@ -179,8 +185,8 @@ class T(BaseTraditionalGlyph):
 
         self.draw_polyline(
             [
-                (0.0, self.stroke_half),
-                (self.canonical_width, self.stroke_half),
+                (0.0, self.params.stroke_half),
+                (self.canonical_width, self.params.stroke_half),
             ]
         )
 

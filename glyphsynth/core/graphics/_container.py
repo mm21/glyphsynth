@@ -185,7 +185,7 @@ class BaseGraphicsContainer(TransformMixin):
 
         return kwargs
 
-    def _init_post(self):
+    def _post_init(self):
         # create canonical svg
         self._svg = cast(
             SVG,

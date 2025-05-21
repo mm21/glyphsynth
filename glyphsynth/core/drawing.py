@@ -28,7 +28,7 @@ class BaseParams(BaseFieldsModel):
     Subclass this class to create parameters for a Drawing.
     """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
 
     @property
     def desc(self) -> str:
@@ -113,11 +113,14 @@ class BaseDrawing[ParamsT: BaseParams](
         params_cls = cast(ParamsT, type(self).get_params_cls())
         self.params = params_cls._aggregate(self.default_params, params)
 
+        # invoke pre-init to setup needed state for user's init()
+        self._pre_init()
+
         # invoke subclass's init (e.g. set properties based on params)
         self.init()
 
         # invoke post-init since canonical_size may be set in init()
-        self._init_post()
+        self._post_init()
 
         # invoke subclass's drawing logic
         self.draw()
@@ -208,6 +211,12 @@ class BaseDrawing[ParamsT: BaseParams](
     @property
     def _container(self) -> svgwrite.container.SVG:
         return self._svg
+
+    def _pre_init(self):
+        """
+        Can be overridden by subclass for any init needed before user's init().
+        """
+        ...
 
 
 class EmptyParams(BaseParams):

@@ -48,7 +48,7 @@ class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
             LETTERS, LETTERS, COLORS
         ):
             yield AMTComboParams(
-                letter_params=GlyphParams(color=color),
+                color=color,
                 letter1=letter1,
                 letter2=letter2,
             )
@@ -63,7 +63,7 @@ def test_matrix(output_dir: Path):
         for color in COLORS:
             drawing = AMTComboGlyph(
                 params=AMTComboParams(
-                    letter_params=GlyphParams(color=color),
+                    color=color,
                     letter1=letter1,
                     letter2=letter2,
                 )
