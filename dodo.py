@@ -18,6 +18,9 @@ COV_PATH = TESTS_PATH / "cov"
 COV_HTML_PATH = COV_PATH / "html"
 COV_XML_PATH = COV_PATH / "coverage.xml"
 
+LOGO_PATH = "assets/logo.svg"
+LOGO_HEIGHT = 300
+
 
 def task_pytest():
     """
@@ -126,4 +129,24 @@ def task_format() -> Task:
         ],
         targets=[],
         file_dep=[],
+    )
+
+
+def task_logo() -> Task:
+    def run():
+        from glyphsynth.lib.logo import GlyphSynthLogo
+
+        logo = GlyphSynthLogo()
+
+        width = LOGO_HEIGHT * (logo.width / logo.height)
+        height = LOGO_HEIGHT
+
+        logo.export_svg(Path(LOGO_PATH), size=(f"{width}px", f"{height}px"))
+
+    return Task(
+        "logo",
+        actions=[run],
+        targets=[LOGO_PATH],
+        file_dep=["glyphsynth/lib/logo.py"],
+        clean=True,
     )

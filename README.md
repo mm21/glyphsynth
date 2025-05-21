@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="Logo" />
+</p>
+
 # GlyphSynth
 Pythonic vector graphics synthesis toolkit
 
@@ -25,9 +29,9 @@ Pythonic vector graphics synthesis toolkit
 
 This project provides a Pythonic mechanism to construct SVG graphics. Top-level drawings can be parameterized and leverage composition and inheritance to promote reuse. The ability to construct many variations of drawings programmatically can be a powerful tool for creativity.
 
-This project's goal was initially to specialize in the creation of glyphs -- symbols conveying some meaning. It is ideal for anything from logos to artwork.
+This project's goal was initially to specialize in the creation of glyphs -- symbols conveying some meaning. The unique Pythonic approach can be ideal for anything from logos to artwork.
 
-Nonetheless, it evolved to become a more general-purpose vector graphics framework, providing a layer of abstraction on top of `svgwrite`. The underlying graphics synthesis capability is planned to be split off into a separate project, with this one continuing to offer a more specialized interface for glyphs specifically.
+Nonetheless it evolved to become a more general-purpose vector graphics framework, essentially providing a layer of abstraction on top of `svgwrite`. The underlying graphics synthesis capability is planned to be split off into a separate project, with GlyphSynth continuing to offer a more specialized interface for glyphs specifically.
 
 ## Getting started
 
