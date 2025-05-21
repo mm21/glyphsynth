@@ -192,7 +192,12 @@ class ElementFactory(ABC):
             self._glyph.properties,
             properties,
         )
-        return props._get_values()
+
+        # get values as dict
+        values = props._get_values()
+
+        # filter out unset values
+        return {k: v for k, v in values.items() if v is not None}
 
 
 def _normalize_inherit(inherit: str | BaseElement | None) -> str | None:

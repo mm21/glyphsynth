@@ -30,15 +30,28 @@ class ExportContainer(BaseGraphicsContainer):
             case _:
                 raise ValueError(f"Invalid format: {out_format}")
 
-    def export_svg(self, path: Path):
+    def export_svg(
+        self,
+        path: Path,
+        size: tuple[str, str] | None = None,
+        background: str | None = None,
+    ):
         """
         :param path: Path to destination file or folder
         """
 
         path_norm: Path = self._normalize_path(path, "svg")
+        drawing = (
+            self._rescale_drawing(size) if size else copy.copy(self._drawing)
+        )
+
+        if background:
+            drawing.elements.insert(
+                0, drawing.rect(fill=background, size=("100%", "100%"))
+            )
 
         with path_norm.open("w") as fh:
-            fh.write(self._get_svg())
+            fh.write(self._get_svg(drawing))
 
     def export_png(
         self,
@@ -195,6 +208,14 @@ class ExportContainer(BaseGraphicsContainer):
         if not in_place_raster:
             shutil.rmtree(path_svg.parent)
 
+    def _rescale_drawing(self, size: tuple[str, str]) -> Drawing:
+        """
+        Rescale this drawing.
+        """
+        drawing: Drawing = copy.copy(self._drawing)
+        self._rescale_svg(drawing, size, self._size_norm, set_size=True)
+        return drawing
+
     def _create_svg_temp(
         self, path_svg: Path, size_raster: tuple[str, str] | None
     ):
@@ -205,16 +226,10 @@ class ExportContainer(BaseGraphicsContainer):
         # create temp drawing (top-level <svg>) and set size in order to
         # set output size
         # - required even if size provided to rsvg-convert
-        drawing_tmp: Drawing = copy.copy(self._drawing)
-
-        self._rescale_svg(
-            drawing_tmp, size_raster, self._size_norm, set_size=True
-        )
-
-        svg_str = self._get_svg(drawing_tmp)
+        drawing_tmp = self._rescale_drawing(size_raster)
 
         with path_svg.open("w") as fh:
-            fh.write(svg_str)
+            fh.write(self._get_svg(drawing_tmp))
 
     def _get_size_raster(self, scale: float) -> tuple[str, str] | None:
         if not self.has_size:
