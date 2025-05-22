@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="100.0" version="1.1" width="100.0">
+  <defs/>
+  <svg class="MySquareDrawing" height="100.0" id="blue-square" width="100.0">
+    <defs/>
+    <rect fill="blue" height="50.0" width="50.0" x="25.0" y="25.0"/>
+    <polyline fill="none" points="0.0,0.0 0.0,100.0 100.0,100.0 100.0,0 0.0,0.0" stroke="black" stroke-width="5"/>
+  </svg>
+</svg>

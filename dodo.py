@@ -21,6 +21,22 @@ COV_XML_PATH = COV_PATH / "coverage.xml"
 LOGO_PATH = "assets/logo.svg"
 LOGO_HEIGHT = 300
 
+TEST_OUT_PATH = Path("test/__out__")
+
+EXAMPLES_PATH = Path("assets/examples")
+EXAMPLES = [
+    "test_blue_square/blue-square.svg",
+    "test_fractal/multi-square-fractal.svg",
+    "test_sunset_gradients/sunset.svg",
+    "test_letter_variants/amt-combo-matrix.svg",
+    "test_logo/glyphsynth-logo.svg",
+    "test_runic_letter_matrix/runic-letter-matrix.svg",
+    "test_square/multi-square.svg",
+]
+"""
+List of examples to copy from test output to examples folder.
+"""
+
 
 def task_pytest():
     """
@@ -149,4 +165,22 @@ def task_logo() -> Task:
         targets=[LOGO_PATH],
         file_dep=["glyphsynth/lib/logo.py"],
         clean=True,
+    )
+
+
+def task_examples() -> Task:
+    # collect source/target paths
+    sources = [
+        str(TEST_OUT_PATH / "test_examples" / example) for example in EXAMPLES
+    ]
+    targets = [str(EXAMPLES_PATH / Path(example).name) for example in EXAMPLES]
+
+    return Task(
+        "examples",
+        actions=[
+            f"cp {source} {target}" for source, target in zip(sources, targets)
+        ],
+        targets=targets,
+        file_dep=sources,
+        clean=[f"rm -rf {EXAMPLES_PATH}/*"],
     )

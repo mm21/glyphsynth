@@ -1,4 +1,6 @@
+import itertools
 from pathlib import Path
+from typing import Generator
 
 from glyphsynth import (
     BaseDrawing,
@@ -178,7 +180,7 @@ def test_fractal(output_dir: Path):
     )
 
 
-def test_gradients(output_dir: Path):
+def test_sunset_gradients(output_dir: Path):
     WIDTH = 800
     HEIGHT = 600
 
@@ -265,6 +267,7 @@ def test_gradients(output_dir: Path):
             )
 
     scene = SceneDrawing(
+        drawing_id="sunset",
         params=SceneParams(
             background_params=BackgroundParams(
                 sky_colors=["#1a2b4c", "#9b4e6c"],
@@ -278,7 +281,7 @@ def test_gradients(output_dir: Path):
                 ],
                 focal_scale=1.2,
             ),
-        )
+        ),
     )
 
     write_drawing(output_dir, scene, scale=2)
@@ -287,7 +290,7 @@ def test_gradients(output_dir: Path):
         write_drawing(output_dir, nested)
 
 
-def test_runic_matrix(output_dir: Path):
+def test_runic_letter_matrix(output_dir: Path):
     from glyphsynth import MatrixDrawing
     from glyphsynth.lib.alphabets.latin.runic import (
         LETTER_CLASSES,
@@ -296,20 +299,97 @@ def test_runic_matrix(output_dir: Path):
 
     ROWS, COLS = 2, 13
 
-    # place each letter in a row
     rows: list[list[BaseRunicGlyph]] = [[] for _ in range(ROWS)]
+
+    # place each letter in a row
     for letter_idx, letter_cls in enumerate(LETTER_CLASSES):
         row_idx = letter_idx // COLS
         rows[row_idx].append(letter_cls())
 
     # create matrix of letters
-    matrix = MatrixDrawing.new(rows, drawing_id="runic-letters", spacing=10)
+    matrix = MatrixDrawing.new(
+        rows, drawing_id="runic-letter-matrix", spacing=10
+    )
 
     write_drawing(output_dir, matrix)
+
+
+def test_letter_variants(output_dir: Path):
+    from glyphsynth.glyph import BaseGlyph, GlyphParams
+    from glyphsynth.lib import MatrixDrawing
+    from glyphsynth.lib.alphabets.latin.runic import A, M, T
+    from glyphsynth.lib.variants import BaseVariantExportFactory
+
+    LETTERS = [
+        A,
+        M,
+        T,
+    ]
+
+    COLORS = [
+        "black",
+        "red",
+        "green",
+        "blue",
+    ]
+
+    class AMTComboParams(GlyphParams):
+        letter1: type[BaseGlyph]
+        letter2: type[BaseGlyph]
+
+    class AMTComboGlyph(BaseGlyph[AMTComboParams]):
+        def draw(self):
+            # draw letters given by params
+            self.draw_glyph(self.params.letter1)
+            letter2 = self.draw_glyph(self.params.letter2)
+
+            # additionally rotate letter2
+            letter2.rotate(180)
+
+    class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
+        MATRIX_WIDTH = len(COLORS)
+        SPACING = UNIT / 10
+
+        # generate variants of colors and letter combinations
+        def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
+            for letter1, letter2, color in itertools.product(
+                LETTERS, LETTERS, COLORS
+            ):
+                yield AMTComboParams(
+                    color=color,
+                    letter1=letter1,
+                    letter2=letter2,
+                )
+
+    rows: list[list[AMTComboGlyph]] = []
+
+    for letter1, letter2 in itertools.product(LETTERS, LETTERS):
+        row = []
+
+        for color in COLORS:
+            drawing = AMTComboGlyph(
+                params=AMTComboParams(
+                    color=color,
+                    letter1=letter1,
+                    letter2=letter2,
+                )
+            )
+            row.append(drawing)
+        rows.append(row)
+
+    matrix = MatrixDrawing.new(
+        rows,
+        drawing_id="amt-combo-matrix",
+        spacing=10,
+    )
+    write_drawing(output_dir, matrix)
+
+    for spec in AMTVariantFactory():
+        write_drawing(output_dir / spec.path, spec.drawing)
 
 
 def test_logo(output_dir: Path):
     from glyphsynth.lib.logo import GlyphSynthLogo
 
-    logo = GlyphSynthLogo()
+    logo = GlyphSynthLogo(drawing_id="glyphsynth-logo")
     write_drawing(output_dir, logo)

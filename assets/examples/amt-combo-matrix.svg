@@ -1,0 +1,991 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="1070.0" version="1.1" width="310.0">
+  <defs/>
+  <svg class="MatrixDrawing" height="1070.0" id="amt-combo-matrix" width="310.0">
+    <defs/>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="0.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="0.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="0.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="0.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="120.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="120.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="120.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="120.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="240.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="240.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="240.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="240.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="360.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="360.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="360.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="360.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="480.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="480.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="480.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="480.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="600.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="600.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="600.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="600.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="720.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="720.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="720.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="720.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="A-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="A-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="A" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 35.0,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <line fill="none" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="18.75" x2="51.25" y1="55.0" y2="55.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="840.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="840.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="840.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="840.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="M-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="M-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="M" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="2.5,107.5 2.5,2.5 35.0,107.5 67.5,2.5 67.5,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="0.0" y="960.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="80.0" y="960.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="160.0" y="960.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="green" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+    <svg class="AMTComboGlyph-wrapper-insert" x="240.0" y="960.0">
+      <defs/>
+      <g class="AMTComboGlyph-wrapper-transform">
+        <svg class="AMTComboGlyph" height="110.0" width="70.0">
+          <defs/>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+          <svg class="T-wrapper-insert" x="0.0" y="0.0">
+            <defs/>
+            <g class="T-wrapper-transform" transform="rotate(180,35.0,55.0)">
+              <svg class="T" height="110.0" width="70.0">
+                <defs/>
+                <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+                <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="blue" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+              </svg>
+            </g>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+  </svg>
+</svg>
