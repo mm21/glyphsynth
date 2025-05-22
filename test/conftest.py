@@ -32,7 +32,7 @@ def write_drawing(
         drawing.export_png(png_path, scale=scale)
 
 
-def write_glyphs(output_dir: Path, glyphs: list[BaseDrawing]):
+def write_drawings(output_dir: Path, glyphs: list[BaseDrawing]):
     """
     Create horizontal and vertical arrays and save them to the provided path,
     in addition to an svg per individual drawing.

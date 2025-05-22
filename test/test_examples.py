@@ -287,6 +287,27 @@ def test_gradients(output_dir: Path):
         write_drawing(output_dir, nested)
 
 
+def test_runic_matrix(output_dir: Path):
+    from glyphsynth import MatrixDrawing
+    from glyphsynth.lib.alphabets.latin.runic import (
+        LETTER_CLASSES,
+        BaseRunicGlyph,
+    )
+
+    ROWS, COLS = 2, 13
+
+    # place each letter in a row
+    rows: list[list[BaseRunicGlyph]] = [[] for _ in range(ROWS)]
+    for letter_idx, letter_cls in enumerate(LETTER_CLASSES):
+        row_idx = letter_idx // COLS
+        rows[row_idx].append(letter_cls())
+
+    # create matrix of letters
+    matrix = MatrixDrawing.new(rows, drawing_id="runic-letters", spacing=10)
+
+    write_drawing(output_dir, matrix)
+
+
 def test_logo(output_dir: Path):
     from glyphsynth.lib.logo import GlyphSynthLogo
 
