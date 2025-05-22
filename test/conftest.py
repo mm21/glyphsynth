@@ -26,7 +26,7 @@ def write_drawing(
     svg_path = output_dir / f"{stem}.svg" if stem else output_dir
     png_path = output_dir / f"{stem}.png" if stem else output_dir
 
-    drawing.export_svg(svg_path)
+    drawing.export_svg(svg_path, background="#ffffff")
 
     if RASTER_SUPPORT:
         drawing.export_png(png_path, scale=scale)

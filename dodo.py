@@ -25,13 +25,13 @@ TEST_OUT_PATH = Path("test/__out__")
 
 EXAMPLES_PATH = Path("assets/examples")
 EXAMPLES = [
-    "test_blue_square/blue-square.svg",
-    "test_fractal/multi-square-fractal.svg",
-    "test_sunset_gradients/sunset.svg",
-    "test_letter_variants/amt-combo-matrix.svg",
-    "test_logo/glyphsynth-logo.svg",
-    "test_runic_letter_matrix/runic-letter-matrix.svg",
-    "test_square/multi-square.svg",
+    "test_blue_square/blue-square.png",
+    "test_fractal/multi-square-fractal.png",
+    "test_sunset_gradients/sunset.png",
+    "test_letter_variants/amt-combo-matrix.png",
+    "test_logo/glyphsynth-logo.png",
+    "test_runic_letter_matrix/runic-letter-matrix.png",
+    "test_square/multi-square.png",
 ]
 """
 List of examples to copy from test output to examples folder.
@@ -157,7 +157,11 @@ def task_logo() -> Task:
         width = LOGO_HEIGHT * (logo.width / logo.height)
         height = LOGO_HEIGHT
 
-        logo.export_svg(Path(LOGO_PATH), size=(f"{width}px", f"{height}px"))
+        logo.export_svg(
+            Path(LOGO_PATH),
+            size=(f"{width}px", f"{height}px"),
+            background="#ffffff",
+        )
 
     return Task(
         "logo",

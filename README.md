@@ -60,7 +60,7 @@ In its `draw()` method, a `BaseDrawing` subclass can invoke drawing APIs which c
 A simple example of implementing `draw()` to draw a blue square:
 
 <p align="center">
-  <img src="./assets/examples/blue-square.svg" alt="Blue square" />
+  <img src="./assets/examples/blue-square.png" alt="Blue square" />
 </p>
 
 ```python
@@ -179,7 +179,7 @@ Assuming the above code containing the `blue_square` is placed in `my_drawings.p
 As part of `glyphsynth.lib`, an alphabet of rune-style glyphs is provided. These are designed to be overlayed and form geometric shapes.
 
 <p align="center">
-  <img src="./assets/examples/runic-letter-matrix.svg" alt="Runic letter matrix" />
+  <img src="./assets/examples/runic-letter-matrix.png" alt="Runic letter matrix" />
 </p>
 
 ```python
@@ -207,7 +207,7 @@ matrix = MatrixDrawing.new(rows, drawing_id="runic-letter-matrix", spacing=10)
 This project's logo is formed by combining the runic glyphs `G` and `S`:
 
 <p align="center">
-  <img src="./assets/examples/glyphsynth-logo.svg" alt="Project logo" />
+  <img src="./assets/examples/glyphsynth-logo.png" alt="Project logo" />
 </p>
 
 ```python
@@ -222,7 +222,7 @@ Note the `S` glyph is scaled by one half, remaining centered in the parent glyph
 #### Letter combination variants
 
 <p align="center">
-  <img src="./assets/examples/amt-combo-matrix.svg" alt="Letter combination matrix" />
+  <img src="./assets/examples/amt-combo-matrix.png" alt="Letter combination matrix" />
 </p>
 
 This illustrates the use of runic letter glyphs to create parameterized geometric designs. Permutations of pairs of letters `A`, `M`, and `T` are selected for a range of color variants, with the second letter being rotated 180 degrees.
@@ -309,7 +309,7 @@ The following examples illustrate the use of the generic drawing capability deve
 #### Sunset gradients
 
 <p align="center">
-  <img src="./assets/examples/sunset.svg" alt="Sunset gradients" />
+  <img src="./assets/examples/sunset.png" alt="Sunset gradients" />
 </p>
 
 This illustrates the use of gradients and drawing composition to create a simple ocean sunset scene.
@@ -422,7 +422,7 @@ scene = SceneDrawing(
 #### Multi-square
 
 <p align="center">
-  <img src="./assets/examples/multi-square.svg" alt="Multi-square" width="300" />
+  <img src="./assets/examples/multi-square.png" alt="Multi-square" width="300" />
 </p>
 
 This drawing is composed of 4 nested squares, each with a color parameter.
@@ -497,7 +497,7 @@ multi_square = MultiSquareDrawing(drawing_id="multi-square", params=multi_square
 #### Multi-square fractal
 
 <p align="center">
-  <img src="./assets/examples/multi-square-fractal.svg" alt="Multi-square fractal" width="300" />
+  <img src="./assets/examples/multi-square-fractal.png" alt="Multi-square fractal" width="300" />
 </p>
 
 This drawing nests a square drawing recursively up to a certain depth.

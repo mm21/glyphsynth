@@ -382,7 +382,7 @@ def test_letter_variants(output_dir: Path):
         drawing_id="amt-combo-matrix",
         spacing=10,
     )
-    write_drawing(output_dir, matrix)
+    write_drawing(output_dir, matrix, scale=2)
 
     for spec in AMTVariantFactory():
         write_drawing(output_dir / spec.path, spec.drawing)
