@@ -222,7 +222,7 @@ Note the `S` glyph is scaled by one half, remaining centered in the parent glyph
 #### Letter combination variants
 
 <p align="center">
-  <img src="./assets/examples/amt-combo-matrix.png" alt="Letter combination matrix" />
+  <img src="./assets/examples/amt-combo-matrix.png" alt="Letter combination matrix" width="300" />
 </p>
 
 This illustrates the use of runic letter glyphs to create parameterized geometric designs. Permutations of pairs of letters `A`, `M`, and `T` are selected for a range of color variants, with the second letter being rotated 180 degrees.
