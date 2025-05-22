@@ -57,6 +57,7 @@ class ExportContainer(BaseGraphicsContainer):
         self,
         path: Path,
         size: tuple[str, str] | None = None,
+        background: str | None = "#ffffff",
         dpi: tuple[int, int] = (96, 96),
         scale: float | int = 1,
         in_place_raster: bool = False,
@@ -73,7 +74,9 @@ class ExportContainer(BaseGraphicsContainer):
             float(scale)
         )
 
-        self._rasterize(path_norm, size_raster, dpi, in_place_raster)
+        self._rasterize(
+            path_norm, size_raster, background, dpi, in_place_raster
+        )
 
     def _get_svg(self, drawing: Drawing | None = None) -> str:
         """
@@ -152,6 +155,7 @@ class ExportContainer(BaseGraphicsContainer):
         self,
         path_png: Path,
         size_raster: tuple[str, str] | None,
+        background: str | None,
         dpi: tuple[int, int],
         in_place_raster: bool,
     ):
@@ -185,20 +189,23 @@ class ExportContainer(BaseGraphicsContainer):
             f"Rasterizing: {path_svg} -> {path_png}, size_raster={size_raster}, dpi={dpi}"
         )
 
-        # TODO: pass background color in API?
-        args = [
-            path_rsvg_convert,
-            "--keep-aspect-ratio",
-            "--background-color",
-            "#ffffff",
-            "--dpi-x",
-            f"{dpi[0]}",
-            "--dpi-y",
-            f"{dpi[1]}",
-            "-o",
-            str(path_png),
-            str(path_svg),
-        ]
+        background_args = (
+            ["--background-color", background] if background else []
+        )
+
+        args = (
+            [path_rsvg_convert, "--keep-aspect-ratio"]
+            + background_args
+            + [
+                "--dpi-x",
+                f"{dpi[0]}",
+                "--dpi-y",
+                f"{dpi[1]}",
+                "-o",
+                str(path_png),
+                str(path_svg),
+            ]
+        )
 
         logging.debug(f"Running: {' '.join(args)}")
 

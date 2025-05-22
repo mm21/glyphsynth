@@ -105,6 +105,8 @@ class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
         )
         return self
 
+    # TODO: flip(): scale to create mirror image across given axes
+
     @property
     def _mixin_size(self) -> tuple[float, float] | None:
         """
