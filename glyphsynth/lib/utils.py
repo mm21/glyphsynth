@@ -1,6 +1,6 @@
 from typing import Literal
 
-from ..core import BaseDrawing, BaseParams
+from ..drawing import BaseDrawing, BaseParams
 
 __all__ = [
     "PaddingType",

@@ -1,8 +1,8 @@
 from pyrollup import rollup
 
-from . import core, glyph, lib
-from .core import *  # noqa
+from . import drawing, glyph, lib
+from .drawing import *  # noqa
 from .glyph import *  # noqa
 from .lib import *  # noqa
 
-__all__ = rollup(core, glyph, lib)
+__all__ = rollup(drawing, glyph, lib)

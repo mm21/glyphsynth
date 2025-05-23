@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from functools import cached_property
 
-from ..core.drawing import BaseDrawing, BaseParams
+from ..drawing.drawing import BaseDrawing, BaseParams
 
 __all__ = [
     "GlyphParams",

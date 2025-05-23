@@ -5,7 +5,7 @@ import typer
 from rich.console import Console
 from rich.logging import RichHandler
 
-from ..core.export import export_drawings
+from ..drawing.export import export_drawings
 
 LEVEL = logging.INFO
 

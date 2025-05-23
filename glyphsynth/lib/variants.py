@@ -7,9 +7,9 @@ set of arrays.
 from pathlib import Path
 from typing import Generator
 
-from ..core import BaseDrawing, BaseParams
-from ..core._utils import extract_type_param
-from ..core.export import ExportSpec
+from ..drawing import BaseDrawing, BaseParams
+from ..drawing._utils import extract_type_param
+from ..drawing.export import ExportSpec
 from .array import HArrayDrawing, VArrayDrawing
 from .matrix import MatrixDrawing
 from .utils import PaddingDrawing

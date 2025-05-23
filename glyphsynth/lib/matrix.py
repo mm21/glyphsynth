@@ -1,4 +1,4 @@
-from ..core import BaseDrawing, BaseParams
+from ..drawing import BaseDrawing, BaseParams
 
 __all__ = [
     "MatrixParams",

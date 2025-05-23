@@ -3,7 +3,7 @@ from pathlib import Path
 from pytest import mark, raises
 
 from glyphsynth import RASTER_SUPPORT, Drawing, Properties
-from glyphsynth.core.export import export_drawings
+from glyphsynth.drawing.export import export_drawings
 
 from .conftest import write_drawing
 from .glyphs import (

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from glyphsynth import BaseDrawing, BaseParams, Properties, ShapeProperties
-from glyphsynth.core.graphics.elements.shapes import Circle
+from glyphsynth.drawing.graphics.elements.shapes import Circle
 
 __all__ = ["BasicDrawing", "ParentDrawing", "ParentDrawing2"]
 

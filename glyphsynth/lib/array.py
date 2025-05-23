@@ -1,6 +1,6 @@
 from abc import ABC
 
-from ..core import BaseDrawing
+from ..drawing import BaseDrawing
 
 __all__ = [
     "HArrayDrawing",
