@@ -12,9 +12,9 @@ from glyphsynth import (
 
 from .conftest import write_drawing
 
-ZERO: float = 0.0
-UNIT: float = 1000.0
-HALF: float = UNIT / 2
+ZERO = 0.0
+UNIT = 1000
+HALF = UNIT / 2
 
 UNIT_SIZE: tuple[float, float] = (UNIT, UNIT)
 ORIGIN: tuple[float, float] = (ZERO, ZERO)
@@ -149,10 +149,10 @@ def test_blue_square(output_dir: Path):
 
 def test_square(output_dir: Path):
     multi_square_params = MultiSquareParams(
-        color_upper_left="red",
-        color_upper_right="orange",
-        color_lower_right="green",
-        color_lower_left="blue",
+        color_upper_left="rgb(250, 50, 0)",
+        color_upper_right="rgb(250, 250, 0)",
+        color_lower_right="rgb(0, 250, 50)",
+        color_lower_left="rgb(0, 50, 250)",
     )
 
     multi_square = MultiSquareDrawing(
@@ -315,77 +315,50 @@ def test_runic_letter_matrix(output_dir: Path):
 
 
 def test_letter_variants(output_dir: Path):
-    from glyphsynth.glyph import BaseGlyph, GlyphParams
-    from glyphsynth.lib import MatrixDrawing
-    from glyphsynth.lib.alphabets.latin.runic import A, M, T
-    from glyphsynth.lib.variants import BaseVariantExportFactory
+    from glyphsynth.glyph import UNIT, BaseGlyph, GlyphParams
+    from glyphsynth.lib.alphabets.latin.runic import A, M, Y
+    from glyphsynth.lib.variants import BaseVariantFactory
 
+    # letters to combine
     LETTERS = [
         A,
         M,
-        T,
+        Y,
     ]
 
-    COLORS = [
-        "black",
-        "red",
-        "green",
-        "blue",
-    ]
+    # stroke widths (in percents) to iterate over
+    STROKE_PCTS = [2.5, 5, 7.5]
 
-    class AMTComboParams(GlyphParams):
+    class LetterComboParams(GlyphParams):
         letter1: type[BaseGlyph]
         letter2: type[BaseGlyph]
 
-    class AMTComboGlyph(BaseGlyph[AMTComboParams]):
+    class LetterComboGlyph(BaseGlyph[LetterComboParams]):
         def draw(self):
-            # draw letters given by params
+            # draw letters given by params, rotating letter2
             self.draw_glyph(self.params.letter1)
-            letter2 = self.draw_glyph(self.params.letter2)
+            self.draw_glyph(self.params.letter2).rotate(180)
 
-            # additionally rotate letter2
-            letter2.rotate(180)
-
-    class AMTVariantFactory(BaseVariantExportFactory[AMTComboGlyph]):
-        MATRIX_WIDTH = len(COLORS)
+    # factory to produce variants of LetterComboGlyph with different params
+    class LetterVariantFactory(BaseVariantFactory[LetterComboGlyph]):
+        MATRIX_WIDTH = len(STROKE_PCTS)
         SPACING = UNIT / 10
 
-        # generate variants of colors and letter combinations
-        def get_params_variants(self) -> Generator[AMTComboParams, None, None]:
-            for letter1, letter2, color in itertools.product(
-                LETTERS, LETTERS, COLORS
+        # generate variants of stroke widths and letter combinations
+        def get_params_variants(
+            self,
+        ) -> Generator[LetterComboParams, None, None]:
+            for letter1, letter2, stroke_pct in itertools.product(
+                LETTERS, LETTERS, STROKE_PCTS
             ):
-                yield AMTComboParams(
-                    color=color,
+                yield LetterComboParams(
+                    stroke_pct=stroke_pct,
                     letter1=letter1,
                     letter2=letter2,
                 )
 
-    rows: list[list[AMTComboGlyph]] = []
-
-    for letter1, letter2 in itertools.product(LETTERS, LETTERS):
-        row = []
-
-        for color in COLORS:
-            drawing = AMTComboGlyph(
-                params=AMTComboParams(
-                    color=color,
-                    letter1=letter1,
-                    letter2=letter2,
-                )
-            )
-            row.append(drawing)
-        rows.append(row)
-
-    matrix = MatrixDrawing.new(
-        rows,
-        drawing_id="amt-combo-matrix",
-        spacing=10,
-    )
-    write_drawing(output_dir, matrix, scale=2)
-
-    for spec in AMTVariantFactory():
-        write_drawing(output_dir / spec.path, spec.drawing)
+    for spec in LetterVariantFactory():
+        write_drawing(output_dir / spec.path, spec.drawing, scale=2)
 
 
 def test_logo(output_dir: Path):

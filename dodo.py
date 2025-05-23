@@ -24,13 +24,16 @@ LOGO_HEIGHT = 300
 TEST_OUT_PATH = Path("test/__out__")
 
 EXAMPLES_PATH = Path("assets/examples")
-EXAMPLES = [
+EXAMPLES: list[str | tuple[str, str]] = [
     "test_blue_square/blue-square.png",
     "test_fractal/multi-square-fractal.png",
     "test_sunset_gradients/sunset.png",
-    "test_letter_variants/amt-combo-matrix.png",
-    "test_logo/glyphsynth-logo.png",
-    "test_runic_letter_matrix/runic-letter-matrix.png",
+    (
+        "test_letter_variants/variants/matrix/matrix.png",
+        "letter-variant-matrix.png",
+    ),
+    "test_logo/glyphsynth-logo.svg",
+    "test_runic_letter_matrix/runic-letter-matrix.svg",
     "test_square/multi-square.png",
 ]
 """
@@ -173,11 +176,20 @@ def task_logo() -> Task:
 
 
 def task_examples() -> Task:
+    # normalize to list of (src path, dest filename) tuples
+    examples_norm: list[tuple[str, str]] = [
+        example if isinstance(example, tuple) else (example, Path(example).name)
+        for example in EXAMPLES
+    ]
+
     # collect source/target paths
     sources = [
-        str(TEST_OUT_PATH / "test_examples" / example) for example in EXAMPLES
+        str(TEST_OUT_PATH / "test_examples" / src_path)
+        for src_path, _ in examples_norm
     ]
-    targets = [str(EXAMPLES_PATH / Path(example).name) for example in EXAMPLES]
+    targets = [
+        str(EXAMPLES_PATH / dest_filename) for _, dest_filename in examples_norm
+    ]
 
     return Task(
         "examples",
