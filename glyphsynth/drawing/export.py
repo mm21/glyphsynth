@@ -67,7 +67,7 @@ def export_drawings(
     If a `BaseDrawing` is encountered,
     """
 
-    logging.info(f"Exporting to output path: {output_path}")
+    logging.info(f"Exporting '{fqcn}' -> '{output_path}'")
 
     containers: list[ExportSpec] = _extract_containers(fqcn)
 
@@ -106,12 +106,15 @@ def _export_drawing(
         else export_path
     )
 
+    if export_path.suffix:
+        drawing.export(export_path)
+
     if svg:
-        logging.info(f"Writing svg: {drawing} -> {path}.svg")
+        logging.info(f"Writing svg: {drawing} -> '{path}.svg'")
         drawing.export_svg(export_path)
 
     if png:
-        logging.info(f"Writing png: {drawing} -> {path}.png")
+        logging.info(f"Writing png: {drawing} -> '{path}.png'")
         drawing.export_png(export_path, in_place_raster=in_place_raster)
 
 

@@ -45,8 +45,10 @@ def export(
         False,
         help="Whether to create subfolders based on the respective drawing's modpath",
     ),
-    svg: bool = typer.Option(False, help="Output .svg"),
-    png: bool = typer.Option(False, help="Output .png from .svg (Linux only)"),
+    svg: bool = typer.Option(False, help="Write .svg to folder", is_flag=True),
+    png: bool = typer.Option(
+        False, help="Write .png to folder (Linux only)", is_flag=True
+    ),
 ):
     export_drawings(
         fqcn, output_path, output_modpath=output_modpath, svg=svg, png=png
