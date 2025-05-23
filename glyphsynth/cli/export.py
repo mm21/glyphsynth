@@ -11,7 +11,7 @@ LEVEL = logging.INFO
 
 
 app = typer.Typer(
-    rich_markup_mode="rich",
+    rich_markup_mode="markdown",
     no_args_is_help=True,
     add_completion=False,
 )
@@ -43,11 +43,18 @@ def export(
     output_path: str = typer.Argument(help="Output path (file or folder)"),
     output_modpath: bool = typer.Option(
         False,
+        "--output-modpath",
         help="Whether to create subfolders based on the respective drawing's modpath",
     ),
-    svg: bool = typer.Option(False, help="Write .svg to folder", is_flag=True),
+    svg: bool = typer.Option(
+        False,
+        "--svg",
+        help="Write .svg to folder",
+    ),
     png: bool = typer.Option(
-        False, help="Write .png to folder (Linux only)", is_flag=True
+        False,
+        "--png",
+        help="Write .png to folder (Linux only)",
     ),
 ):
     export_drawings(
