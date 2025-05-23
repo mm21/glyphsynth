@@ -11,6 +11,7 @@ __all__ = [
     "GlyphParams",
     "BaseGlyph",
     "Glyph",
+    "UNIT",
 ]
 
 UNIT = 100.0

@@ -16,7 +16,7 @@ from .utils import PaddingDrawing
 
 __all__ = [
     "BaseVariantFactory",
-    "BaseVariantExportFactory",
+    "BaseVariantFactory",
 ]
 
 
@@ -83,9 +83,7 @@ class BaseVariantFactory[DrawingT: BaseDrawing]:
         cls._glyph_cls = glyph_cls
 
 
-class BaseVariantExportFactory[DrawingT: BaseDrawing](
-    BaseVariantFactory[DrawingT]
-):
+class BaseVariantFactory[DrawingT: BaseDrawing](BaseVariantFactory[DrawingT]):
     """
     Encapsulates a variant factory which creates and exports arrays of
     glyphs with combinations of drawing parameters and properties.

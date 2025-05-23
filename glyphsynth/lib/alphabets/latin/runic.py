@@ -1,3 +1,10 @@
+"""
+Rune-style Latin alphabet.
+
+TODO: make more runic / geometric instead of strictly adhering to Latin shapes,
+e.g. "T" can be angled (arrow-like)
+"""
+
 import sys
 
 from ....glyph.glyph import Glyph

@@ -211,7 +211,7 @@ def _recurse_drawing_spec(
         for spec in drawing_spec:
             ret += _recurse_drawing_spec(spec)
 
-    # function, BaseDrawing subclass, or BaseVariantExportFactory subclass
+    # function, BaseDrawing subclass, or BaseVariantFactory subclass
     elif isinstance(drawing_spec, Callable):
         ret += _recurse_drawing_spec(drawing_spec())
 
