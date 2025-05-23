@@ -75,10 +75,10 @@ class BaseMatrixDrawing(BaseDrawing[MatrixParams]):
         cols: list[list[BaseDrawing]] = list(map(list, zip(*rows)))
 
         # get column widths
-        col_widths = [max([g.size[0] for g in col]) for col in cols]
+        col_widths = [max([d.size[0] for d in col]) for col in cols]
 
         # get row heights
-        row_heights = [max([g.size[1] for g in row]) for row in rows]
+        row_heights = [max([d.size[1] for d in row]) for row in rows]
 
         # set rows/cols
         self._rows = rows
@@ -89,10 +89,14 @@ class BaseMatrixDrawing(BaseDrawing[MatrixParams]):
         self._max_height = max(row_heights)
 
         # get total width
-        width = sum(col_widths) + self.params.spacing * (len(cols) - 1)
+        width = self._max_width * len(cols) + self.params.spacing * (
+            len(cols) - 1
+        )
 
         # get total height
-        height = sum(row_heights) + self.params.spacing * (len(rows) - 1)
+        height = self._max_height * len(rows) + self.params.spacing * (
+            len(rows) - 1
+        )
 
         # add padding
         width += self.params.padding * 2
