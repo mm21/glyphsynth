@@ -238,11 +238,7 @@ from glyphsynth.glyph import UNIT, BaseGlyph, GlyphParams
 from glyphsynth.lib.alphabets.latin.runic import A, M, Y
 
 # letters to combine
-LETTERS = [
-    A,
-    M,
-    Y,
-]
+LETTERS = [A, M, Y]
 
 # stroke widths (in percents) to iterate over
 STROKE_PCTS = [2.5, 5, 7.5]
