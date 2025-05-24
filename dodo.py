@@ -26,15 +26,15 @@ TEST_OUT_PATH = Path("test/__out__")
 EXAMPLES_PATH = Path("assets/examples")
 EXAMPLES: list[str | tuple[str, str]] = [
     "test_blue_square/blue-square.png",
-    "test_fractal/multi-square-fractal.png",
-    "test_sunset_gradients/sunset.png",
+    "test_runic_alphabet/runic-alphabet.svg",
+    "test_glyphsynth_logo/glyphsynth-logo.svg",
     (
-        "test_letter_variants/variants/matrix/matrix.png",
-        "letter-variant-matrix.png",
+        "test_letter_combination_variants/variants/matrix/matrix.png",
+        "letter-combination-variants.png",
     ),
-    "test_logo/glyphsynth-logo.svg",
-    "test_runic_letter_matrix/runic-letter-matrix.svg",
-    "test_square/multi-square.png",
+    "test_sunset_gradients/sunset-gradients.png",
+    "test_multi_square/multi-square.png",
+    "test_multi_square/multi-square-fractal.png",
 ]
 """
 List of examples to copy from test output to examples folder.

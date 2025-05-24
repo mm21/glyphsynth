@@ -21,7 +21,7 @@ Pythonic vector graphics synthesis toolkit
   - [Examples](#examples)
     - [Glyphs](#glyphs)
       - [Runic alphabet](#runic-alphabet)
-      - [Project logo](#project-logo)
+      - [GlyphSynth logo](#glyphsynth-logo)
       - [Letter combination variants](#letter-combination-variants)
     - [Drawings](#drawings)
       - [Sunset gradients](#sunset-gradients)
@@ -33,7 +33,7 @@ Pythonic vector graphics synthesis toolkit
 
 This project provides a Pythonic mechanism to construct SVG drawings. Drawings can be parameterized and leverage composition and inheritance to promote reuse. The ability to construct many variations of drawings programmatically can be a powerful tool for creativity.
 
-This project's goal is to specialize in the creation of glyphs -- symbols conveying some meaning. The unique Pythonic approach can be ideal for anything from logos to artwork.
+This project's goal is to specialize in the creation of glyphs &mdash; symbols conveying some meaning. The unique Pythonic approach can be ideal for anything from logos to artwork.
 
 Nonetheless it evolved to become a more general-purpose vector graphics framework, essentially providing a layer of abstraction on top of `svgwrite`. The underlying graphics synthesis capability is planned to be split off into a separate project, with GlyphSynth continuing to offer a more specialized interface for glyphs specifically.
 
@@ -64,7 +64,7 @@ A simple example of implementing `draw()` to draw a blue square:
 </p>
 
 ```python
-from glyphsynth import BaseParams, BaseDrawing, ShapeProperties
+from glyphsynth import BaseDrawing, BaseParams, ShapeProperties
 
 # drawing params
 class MySquareParams(BaseParams):
@@ -72,12 +72,10 @@ class MySquareParams(BaseParams):
 
 # drawing subclass
 class MySquareDrawing(BaseDrawing[MySquareParams]):
-
     # canonical size for drawing construction, can be rescaled upon creation
     canonical_size = (100.0, 100.0)
 
     def draw(self):
-
         # draw a centered square using the provided color
         self.draw_rect(
             (25.0, 25.0),
@@ -87,14 +85,19 @@ class MySquareDrawing(BaseDrawing[MySquareParams]):
 
         # draw a black border around the perimeter
         self.draw_polyline(
-            [(0.0, 0.0), (0.0, 100.0), (100.0, 100.0), (100.0, 0), (0.0, 0.0)],
+            [
+                (0.0, 0.0),
+                (0.0, 100.0),
+                (100.0, 100.0),
+                (100.0, 0),
+                (0.0, 0.0),
+            ],
             properties=ShapeProperties(
                 stroke="black",
                 fill="none",
                 stroke_width="5",
             ),
         )
-
 
 # create drawing instance
 blue_square = MySquareDrawing(
@@ -143,13 +146,15 @@ A drawing can be exported using `BaseDrawing.export()`, `BaseDrawing.export_svg(
 ```python
 from pathlib import Path
 
-# export to specific path
-blue_square.export(Path("my-drawings/blue-square.svg"))
-blue_square.export(Path("my-drawings/blue-square.png"))
+my_drawings = Path("my-drawings")
 
-# export using class name as filename
-blue_square.export_svg(Path("my-drawings")) # blue-square.svg 
-blue_square.export_png(Path("my-drawings")) # blue-square.png
+# export to specific file, format auto-detected
+blue_square.export(my_drawings / "blue-square.svg")
+blue_square.export(my_drawings / "blue-square.png")
+
+# export to folder using drawing_id as filename
+blue_square.export_svg(my_drawings) # blue-square.svg
+blue_square.export_png(my_drawings) # blue-square.png
 ```
 
 ### CLI
@@ -179,7 +184,7 @@ Assuming the above code containing the `blue_square` is placed in `my_drawings.p
 As part of `glyphsynth.lib`, an alphabet of rune-style glyphs is provided. These are designed to be overlayed and form geometric shapes.
 
 <p align="center">
-  <img src="./assets/examples/runic-letter-matrix.svg" alt="Runic letter matrix" />
+  <img src="./assets/examples/runic-alphabet.svg" alt="Runic letter matrix" />
 </p>
 
 ```python
@@ -189,20 +194,17 @@ from glyphsynth.lib.alphabets.latin.runic import (
     BaseRunicGlyph,
 )
 
-ROWS, COLS = 2, 13
-
-rows: list[list[BaseRunicGlyph]] = [[] for _ in range(ROWS)]
-
-# place each letter in a row
-for letter_idx, letter_cls in enumerate(LETTER_CLASSES):
-    row_idx = letter_idx // COLS
-    rows[row_idx].append(letter_cls())
+# instantiate letters and split into 2 rows
+rows: list[list[BaseRunicGlyph]] = [
+    [letter_cls() for letter_cls in LETTER_CLASSES[:13]],
+    [letter_cls() for letter_cls in LETTER_CLASSES[13:]],
+]
 
 # create matrix of letters
-matrix = MatrixDrawing.new(rows, drawing_id="runic-letter-matrix", spacing=10)
+matrix = MatrixDrawing.new(rows, drawing_id="runic-alphabet", spacing=10)
 ```
 
-#### Project logo
+#### GlyphSynth logo
 
 This project's logo is formed by combining the runic glyphs `G` and `S`:
 
@@ -211,26 +213,29 @@ This project's logo is formed by combining the runic glyphs `G` and `S`:
 </p>
 
 ```python
+from glyphsynth import Glyph
+
 class GlyphSynthLogo(Glyph):
     def draw(self):
         self.draw_glyph(G)
         self.draw_glyph(S, scale=0.5)
+
+glyphsynth_logo = GlyphSynthLogo(drawing_id="glyphsynth-logo")
 ```
 
 Note the `S` glyph is scaled by one half, remaining centered in the parent glyph. While its size is reduced, its stroke width is increased accordingly to match the parent glyph.
 
 #### Letter combination variants
 
-<p align="center">
-  <img src="./assets/examples/letter-variant-matrix.png" alt="Letter variant matrix" width="300" />
-</p>
-
 This illustrates the use of runic letter glyphs to create parameterized geometric designs. Combinations of pairs of letters `A`, `M`, and `Y` are selected for a range of stroke widths, with the second letter being rotated 180 degrees.
+
+<p align="center">
+  <img src="./assets/examples/letter-combination-variants.png" alt="Letter variant matrix" width="300" />
+</p>
 
 ```python
 from glyphsynth.glyph import UNIT, BaseGlyph, GlyphParams
 from glyphsynth.lib.alphabets.latin.runic import A, M, Y
-from glyphsynth.lib.variants import BaseVariantFactory
 
 # letters to combine
 LETTERS = [
@@ -256,8 +261,8 @@ class LetterComboGlyph(BaseGlyph[LetterComboParams]):
 A subclass of `BaseVariantFactory` can be used as a convenience for generating variants:
 
 ```python
-from typing import Generator
 import itertools
+from typing import Generator
 
 from glyphsynth.lib.variants import BaseVariantFactory
 
@@ -288,13 +293,15 @@ The following examples illustrate the use of the generic drawing capability deve
 
 #### Sunset gradients
 
-<p align="center">
-  <img src="./assets/examples/sunset.png" alt="Sunset gradients" />
-</p>
-
 This illustrates the use of gradients and drawing composition to create a simple ocean sunset scene.
 
+<p align="center">
+  <img src="./assets/examples/sunset-gradients.png" alt="Sunset gradients" />
+</p>
+
 ```python
+from glyphsynth import BaseDrawing, BaseParams, StopColor
+
 WIDTH = 800
 HEIGHT = 600
 
@@ -330,11 +337,11 @@ class BackgroundDrawing(BaseDrawing[BackgroundParams]):
             )
         )
 
-class SunsetParams(BaseParams):
+class SunParams(BaseParams):
     colors: list[StopColor]
     focal_scale: float
 
-class SunsetDrawing(BaseDrawing[SunsetParams]):
+class SunDrawing(BaseDrawing[SunParams]):
     canonical_size = (WIDTH, HEIGHT / 2)
 
     def draw(self):
@@ -354,9 +361,9 @@ class SunsetDrawing(BaseDrawing[SunsetParams]):
 
 class SceneParams(BaseParams):
     background_params: BackgroundParams
-    sunset_params: SunsetParams
+    sun_params: SunParams
 
-class SceneDrawing(BaseDrawing[SceneParams]):
+class SunsetDrawing(BaseDrawing[SceneParams]):
     canonical_size = (WIDTH, HEIGHT)
 
     def draw(self):
@@ -368,26 +375,26 @@ class SceneDrawing(BaseDrawing[SceneParams]):
 
         # sunset
         self.insert_drawing(
-            SunsetDrawing(params=self.params.sunset_params),
+            SunDrawing(params=self.params.sun_params),
             insert=(0, 0),
         )
 
         # sunset reflection
         self.insert_drawing(
-            SunsetDrawing(params=self.params.sunset_params)
+            SunDrawing(params=self.params.sun_params)
             .rotate(180)
             .fill(opacity_pct=50.0),
             insert=(0, self.center_y),
         )
 
-scene = SceneDrawing(
-    drawing_id="sunset",
+sunset = SunsetDrawing(
+    drawing_id="sunset-gradients",
     params=SceneParams(
         background_params=BackgroundParams(
             sky_colors=["#1a2b4c", "#9b4e6c"],
             water_colors=["#2d3d5e", "#0f1c38"],
         ),
-        sunset_params=SunsetParams(
+        sun_params=SunParams(
             colors=[
                 StopColor("#ffd700", 0.0, 100.0),
                 StopColor("#ff7f50", 50.0, 90.0),
@@ -395,20 +402,20 @@ scene = SceneDrawing(
             ],
             focal_scale=1.2,
         ),
-    )
+    ),
 )
 ```
 
 #### Multi-square
 
+This drawing is composed of 4 nested squares, each with a color parameter.
+
 <p align="center">
   <img src="./assets/examples/multi-square.png" alt="Multi-square" width="300" />
 </p>
 
-This drawing is composed of 4 nested squares, each with a color parameter.
-
 ```python
-from glyphsynth import BaseParams, BaseDrawing
+from glyphsynth import BaseDrawing, BaseParams, ShapeProperties
 
 # definitions
 ZERO = 0.0
@@ -426,11 +433,9 @@ class MultiSquareParams(BaseParams):
 
 # multi-square drawing class
 class MultiSquareDrawing(BaseDrawing[MultiSquareParams]):
-
     canonical_size = UNIT_SIZE
 
     def draw(self):
-
         # each nested square should occupy 1/4 of the area
         size: tuple[float, float] = (HALF, HALF)
 
@@ -471,16 +476,18 @@ multi_square_params = MultiSquareParams(
 )
 
 # create drawing
-multi_square = MultiSquareDrawing(drawing_id="multi-square", params=multi_square_params)
+multi_square = MultiSquareDrawing(
+    drawing_id="multi-square", params=multi_square_params
+)
 ```
 
 #### Multi-square fractal
 
+This drawing nests a multi-square drawing recursively up to a certain depth.
+
 <p align="center">
   <img src="./assets/examples/multi-square-fractal.png" alt="Multi-square fractal" width="300" />
 </p>
-
-This drawing nests a multi-square drawing recursively up to a certain depth.
 
 ```python
 # maximum recursion depth for creating fractal
@@ -491,13 +498,13 @@ class SquareFractalParams(BaseParams):
     depth: int = FRACTAL_DEPTH
 
 class SquareFractalDrawing(BaseDrawing[SquareFractalParams]):
-
     canonical_size = UNIT_SIZE
 
     def draw(self):
-
         # draw square
-        self.insert_drawing(MultiSquareDrawing(params=self.params.square_params))
+        self.insert_drawing(
+            MultiSquareDrawing(params=self.params.square_params)
+        )
 
         if self.params.depth > 1:
             # draw another fractal drawing, half the size and rotated 90 degrees
@@ -514,14 +521,7 @@ class SquareFractalDrawing(BaseDrawing[SquareFractalParams]):
             child_drawing.rotate(90.0)
             self.insert_drawing(child_drawing, insert=(HALF / 2, HALF / 2))
 
-multi_square_params = MultiSquareParams(
-    color_upper_left="rgb(250, 50, 0)",
-    color_upper_right="rgb(250, 250, 0)",
-    color_lower_right="rgb(0, 250, 50)",
-    color_lower_left="rgb(0, 50, 250)",
-)
-
-fractal = SquareFractalDrawing(
+multi_square_fractal = SquareFractalDrawing(
     drawing_id="multi-square-fractal",
     params=SquareFractalParams(square_params=multi_square_params),
 )

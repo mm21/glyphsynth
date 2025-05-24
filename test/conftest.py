@@ -22,11 +22,12 @@ def write_drawing(
     drawing: BaseDrawing,
     stem: str | None = None,
     scale: int = 1,
+    background: str | None = None,
 ):
     svg_path = output_dir / f"{stem}.svg" if stem else output_dir
     png_path = output_dir / f"{stem}.png" if stem else output_dir
 
-    drawing.export_svg(svg_path, background="#ffffff")
+    drawing.export_svg(svg_path, background=background)
 
     if RASTER_SUPPORT:
         drawing.export_png(png_path, scale=scale)

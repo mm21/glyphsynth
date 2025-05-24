@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="230.0" version="1.1" width="1030.0">
   <rect fill="#ffffff" height="100%" width="100%" x="0" y="0"/>
   <defs/>
-  <svg class="MatrixDrawing" height="230.0" id="runic-letter-matrix" width="1030.0">
+  <svg class="MatrixDrawing" height="230.0" id="runic-alphabet" width="1030.0">
     <defs/>
     <svg class="A-wrapper-insert" x="0.0" y="0.0">
       <defs/>
