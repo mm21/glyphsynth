@@ -1,8 +1,5 @@
 """
 Rune-style Latin alphabet.
-
-TODO: make more runic / geometric instead of strictly adhering to Latin shapes,
-e.g. "T" can be angled (arrow-like)
 """
 
 import sys
@@ -79,10 +76,10 @@ class E(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                self.inset.right_top,
+                (self.inset.right_border, self.inset.quarter_height(1)),
                 self.inset.left_top,
                 self.inset.left_bot,
-                self.inset.right_bot,
+                (self.inset.right_border, self.inset.quarter_height(3)),
             ]
         )
         self.draw_line(
@@ -95,14 +92,14 @@ class F(BaseRunicGlyph):
     def draw(self):
         self.draw_polyline(
             [
-                self.inset.right_top,
+                (self.inset.right_border, self.inset.quarter_height(1)),
                 self.inset.left_top,
                 self.inset.left_bot,
             ]
         )
         self.draw_line(
             self.inset.left_center,
-            self.inset.right_center,
+            (self.inset.right_border, self.inset.quarter_height(3)),
         )
 
 
@@ -179,7 +176,7 @@ class L(BaseRunicGlyph):
             [
                 self.inset.left_top,
                 self.inset.left_bot,
-                self.inset.right_bot,
+                (self.inset.right_border, self.inset.quarter_height(3)),
             ]
         )
 
@@ -298,8 +295,9 @@ class T(BaseRunicGlyph):
         )
         self.draw_polyline(
             [
-                self.inset.left_top,
-                self.inset.right_top,
+                (self.inset.left_border, self.inset.quarter_height(1)),
+                self.inset.center_top,
+                (self.inset.right_border, self.inset.quarter_height(1)),
             ]
         )
 

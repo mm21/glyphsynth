@@ -47,7 +47,7 @@
       <g class="E-wrapper-transform">
         <svg class="E" height="110.0" width="70.0">
           <defs/>
-          <polyline fill="none" points="67.5,2.5 2.5,2.5 2.5,107.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+          <polyline fill="none" points="67.5,28.75 2.5,2.5 2.5,107.5 67.5,81.25" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
           <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="2.5" x2="67.5" y1="55.0" y2="55.0"/>
         </svg>
       </g>
@@ -57,8 +57,8 @@
       <g class="F-wrapper-transform">
         <svg class="F" height="110.0" width="70.0">
           <defs/>
-          <polyline fill="none" points="67.5,2.5 2.5,2.5 2.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
-          <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="2.5" x2="67.5" y1="55.0" y2="55.0"/>
+          <polyline fill="none" points="67.5,28.75 2.5,2.5 2.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+          <line fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0" x1="2.5" x2="67.5" y1="55.0" y2="81.25"/>
         </svg>
       </g>
     </svg>
@@ -115,7 +115,7 @@
       <g class="L-wrapper-transform">
         <svg class="L" height="110.0" width="70.0">
           <defs/>
-          <polyline fill="none" points="2.5,2.5 2.5,107.5 67.5,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+          <polyline fill="none" points="2.5,2.5 2.5,107.5 67.5,81.25" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
         </svg>
       </g>
     </svg>
@@ -189,7 +189,7 @@
         <svg class="T" height="110.0" width="70.0">
           <defs/>
           <polyline fill="none" points="35.0,2.5 35.0,107.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
-          <polyline fill="none" points="2.5,2.5 67.5,2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+          <polyline fill="none" points="2.5,28.75 35.0,2.5 67.5,28.75" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
         </svg>
       </g>
     </svg>
