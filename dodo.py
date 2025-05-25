@@ -18,12 +18,12 @@ COV_PATH = TESTS_PATH / "cov"
 COV_HTML_PATH = COV_PATH / "html"
 COV_XML_PATH = COV_PATH / "coverage.xml"
 
-LOGO_PATH = "assets/logo.svg"
-LOGO_HEIGHT = 300
-
 TEST_OUT_PATH = Path("test/__out__")
 
-EXAMPLES_PATH = Path("assets/examples")
+ASSETS_PATH = Path("assets")
+LOGO_HEIGHT = 300
+
+EXAMPLES_PATH = ASSETS_PATH / "examples"
 EXAMPLES: list[str | tuple[str, str]] = [
     "test_blue_square/blue-square.png",
     "test_runic_alphabet/runic-alphabet.png",
@@ -152,23 +152,29 @@ def task_format() -> Task:
 
 
 def task_logo() -> Task:
+    logo_light_path = ASSETS_PATH / "logo-light.svg"
+    logo_dark_path = ASSETS_PATH / "logo-dark.svg"
+
     def run():
+        from glyphsynth import GlyphParams
         from glyphsynth.lib.logo import GlyphSynthLogo
 
-        logo = GlyphSynthLogo()
+        dark_params = GlyphParams(color="white")
 
-        width = LOGO_HEIGHT * (logo.width / logo.height)
+        logo_light = GlyphSynthLogo()
+        logo_dark = GlyphSynthLogo(params=dark_params)
+
+        width = LOGO_HEIGHT * (logo_light.width / logo_light.height)
         height = LOGO_HEIGHT
+        size = (f"{width}px", f"{height}px")
 
-        logo.export_svg(
-            Path(LOGO_PATH),
-            size=(f"{width}px", f"{height}px"),
-        )
+        logo_light.export_svg(logo_light_path, size=size)
+        logo_dark.export_svg(logo_dark_path, size=size)
 
     return Task(
         "logo",
         actions=[run],
-        targets=[LOGO_PATH],
+        targets=[logo_light_path, logo_dark_path],
         file_dep=["glyphsynth/lib/logo.py"],
         clean=True,
     )

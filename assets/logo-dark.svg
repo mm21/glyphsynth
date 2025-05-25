@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="300px" preserveAspectRatio="xMidYMid meet" version="1.1" viewBox="0,0,70.0,110.0" width="190.9090909090909px">
+  <defs/>
+  <svg class="GlyphSynthLogo" height="110.0" width="70.0">
+    <defs/>
+    <svg class="G-wrapper-insert" x="0.0" y="0.0">
+      <defs/>
+      <g class="G-wrapper-transform">
+        <svg class="G" height="110.0" width="70.0">
+          <defs/>
+          <polyline fill="none" points="67.5,28.75 35.0,2.5 2.5,28.75 2.5,81.25 35.0,107.5 67.5,81.25 67.5,55.0 35.0,55.0" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.0"/>
+        </svg>
+      </g>
+    </svg>
+    <svg class="S-wrapper-insert" x="15.0" y="25.0">
+      <defs/>
+      <g class="S-wrapper-transform">
+        <svg class="S-wrapper-scale" height="60.0" preserveAspectRatio="xMidYMid meet" viewBox="0,0,80.0,120.0" width="40.0">
+          <defs/>
+          <svg class="S" height="120.0" width="80.0">
+            <defs/>
+            <polyline fill="none" points="75.0,32.5 40.0,5.0 5.0,32.5 75.0,87.5 40.0,115.0 5.0,87.5" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="10.0"/>
+          </svg>
+        </svg>
+      </g>
+    </svg>
+  </svg>
+</svg>
