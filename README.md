@@ -184,7 +184,7 @@ Assuming the above code containing the `blue_square` is placed in `my_drawings.p
 As part of `glyphsynth.lib`, an alphabet of rune-style glyphs is provided. These are designed to be overlayed and form geometric shapes.
 
 <p align="center">
-  <img src="./assets/examples/runic-alphabet.svg" alt="Runic letter matrix" />
+  <img src="./assets/examples/runic-alphabet.png" alt="Runic letter matrix" />
 </p>
 
 ```python
@@ -201,7 +201,9 @@ rows: list[list[BaseRunicGlyph]] = [
 ]
 
 # create matrix of letters
-matrix = MatrixDrawing.new(rows, drawing_id="runic-alphabet", spacing=10)
+matrix = MatrixDrawing.new(
+    rows, drawing_id="runic-alphabet", spacing=10, padding=10
+)
 ```
 
 #### GlyphSynth logo
@@ -415,7 +417,7 @@ from glyphsynth import BaseDrawing, BaseParams, ShapeProperties
 
 # definitions
 ZERO = 0.0
-UNIT = 1000
+UNIT = 1024
 HALF = UNIT / 2
 UNIT_SIZE: tuple[float, float] = (UNIT, UNIT)
 ORIGIN: tuple[float, float] = (ZERO, ZERO)

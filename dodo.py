@@ -26,8 +26,8 @@ TEST_OUT_PATH = Path("test/__out__")
 EXAMPLES_PATH = Path("assets/examples")
 EXAMPLES: list[str | tuple[str, str]] = [
     "test_blue_square/blue-square.png",
-    "test_runic_alphabet/runic-alphabet.svg",
-    "test_glyphsynth_logo/glyphsynth-logo.svg",
+    "test_runic_alphabet/runic-alphabet.png",
+    ("test_glyphsynth_logo/glyphsynth-logo-pad.svg", "glyphsynth-logo.svg"),
     (
         "test_letter_combination_variants/variants/matrix/matrix.png",
         "letter-combination-variants.png",

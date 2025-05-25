@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from glyphsynth import PaddingDrawing
+
 from .conftest import write_drawing
 
 
@@ -82,9 +84,11 @@ def test_runic_alphabet(output_dir: Path):
     ]
 
     # create matrix of letters
-    matrix = MatrixDrawing.new(rows, drawing_id="runic-alphabet", spacing=10)
+    matrix = MatrixDrawing.new(
+        rows, drawing_id="runic-alphabet", spacing=10, padding=10
+    )
 
-    write_drawing(output_dir, matrix, background="#ffffff")
+    write_drawing(output_dir, matrix, scale=2, background="#ffffff")
 
 
 def test_glyphsynth_logo(output_dir: Path):
@@ -92,7 +96,10 @@ def test_glyphsynth_logo(output_dir: Path):
 
     glyphsynth_logo = GlyphSynthLogo(drawing_id="glyphsynth-logo")
 
-    write_drawing(output_dir, glyphsynth_logo, background="#ffffff")
+    padded = PaddingDrawing.new(
+        glyphsynth_logo, drawing_id="glyphsynth-logo-pad", padding=10
+    )
+    write_drawing(output_dir, padded, background="#ffffff")
 
 
 def test_letter_combination_variants(output_dir: Path):
@@ -259,7 +266,7 @@ def test_multi_square(output_dir: Path):
 
     # definitions
     ZERO = 0.0
-    UNIT = 1000
+    UNIT = 1024
     HALF = UNIT / 2
     UNIT_SIZE: tuple[float, float] = (UNIT, UNIT)
     ORIGIN: tuple[float, float] = (ZERO, ZERO)
