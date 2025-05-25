@@ -163,7 +163,6 @@ def task_logo() -> Task:
         logo.export_svg(
             Path(LOGO_PATH),
             size=(f"{width}px", f"{height}px"),
-            background="#ffffff",
         )
 
     return Task(
