@@ -24,6 +24,6 @@ def test_runic(output_dir: Path):
         rows.append([letter1_cls(), letter2_cls()])
 
     matrix = MatrixDrawing.new(
-        rows, drawing_id="runic-alphabet-vertical", spacing=10, padding=10
+        rows, drawing_id="runic-alphabet-vertical", spacing=50, padding=100
     )
     write_drawing(output_dir / "matrix", matrix, scale=2)
