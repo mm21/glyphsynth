@@ -36,7 +36,7 @@ pydantic = "^2.5.3"
 pyrollup = "^0.1.0"
 rich = "^13.9.3"
 svgwrite = "^1.4.3"
-typer = {extras = ["all"], version = "^0.9.0"}
+typer = {extras = ["all"], version = "^0.15.0"}
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "^2.3.1"
