@@ -28,7 +28,7 @@ license-files = ["LICENSE"]
 name = "glyphsynth"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"  # pyprojkit-managed
-version = "0.8.1"
+version = "0.8.2"
 
 [project.scripts]
 glyphsynth-export = "glyphsynth.cli.export:run"
