@@ -36,12 +36,12 @@ class BasicDrawing(BaseDrawing[BasicParams]):
 
     def draw(self):
         # add a little extra to avoid slight clipping on boundaries
-        inset = (self.properties.stroke_width / 2) + 0.1
+        inset = (BASIC_STROKE_WIDTH / 2) + 0.1
 
         self.draw_polyline([(inset, inset), (UNIT - inset, UNIT - inset)])
         self.draw_polyline(
             [(HALF, inset), (UNIT - inset, HALF)],
-            properties=Properties(stroke=self.params.color2),
+            properties=ShapeProperties(stroke=self.params.color2),
         )
 
 

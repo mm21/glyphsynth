@@ -3,17 +3,19 @@ from __future__ import annotations
 from typing import Any, TypeVar, get_args
 
 
-def extract_type_param[T, U](cls: type[T], param_cls: type[U]) -> type[U] | None:
+def extract_type_param(cls: type, param_cls: type) -> type | None:
     """
     Extract the type param with the given class.
     """
 
-    orig_bases = cls.__orig_bases__  # pyright: ignore[reportGeneralTypeIssues]
+    # get via attribute lookup rather than types.get_original_bases() so that it's
+    # inherited from the nearest generic ancestor if not defined on cls
+    orig_bases = getattr(cls, "__orig_bases__")
     assert len(orig_bases)
 
     args = get_args(orig_bases[0])
     if len(args):
-        param: type[U]
+        param: type
 
         if isinstance(args[0], TypeVar):
             # have a TypeVar, look up its bound

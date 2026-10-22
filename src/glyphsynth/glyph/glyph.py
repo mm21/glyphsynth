@@ -136,6 +136,7 @@ class BaseGlyph[ParamsT: GlyphParams](BaseDrawing[ParamsT]):
         """
         Size used to place points, accounting for any inset based on stroke width.
         """
+        assert self.canonical_size is not None
         return (
             self.canonical_size[0] - self._size_offset,
             self.canonical_size[1] - self._size_offset,

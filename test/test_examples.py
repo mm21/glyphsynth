@@ -42,7 +42,7 @@ def test_blue_square(output_dir: Path):
             )
 
     # create drawing instance
-    blue_square = MySquareDrawing(
+    blue_square: BaseDrawing = MySquareDrawing(
         drawing_id="blue-square", params=MySquareParams(color="blue")
     )
 

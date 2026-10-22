@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Sequence
 
 from ..drawing import BaseDrawing
 
@@ -27,13 +28,13 @@ class BaseArrayDrawing(BaseMatrixDrawing, ABC):
     @classmethod
     def new(
         cls,
-        glyphs: list[BaseDrawing],
+        glyphs: Sequence[BaseDrawing],
         drawing_id: str | None = None,
         spacing: float = 0.0,
         padding: float = 0.0,
         center: bool = True,
     ):
-        rows = [glyphs] if cls._horizontal else [[g] for g in glyphs]
+        rows = [list(glyphs)] if cls._horizontal else [[g] for g in glyphs]
 
         params = cls.get_params_cls()(
             rows=rows, spacing=spacing, padding=padding, center=center

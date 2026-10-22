@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 import rich.traceback
 import typer
@@ -57,7 +58,9 @@ def export(
         help="Write .png to folder (Linux only)",
     ),
 ):
-    export_drawings(fqcn, output_path, output_modpath=output_modpath, svg=svg, png=png)
+    export_drawings(
+        fqcn, Path(output_path), output_modpath=output_modpath, svg=svg, png=png
+    )
 
 
 def run():

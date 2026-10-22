@@ -27,8 +27,8 @@ class BaseFieldsModel(BaseModel):
 
         return cls(**values)
 
-    def _get_values(self, field_filter: Iterable[str] | None = None) -> dict[str, str]:
-        values: dict[str, str] = {}
+    def _get_values(self, field_filter: Iterable[str] | None = None) -> dict[str, Any]:
+        values: dict[str, Any] = {}
 
         for field in type(self).model_fields.keys():
             # handle filter if provided

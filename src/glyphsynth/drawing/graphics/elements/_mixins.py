@@ -37,9 +37,12 @@ class BaseWrapperMixin[T]:
     _mixin_obj: T
 
 
-class ViewBoxMixin(BaseWrapperMixin[svgwrite.mixins.ViewBox]):
+class ViewBoxMixin[T: svgwrite.mixins.ViewBox](BaseWrapperMixin[T]):
     def viewbox(self, min_x: float, min_y: float, width: float, height: float) -> Self:
-        self._mixin_obj.viewbox(min_x, min_y, width, height)
+        # svgwrite stubs declare int, but floats are valid
+        self._mixin_obj.viewbox(
+            min_x, min_y, width, height  # pyright: ignore[reportArgumentType]
+        )
         return self
 
     def stretch(self) -> Self:
@@ -56,7 +59,7 @@ class ViewBoxMixin(BaseWrapperMixin[svgwrite.mixins.ViewBox]):
         return self
 
 
-class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
+class TransformMixin[T: svgwrite.mixins.Transform](BaseWrapperMixin[T]):
     def translate(self, x: float | int, y: float | int | None = None) -> Self:
         self._mixin_obj.translate(x, y)
         return self
@@ -110,7 +113,7 @@ class TransformMixin(BaseWrapperMixin[svgwrite.mixins.Transform]):
         return None
 
 
-class PresentationMixin(BaseWrapperMixin[svgwrite.mixins.Presentation]):
+class PresentationMixin[T: svgwrite.mixins.Presentation](BaseWrapperMixin[T]):
     def fill(
         self,
         color: str | None = None,
@@ -160,12 +163,12 @@ class PresentationMixin(BaseWrapperMixin[svgwrite.mixins.Presentation]):
         return self
 
 
-class MarkersMixin(BaseWrapperMixin[svgwrite.mixins.Markers]):
+class MarkersMixin[T: svgwrite.mixins.Markers](BaseWrapperMixin[T]):
     pass
 
 
 # may not be necessary
 """
-class ClippingMixin(BaseWrapperMixin[svgwrite.mixins.Clipping]):
+class ClippingMixin[T: svgwrite.mixins.Clipping](BaseWrapperMixin[T]):
     pass
 """

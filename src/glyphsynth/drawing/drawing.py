@@ -61,8 +61,8 @@ class BaseDrawing[ParamsT: BaseParams](
     ElementFactory,
     ExportContainer,
     BaseGraphicsContainer,
-    TransformMixin,
-    PresentationMixin,
+    TransformMixin[svgwrite.container.Group],
+    PresentationMixin[svgwrite.container.Group],
     ABC,
 ):
     """
@@ -133,7 +133,9 @@ class BaseDrawing[ParamsT: BaseParams](
         drawing. If not subscripted with a type arg by the subclass, _params_cls is set
         to EmptyParams.
         """
-        cls._params_cls = extract_type_param(cls, BaseParams) or EmptyParams
+        cls._params_cls = cast(
+            type[ParamsT], extract_type_param(cls, BaseParams) or EmptyParams
+        )
 
     @property
     def drawing_id(self) -> str | None:

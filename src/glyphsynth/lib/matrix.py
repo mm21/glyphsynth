@@ -1,3 +1,5 @@
+from typing import Sequence
+
 from ..drawing import BaseDrawing, BaseParams
 
 __all__ = [
@@ -110,14 +112,17 @@ class MatrixDrawing(BaseMatrixDrawing):
     @classmethod
     def new(
         cls,
-        rows: list[list[BaseDrawing]],
+        rows: Sequence[Sequence[BaseDrawing]],
         drawing_id: str | None = None,
         spacing: float = 0.0,
         padding: float = 0.0,
         center: bool = True,
     ):
         params = cls.get_params_cls()(
-            rows=rows, spacing=spacing, padding=padding, center=center
+            rows=[list(row) for row in rows],
+            spacing=spacing,
+            padding=padding,
+            center=center,
         )
         return cls(drawing_id=drawing_id, params=params)
 

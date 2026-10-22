@@ -9,7 +9,7 @@ from .elements._mixins import TransformMixin
 from .properties import Properties
 
 
-class BaseGraphicsContainer(TransformMixin):
+class BaseGraphicsContainer(TransformMixin[Group]):
     """
     Container for drawing and manipulation of low-level graphics objects.
 
@@ -244,11 +244,12 @@ class BaseGraphicsContainer(TransformMixin):
                 svg["height"] = str(size[1])
 
             if from_size_norm is not None:
+                # svgwrite stubs declare int, but floats are valid
                 svg.viewbox(
                     0,
                     0,
-                    from_size_norm[0],
-                    from_size_norm[1],
+                    from_size_norm[0],  # pyright: ignore[reportArgumentType]
+                    from_size_norm[1],  # pyright: ignore[reportArgumentType]
                 )
                 svg.fit()
 

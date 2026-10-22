@@ -203,7 +203,7 @@ class ExportContainer(BaseGraphicsContainer):
         if not in_place_raster:
             shutil.rmtree(path_svg.parent)
 
-    def _rescale_drawing(self, size: tuple[str, str]) -> Drawing:
+    def _rescale_drawing(self, size: tuple[str, str] | None) -> Drawing:
         """
         Rescale this drawing.
         """

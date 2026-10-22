@@ -133,8 +133,6 @@ def _extract_containers(fqcn: str) -> list[ExportSpec]:
 
 
 def _import_drawing_specs(fqcn: str) -> list[DrawingSpecType]:
-    drawing_specs: list[DrawingSpecType]
-
     module: ModuleType | None = None
     obj: DrawingSpecType | None = None
     import_excep: ImportError | AttributeError | None = None
@@ -190,7 +188,7 @@ def _normalize_drawing_specs(
 
 def _recurse_drawing_spec(
     drawing_spec: DrawingSpecType,
-) -> list[DrawingSpecType]:
+) -> list[ExportSpec]:
     """
     Recurse into drawing spec until we find a drawing class, drawing instance, or export
     spec. A container will be created if not found.
@@ -209,7 +207,7 @@ def _recurse_drawing_spec(
             ret += _recurse_drawing_spec(spec)
 
     # function, BaseDrawing subclass, or BaseVariantFactory subclass
-    elif isinstance(drawing_spec, Callable):
+    elif callable(drawing_spec):
         ret += _recurse_drawing_spec(drawing_spec())
 
     else:

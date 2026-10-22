@@ -199,3 +199,4 @@ class ElementFactory(ABC):
 def _normalize_inherit(inherit: str | BaseElement | None) -> str | None:
     if isinstance(inherit, BaseElement):
         return inherit.iri
+    return inherit

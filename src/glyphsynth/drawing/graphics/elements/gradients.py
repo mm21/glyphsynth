@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import cast
 
 import svgwrite.gradients
 
@@ -32,7 +33,9 @@ class BaseGradient[GradientT: svgwrite.gradients._AbstractGradient](
         self, color: str, offset_pct: float, opacity_pct: float | None = None
     ):
         self._element.add_stop_color(
-            color=color, offset=offset_pct / 100, opacity=opacity_pct / 100
+            color=color,
+            offset=offset_pct / 100,
+            opacity=opacity_pct / 100 if opacity_pct is not None else None,
         )
 
     def add_stop_colors(self, stop_colors: list[StopColor]):
@@ -46,12 +49,12 @@ class BaseGradient[GradientT: svgwrite.gradients._AbstractGradient](
             return
 
         if all(isinstance(c, str) for c in colors):
-            self.add_colors(colors)
+            self.add_colors(cast(list[str], colors))
         else:
             assert all(
                 isinstance(c, StopColor) for c in colors
             ), f"Invalid or inconsistent types for color list: {colors}"
-            self.add_stop_colors(colors)
+            self.add_stop_colors(cast(list[StopColor], colors))
 
 
 class LinearGradient(BaseGradient[svgwrite.gradients.LinearGradient]):

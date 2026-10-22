@@ -4,7 +4,7 @@ visualization, all variants can be represented as a matrix and a set of arrays.
 """
 
 from pathlib import Path
-from typing import Generator
+from typing import Generator, cast
 
 from ..drawing import BaseDrawing, BaseParams
 from ..drawing._utils import extract_type_param
@@ -20,7 +20,34 @@ __all__ = [
 
 class BaseVariantFactory[DrawingT: BaseDrawing]:
     """
-    Encapsulates a BaseDrawing subclass and parameter variants.
+    Encapsulates a variant factory which creates and exports arrays of glyphs with
+    combinations of drawing parameters and properties.
+
+    Exports a hierarchy of drawing variants:
+
+    - all/[drawing_id].[svg/png]
+    - matrix/
+        - All glyphs combined in matrix
+    - harrays/
+        - Horizontal arrays
+    - varrays/
+        - Vertical arrays
+    """
+
+    MATRIX_WIDTH: int = 1
+    """
+    Width of the resulting matrix drawing. If kept as the default of 1, creates a
+    vertical array.
+
+    If set, should equal the number of elements in outermost dimension of the drawing
+    iterable output.
+
+    If a dynamic value is required, override the property `matrix_width`.
+    """
+
+    SPACING: float = 0.0
+    """
+    Spacing to use between variants.
     """
 
     _glyph_cls: type[DrawingT]
@@ -67,48 +94,6 @@ class BaseVariantFactory[DrawingT: BaseDrawing]:
         Override to yield parameter variants to export.
         """
         yield self._glyph_cls.get_params_cls()()
-
-    def __init_subclass__(cls):
-        """
-        Populate _glyph_cls with the parameterized class.
-        """
-        glyph_cls = extract_type_param(cls, BaseDrawing)
-        assert glyph_cls is not None
-
-        cls._glyph_cls = glyph_cls
-
-
-class BaseVariantFactory[DrawingT: BaseDrawing](BaseVariantFactory[DrawingT]):
-    """
-    Encapsulates a variant factory which creates and exports arrays of glyphs with
-    combinations of drawing parameters and properties.
-
-    Exports a hierarchy of drawing variants:
-
-    - all/[drawing_id].[svg/png]
-    - matrix/
-        - All glyphs combined in matrix
-    - harrays/
-        - Horizontal arrays
-    - varrays/
-        - Vertical arrays
-    """
-
-    MATRIX_WIDTH: int = 1
-    """
-    Width of the resulting matrix drawing. If kept as the default of 1, creates a
-    vertical array.
-
-    If set, should equal the number of elements in outermost dimension of the drawing
-    iterable output.
-
-    If a dynamic value is required, override the property `matrix_width`.
-    """
-
-    SPACING: int = 0
-    """
-    Spacing to use between variants.
-    """
 
     def __iter__(self) -> Generator[ExportSpec, None, None]:
         """
@@ -194,6 +179,15 @@ class BaseVariantFactory[DrawingT: BaseDrawing](BaseVariantFactory[DrawingT]):
         value is needed.
         """
         return self.MATRIX_WIDTH
+
+    def __init_subclass__(cls):
+        """
+        Populate _glyph_cls with the parameterized class.
+        """
+        glyph_cls = extract_type_param(cls, BaseDrawing)
+        assert glyph_cls is not None
+
+        cls._glyph_cls = cast(type[DrawingT], glyph_cls)
 
 
 def _derive_glyph_id(params: BaseParams) -> str:
