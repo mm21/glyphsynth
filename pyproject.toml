@@ -38,7 +38,7 @@ homepage = "https://github.com/mm21/glyphsynth"
 
 [dependency-groups]
 dev = [
-  "pyprojkit[all]>=0.6.0",
+  "pyprojkit[all]>=0.7.0,<0.8.0",
   "sphinx>=7.2.6,<8",
   "sphinxcontrib-typer>=0.1.4,<0.2"
 ]
@@ -86,8 +86,11 @@ quiet = true  # pyprojkit-managed
 
 [tool.mypy]
 check_untyped_defs = true  # pyprojkit-managed
-ignore_missing_imports = true  # pyprojkit-managed
 python_version = "3.12"  # pyprojkit-managed
+
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+module = ["doit.*", "svgwrite.*"]
 
 [tool.nox]
 default_venv_backend = "uv"  # pyprojkit-managed
