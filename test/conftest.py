@@ -35,8 +35,8 @@ def write_drawing(
 
 def write_drawings(output_dir: Path, glyphs: list[BaseDrawing]):
     """
-    Create horizontal and vertical arrays and save them to the provided path,
-    in addition to an svg per individual drawing.
+    Create horizontal and vertical arrays and save them to the provided path, in
+    addition to an svg per individual drawing.
     """
 
     # write arrays

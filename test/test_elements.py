@@ -12,17 +12,11 @@ def test_group(output_dir: Path):
     g1 = drawing.create_group()
     g2 = drawing.create_group()
 
-    g1.draw_circle(
-        (HALF, HALF), UNIT / 3, properties=ShapeProperties(fill="green")
-    )
-    g2.draw_circle(
-        (HALF, HALF), UNIT / 4, properties=ShapeProperties(fill="blue")
-    )
+    g1.draw_circle((HALF, HALF), UNIT / 3, properties=ShapeProperties(fill="green"))
+    g2.draw_circle((HALF, HALF), UNIT / 4, properties=ShapeProperties(fill="blue"))
 
     g1.insert_drawing(
-        BasicDrawing(
-            params=BasicParams(color1="orange", color2="yellow")
-        ).rotate(90)
+        BasicDrawing(params=BasicParams(color1="orange", color2="yellow")).rotate(90)
     )
 
     write_drawing(output_dir, drawing)

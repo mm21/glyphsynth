@@ -28,12 +28,8 @@ def test_basic(output_dir: Path):
         h_glyphs.append(h_glyph)
         v_glyphs.append(v_glyph)
 
-    h_array = HArrayDrawing.new(
-        glyphs=h_glyphs, spacing=UNIT / 10, padding=UNIT / 10
-    )
-    v_array = VArrayDrawing.new(
-        glyphs=v_glyphs, spacing=UNIT / 10, padding=UNIT / 10
-    )
+    h_array = HArrayDrawing.new(glyphs=h_glyphs, spacing=UNIT / 10, padding=UNIT / 10)
+    v_array = VArrayDrawing.new(glyphs=v_glyphs, spacing=UNIT / 10, padding=UNIT / 10)
 
     write_drawing(output_dir, h_array)
     write_drawing(output_dir, v_array)

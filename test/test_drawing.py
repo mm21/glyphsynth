@@ -107,9 +107,7 @@ def test_composition_rescaled(output_dir: Path):
     write_drawing(output_dir, parent)
 
 
-@mark.skipif(
-    RASTER_SUPPORT is False, reason="Rasterizing only supported on linux"
-)
+@mark.skipif(RASTER_SUPPORT is False, reason="Rasterizing only supported on linux")
 def test_raster(output_dir):
     """
     Create drawing and save to png.

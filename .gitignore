@@ -1,9 +1,6 @@
 **/__pycache__
-__build__
+__cache__
 __out__
-.doit.db*
 .pytest_cache
-.coverage
+.venv
 .env
-build
-dist

@@ -54,9 +54,7 @@ class ParentDrawing(BaseDrawing):
     def draw(self):
         params2: BasicParams = BasicParams(color1="red")
 
-        self.child1 = self.insert_drawing(
-            BasicDrawing(size=self.canonical_size)
-        )
+        self.child1 = self.insert_drawing(BasicDrawing(size=self.canonical_size))
         self.child2 = self.insert_drawing(
             BasicDrawing(size=self.canonical_size, params=params2)
         )

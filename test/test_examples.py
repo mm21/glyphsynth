@@ -341,9 +341,7 @@ def test_multi_square(output_dir: Path):
 
         def draw(self):
             # draw square
-            self.insert_drawing(
-                MultiSquareDrawing(params=self.params.square_params)
-            )
+            self.insert_drawing(MultiSquareDrawing(params=self.params.square_params))
 
             if self.params.depth > 1:
                 # draw another fractal drawing, half the size and rotated 90 degrees

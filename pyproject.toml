@@ -1,79 +1,111 @@
+# managed (in part) by pyprojkit: https://github.com/mm21/pyprojkit
+
 [project]
 authors = [
   {name = "mm21", email = "mm21.dev@gmail.com"}
 ]
 classifiers = [
-  # Get the list of trove classifiers here: https://pypi.org/classifiers/
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Operating System :: OS Independent",
-  "Typing :: Typed",
-  "Topic :: Software Development :: Libraries :: Python Modules",
   "Development Status :: 3 - Alpha",
   "Natural Language :: English",
-  "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13"
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",  # pyprojkit-managed
+  "Programming Language :: Python :: 3.12",  # pyprojkit-managed
+  "Programming Language :: Python :: 3.13",  # pyprojkit-managed
+  "Programming Language :: Python :: 3.14",  # pyprojkit-managed
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed"
+]
+dependencies = [
+  "pydantic>=2.5.3,<3",
+  "rich>=13.9.3,<14",
+  "svgwrite>=1.4.3,<2",
+  "typer>=0.15.0,<0.16"
 ]
 description = "Pythonic vector graphics synthesis toolkit"
+license = "MIT"
+license-files = ["LICENSE"]
 name = "glyphsynth"
 readme = "README.md"
-requires-python = ">=3.12,<4.0"
+requires-python = ">=3.12,<4.0"  # pyprojkit-managed
 version = "0.8.1"
+
+[project.scripts]
+glyphsynth-export = "glyphsynth.cli.export:run"
 
 [project.urls]
 homepage = "https://github.com/mm21/glyphsynth"
 
+[dependency-groups]
+dev = [
+  "pyprojkit[all]>=0.6.0",
+  "sphinx>=7.2.6,<8",
+  "sphinxcontrib-typer>=0.1.4,<0.2"
+]
+
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
+build-backend = "uv_build"
+requires = ["uv_build>=0.11.6,<0.12.0"]
 
-[tool.poetry]
-packages = [{include = "glyphsynth"}]
+[tool.autoflake]
+in_place = true  # pyprojkit-managed
+recursive = true  # pyprojkit-managed
+remove-all-unused-imports = true  # pyprojkit-managed
+remove-unused-variables = true  # pyprojkit-managed
 
-[tool.poetry.dependencies]
-pydantic = "^2.5.3"
-pyrollup = "^0.1.0"
-rich = "^13.9.3"
-svgwrite = "^1.4.3"
-typer = {extras = ["all"], version = "^0.15.0"}
-
-[tool.poetry.group.dev.dependencies]
-autoflake = "^2.3.1"
-black = "^23.11.0"
-doit = "^0.36.0"
-genbadge = {extras = ["tests"], version = "^1.1.1"}
-isort = "^5.13.2"
-pytest = "^7.4.3"
-pytest-cov = "^5.0.0"
-sphinx = "^7.2.6"
-sphinxcontrib-typer = "^0.1.4"
-toml-sort = "^0.24.2"
-
-[tool.poetry.scripts]
-glyphsynth-export = "glyphsynth.cli.export:run"
-
-[tool.pytest.ini_options]
-addopts = "-s -v -rA"
-testpaths = "test"
+[tool.black]
+quiet = true  # pyprojkit-managed
+target-version = [
+  "py312",
+  "py313",
+  "py314"
+]  # pyprojkit-managed
 
 [tool.coverage.report]
 exclude_lines = [
   "if TYPE_CHECKING:",
-  "\\.\\.\\.$",
-  "\\.\\.\\."
-]
+  "\\.\\.\\.$"
+]  # pyprojkit-managed
 
-[tool.black]
-line-length = 80
+[tool.coverage.run]
+data_file = "__cache__/.coverage"  # pyprojkit-managed
 
-[tool.isort]
-line_length = 80
-profile = "black"
-
-[tool.tomlsort]
-no_sort_tables = true
-sort_table_keys = true
+[tool.docfmt]
+force-reflow = true  # pyprojkit-managed
+in-place = true  # pyprojkit-managed
+recursive = true  # pyprojkit-managed
+summary-on-own-line = true  # pyprojkit-managed
 
 [tool.doit]
-verbosity = 2
+dep_file = "__cache__/.doit.db"  # pyprojkit-managed
+verbosity = 2  # pyprojkit-managed
+
+[tool.isort]
+profile = "black"  # pyprojkit-managed
+quiet = true  # pyprojkit-managed
+
+[tool.mypy]
+check_untyped_defs = true  # pyprojkit-managed
+ignore_missing_imports = true  # pyprojkit-managed
+python_version = "3.12"  # pyprojkit-managed
+
+[tool.nox]
+default_venv_backend = "uv"  # pyprojkit-managed
+envdir = "__cache__/nox"  # pyprojkit-managed
+
+[tool.pyright]
+pythonVersion = "3.12"  # pyprojkit-managed
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib -s -v -rA"  # pyprojkit-managed
+cache_dir = "__cache__/pytest"  # pyprojkit-managed
+testpaths = "test"  # pyprojkit-managed
+
+[tool.tomlsort]
+sort_first = [
+  "project",
+  "dependency-groups",
+  "build-system"
+]  # pyprojkit-managed
+sort_table_keys = true  # pyprojkit-managed
+spaces_before_inline_comment = 2  # pyprojkit-managed

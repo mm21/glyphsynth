@@ -13,9 +13,7 @@ def test_traditional(output_dir: Path):
 
 
 def test_runic(output_dir: Path):
-    write_drawings(
-        output_dir, [letter_cls() for letter_cls in runic.LETTER_CLASSES]
-    )
+    write_drawings(output_dir, [letter_cls() for letter_cls in runic.LETTER_CLASSES])
 
     # generate 13x2 matrix for better viewing on mobile
     rows: list[list[runic.BaseRunicGlyph]] = []
