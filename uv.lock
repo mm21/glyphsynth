@@ -497,7 +497,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "pyprojkit", extras = ["all"], specifier = ">=0.7.0,<0.8.0" },
+    { name = "pyprojkit", extras = ["all"], specifier = ">=0.8.1,<0.9.0" },
     { name = "sphinx", specifier = ">=7.2.6,<8" },
     { name = "sphinxcontrib-typer", specifier = ">=0.1.4,<0.2" },
 ]
@@ -1267,7 +1267,7 @@ wheels = [
 
 [[package]]
 name = "pyprojkit"
-version = "0.7.0"
+version = "0.8.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "doit" },
@@ -1276,9 +1276,9 @@ dependencies = [
     { name = "toml-sort" },
     { name = "tomlkit" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/63/b1/7f123e3076bf907f9fdb1408895921c332500c568699e6bfe6ab48a75ab4/pyprojkit-0.7.0.tar.gz", hash = "sha256:a326808ab8dd16490051a62b461172da3a8da8d199d373332d72e1a04a205b20", size = 29330, upload-time = "2026-10-22T09:42:04.255Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a6/58/d62e0ee1b0bad1fcc4a6535ed9cc24998a03192c909d0d831af01dc77823/pyprojkit-0.8.1.tar.gz", hash = "sha256:70eb9e2289c86eaf0ae34519fe1922249676c861dd595ac9f2b7f86df36f7039", size = 31488, upload-time = "2026-10-23T07:10:27.113Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/18/f0/7722743d2a27015abee01e643d9e42ee3144c219a77b0d0146411de7e708/pyprojkit-0.7.0-py3-none-any.whl", hash = "sha256:c44aed65ed8f2511af7168556d11674e7725b4fb0a5aa468f735f00947ccf38b", size = 36337, upload-time = "2026-10-22T09:42:03.085Z" },
+    { url = "https://files.pythonhosted.org/packages/1e/21/864ad7670f3586854348cabf945bb5cd59cd334e47418f853b72c96ca29a/pyprojkit-0.8.1-py3-none-any.whl", hash = "sha256:6570244019023c72a2f42c99c16084637c3c900e45d64d82b97c1a79ae6211f4", size = 38510, upload-time = "2026-10-23T07:10:26.016Z" },
 ]
 
 [package.optional-dependencies]
