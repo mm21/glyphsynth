@@ -11,4 +11,6 @@ config = ProjectConfig(
     pinned_python=PythonVersions(3, (12, 14)),
     tools=create_recommended_tools(),
     typed=True,
+    python_version_file=True,
+    uv_build_backend=True,
 )
