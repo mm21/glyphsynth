@@ -132,6 +132,30 @@ blue_square.draw_polyline(
 )
 ```
 
+## Importing SVGs
+
+An existing SVG can be loaded using `load_svg()`, available on drawings and groups. It accepts a file path or SVG markup (`str` or `bytes`). The outermost `<svg>` element is stripped and its contents are placed in a group, so the whole image can be manipulated together:
+
+```python
+from pathlib import Path
+
+from glyphsynth import Drawing
+
+drawing = Drawing(size=(200, 200))
+
+logo = drawing.load_svg(Path("logo.svg"))
+
+# the returned group supports the usual transform and presentation APIs
+logo.scale(0.5).rotate(45, center=(50, 50)).translate(20, 20)
+
+# metadata from the original <svg>
+print(logo.size, logo.original_viewbox)
+```
+
+The group is positioned so the SVG's `viewBox` origin is at `(0, 0)`, and scaled to its `width`/`height` if both are given and differ from the `viewBox` size. Presentation attributes on the outermost `<svg>`, such as `fill`, are kept on the group.
+
+Note the imported contents are not wrapped as individual GlyphSynth elements, and ids within the SVG are preserved as-is so may collide with other ids in the drawing. Only load SVGs from trusted sources.
+
 ## Exporting
 
 A drawing is primarily exported as an `.svg` file. Rasterizing to `.png` is supported on Linux and requires the following packages:
@@ -524,4 +548,34 @@ multi_square_fractal = SquareFractalDrawing(
     drawing_id="multi-square-fractal",
     params=SquareFractalParams(square_params=multi_square_params),
 )
+```
+
+#### Importing an SVG
+
+An existing SVG can be loaded using `load_svg()`, which strips the outermost `<svg>` and places the contents in a group. Here the project logo is loaded 3 times and each copy transformed as a whole.
+
+<p align="center">
+  <img src="./assets/examples/imported-svg.png" alt="Imported SVG" width="450" />
+</p>
+
+```python
+from pathlib import Path
+
+from glyphsynth import Drawing
+
+drawing = Drawing(drawing_id="imported-svg", size=(600, 190))
+
+# load existing svg: the outermost <svg> is stripped, contents placed in a group
+logo_path = Path("logo.svg")
+logo = drawing.load_svg(logo_path)
+
+# transform the group as a whole: transforms apply outermost-first, so
+# translate to the destination, then scale
+logo.translate(30, 20).scale(0.5)
+
+# load again, also rotating about the center of the logo
+drawing.load_svg(logo_path).translate(250, 20).scale(0.5).rotate(
+    30, center=logo.center
+)
+drawing.load_svg(logo_path).translate(450, 20).scale(0.25)
 ```

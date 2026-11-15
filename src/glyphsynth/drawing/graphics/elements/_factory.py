@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
+from pathlib import Path as FilePath
 from typing import TYPE_CHECKING, Literal
 
 import svgwrite.base
@@ -9,6 +10,7 @@ import svgwrite.container
 
 from .._model import BaseFieldsModel
 from ..properties import ShapeProperties, TextProperties
+from ._svg_import import ROOT_SKIP, RawElement, get_size, get_viewbox, parse
 from .base import BaseElement
 from .gradients import LinearGradient, RadialGradient, StopColor
 from .image import Image
@@ -18,7 +20,16 @@ from .text import Text
 
 if TYPE_CHECKING:
     from ...drawing import BaseDrawing
-    from .containers import ClipPath, Group, Marker, Mask, Pattern, Symbol, Use
+    from .containers import (
+        ClipPath,
+        Group,
+        ImportedSvg,
+        Marker,
+        Mask,
+        Pattern,
+        Symbol,
+        Use,
+    )
 
 type _Units = Literal["userSpaceOnUse", "objectBoundingBox"]
 
@@ -223,6 +234,61 @@ class ElementFactory(ABC):
 
         # only use passed properties instead of inheriting from drawing
         return Group(self._glyph, self._container, **_get_explicit(properties))
+
+    def load_svg(
+        self,
+        source: str | bytes | FilePath,
+        properties: ShapeProperties | None = None,
+    ) -> ImportedSvg:
+        """
+        Load an externally-provided SVG and add it to this container. The outermost
+        `<svg>` element is stripped and its contents placed in a group, so the whole
+        image can be manipulated together (translate, rotate, scale, fill, etc.).
+
+        The group is positioned such that the SVG's `viewBox` origin is at (0, 0), and
+        scaled to its `width`/`height` if both are given and differ from the `viewBox`
+        size. Presentation attributes on the outermost `<svg>` (e.g. `fill`, `style`)
+        are kept on the group.
+
+        Note ids within the SVG are preserved and so may collide with other ids in the
+        drawing.
+
+        :param source: Path to an SVG file, or SVG markup as `str` or `bytes`
+        :param properties: Properties set on the group
+        :raises ValueError: If the document's root element is not `<svg>`
+        """
+        from .containers import ImportedSvg
+
+        root = parse(source)
+        group = ImportedSvg(self._glyph, self._container, **_get_explicit(properties))
+
+        for key, value in root.attrib.items():
+            if key not in ROOT_SKIP and not key.startswith("xmlns"):
+                group._element.attribs.setdefault(key, value)
+
+        size = get_size(root)
+        viewbox = get_viewbox(root)
+        group.size = size
+        group.original_viewbox = viewbox
+
+        # normalization is applied on an inner group so any transforms subsequently
+        # applied to the returned group are in terms of the SVG's size
+        inner = self._glyph._drawing.g()
+        group._element.add(inner)
+
+        if viewbox is not None:
+            min_x, min_y, vb_width, vb_height = viewbox
+            if size is not None and vb_width and vb_height:
+                scale_x, scale_y = size[0] / vb_width, size[1] / vb_height
+                if (scale_x, scale_y) != (1, 1):
+                    inner.scale(scale_x, scale_y)
+            if (min_x, min_y) != (0, 0):
+                inner.translate(-min_x, -min_y)
+
+        for child in root:
+            inner.add(RawElement(child))
+
+        return group
 
     def create_symbol(self, properties: ShapeProperties | None = None) -> Symbol:
         """

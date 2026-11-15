@@ -364,3 +364,25 @@ def test_multi_square(output_dir: Path):
     )
 
     write_drawing(output_dir, multi_square_fractal)
+
+
+def test_imported_svg(output_dir: Path):
+    from glyphsynth import Drawing
+
+    drawing = Drawing(drawing_id="imported-svg", size=(600, 190))
+
+    # load existing svg: the outermost <svg> is stripped, contents placed in a group
+    logo_path = Path("assets/logo-light.svg")
+    logo = drawing.load_svg(logo_path)
+
+    # transform the group as a whole: transforms apply outermost-first, so
+    # translate to the destination, then scale
+    logo.translate(30, 20).scale(0.5)
+
+    # load again, also rotating about the center of the logo
+    drawing.load_svg(logo_path).translate(250, 20).scale(0.5).rotate(
+        30, center=logo.center
+    )
+    drawing.load_svg(logo_path).translate(450, 20).scale(0.25)
+
+    write_drawing(output_dir, drawing, background="#ffffff")

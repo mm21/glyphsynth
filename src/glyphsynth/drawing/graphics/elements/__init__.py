@@ -26,6 +26,7 @@ from .containers import (
     ClipPath,
     Mask,
     Use,
+    ImportedSvg,
 )
 from .shapes import (
     Line,
@@ -63,6 +64,7 @@ __all__ = [
     "ClipPath",
     "Mask",
     "Use",
+    "ImportedSvg",
     "Line",
     "Rect",
     "Circle",

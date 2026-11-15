@@ -23,6 +23,7 @@ __all__ = [
     "ClipPath",
     "Mask",
     "Use",
+    "ImportedSvg",
 ]
 
 
@@ -125,3 +126,41 @@ class Use(
     """
 
     _api_name = "use"
+
+
+class ImportedSvg(Group):
+    """
+    Wraps a `<g>` holding the contents of an externally-provided SVG, with its outermost
+    `<svg>` element stripped. Created using {obj}`ElementFactory.load_svg`.
+
+    Since the contents are in a group, they can be manipulated together using the
+    group's transform and presentation APIs.
+    """
+
+    size: tuple[float, float] | None = None
+    """
+    Size of the original SVG in user units, from its `width`/`height` or `viewBox`;
+    `None` if it could not be determined.
+    """
+
+    original_viewbox: tuple[float, float, float, float] | None = None
+    """
+    Original `viewBox` as `(min_x, min_y, width, height)`, if any.
+    """
+
+    @property
+    def center(self) -> tuple[float, float]:
+        """
+        Center of the original SVG, in the coordinates in which this group is
+        transformed.
+
+        :raises ValueError: If the SVG's size could not be determined
+        """
+        if self.size is None:
+            raise ValueError("SVG does not have a size")
+        return (self.size[0] / 2, self.size[1] / 2)
+
+    @property
+    def _mixin_size(self) -> tuple[float, float] | None:
+        # default center of rotation
+        return self.size

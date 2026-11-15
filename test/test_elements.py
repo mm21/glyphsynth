@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from glyphsynth import Drawing, Properties, ShapeProperties, TextProperties
 
 from .conftest import write_drawing
@@ -237,5 +239,43 @@ def test_clip_mask(output_dir: Path):
     mask_xml = mask._element.get_xml()
     assert mask_xml.get("maskUnits") == "userSpaceOnUse"
     assert mask_xml.get("width") == str(UNIT)
+
+    write_drawing(output_dir, drawing)
+
+
+_SVG = """<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="200" height="100" viewBox="10 10 100 50" fill="red">
+  <defs><linearGradient id="lg"><stop offset="0" stop-color="blue"/></linearGradient></defs>
+  <rect x="10" y="10" width="50" height="50" fill="url(#lg)"/>
+  <text x="20" y="40">Hello <tspan>world</tspan></text>
+  <use xlink:href="#lg"/>
+</svg>
+"""
+
+
+def test_load_svg(output_dir: Path):
+    drawing = Drawing(size=(UNIT, UNIT))
+
+    imported = drawing.load_svg(_SVG)
+    assert imported.size == (200, 100)
+    assert imported.original_viewbox == (10, 10, 100, 50)
+
+    imported.rotate(15, center=(50, 25)).translate(5, 5)
+
+    out = drawing._drawing.tostring()
+    assert "<svg" in out and out.count("<svg") >= 1
+    assert 'xlink:href="#lg"' in out
+    assert "Hello" in out and "<tspan>world</tspan>" in out
+    assert 'fill="red"' in out
+    assert "scale(2" in out and "translate(-10" in out
+
+    # from file
+    path = output_dir / "imported.svg"
+    path.write_text(_SVG)
+    assert drawing.load_svg(path).size == (200, 100)
+
+    with pytest.raises(ValueError):
+        drawing.load_svg("<html/>")
 
     write_drawing(output_dir, drawing)
