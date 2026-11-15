@@ -6,6 +6,9 @@ __submodules__ = [
     "base",
     "containers",
     "shapes",
+    "paths",
+    "text",
+    "image",
     "gradients",
 ]
 
@@ -15,7 +18,14 @@ from .base import (
     BaseElement,
 )
 from .containers import (
+    BaseContainer,
     Group,
+    Symbol,
+    Marker,
+    Pattern,
+    ClipPath,
+    Mask,
+    Use,
 )
 from .shapes import (
     Line,
@@ -24,6 +34,17 @@ from .shapes import (
     Ellipse,
     Polyline,
     Polygon,
+)
+from .paths import (
+    Path,
+)
+from .text import (
+    Text,
+    TSpan,
+    TextPath,
+)
+from .image import (
+    Image,
 )
 from .gradients import (
     BaseGradient,
@@ -34,13 +55,25 @@ from .gradients import (
 
 __all__ = [
     "BaseElement",
+    "BaseContainer",
     "Group",
+    "Symbol",
+    "Marker",
+    "Pattern",
+    "ClipPath",
+    "Mask",
+    "Use",
     "Line",
     "Rect",
     "Circle",
     "Ellipse",
     "Polyline",
     "Polygon",
+    "Path",
+    "Text",
+    "TSpan",
+    "TextPath",
+    "Image",
     "BaseGradient",
     "LinearGradient",
     "RadialGradient",

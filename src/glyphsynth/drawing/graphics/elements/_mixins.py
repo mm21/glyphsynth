@@ -4,13 +4,16 @@ Mixins to provide APIs.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal, Self
+from typing import TYPE_CHECKING, Literal, Self, cast
 
+import svgwrite.base
 import svgwrite.mixins
 
 from ..._utils import normalize_str
 
 if TYPE_CHECKING:
+    from .base import BaseElement
+    from .containers import ClipPath, Marker, Mask, Pattern
     from .gradients import BaseGradient
 
 __all__ = [
@@ -18,15 +21,8 @@ __all__ = [
     "TransformMixin",
     "PresentationMixin",
     "MarkersMixin",
+    "MaskingMixin",
 ]
-
-
-def _normalize_color(color: str | None, gradient: BaseGradient | None) -> str | None:
-    return (
-        color
-        if color is not None
-        else gradient.funciri if gradient is not None else None
-    )
 
 
 class BaseWrapperMixin[T]:
@@ -120,9 +116,10 @@ class PresentationMixin[T: svgwrite.mixins.Presentation](BaseWrapperMixin[T]):
         gradient: BaseGradient | None = None,
         rule: str | None = None,
         opacity_pct: float | int | None = None,
+        pattern: Pattern | None = None,
     ) -> Self:
         self._mixin_obj.fill(
-            color=_normalize_color(color, gradient),
+            color=_normalize_color(color, gradient, pattern),
             rule=rule,
             opacity=normalize_str(
                 opacity_pct / 100 if opacity_pct is not None else None
@@ -141,9 +138,10 @@ class PresentationMixin[T: svgwrite.mixins.Presentation](BaseWrapperMixin[T]):
             Literal["arcs", "bevel", "miter", "miter-clip", "round"] | None
         ) = None,
         miterlimit: int | float | None = None,
+        pattern: Pattern | None = None,
     ) -> Self:
         self._mixin_obj.stroke(
-            color=_normalize_color(color, gradient),
+            color=_normalize_color(color, gradient, pattern),
             width=normalize_str(width),
             opacity=normalize_str(
                 opacity_pct / 100 if opacity_pct is not None else None
@@ -164,11 +162,59 @@ class PresentationMixin[T: svgwrite.mixins.Presentation](BaseWrapperMixin[T]):
 
 
 class MarkersMixin[T: svgwrite.mixins.Markers](BaseWrapperMixin[T]):
-    pass
+    def markers(
+        self,
+        start: Marker | str | None = None,
+        mid: Marker | str | None = None,
+        end: Marker | str | None = None,
+    ) -> Self:
+        """
+        Set markers drawn at the start, interior vertices, and end of this shape.
+        Markers may be given as {obj}`Marker` objects or IRI strings (`"#id"`).
+        """
+        element = cast(svgwrite.base.BaseElement, self._mixin_obj)
+        for attr, marker in (
+            ("marker-start", start),
+            ("marker-mid", mid),
+            ("marker-end", end),
+        ):
+            if marker is not None:
+                element[attr] = _get_funciri(marker)
+        return self
 
 
-# may not be necessary
-"""
-class ClippingMixin[T: svgwrite.mixins.Clipping](BaseWrapperMixin[T]):
-    pass
-"""
+class MaskingMixin[T: svgwrite.base.BaseElement](BaseWrapperMixin[T]):
+    def clip_path(self, clip_path: ClipPath | str) -> Self:
+        """
+        Restrict painting of this element to the region of the given clip path.
+        """
+        self._mixin_obj["clip-path"] = _get_funciri(clip_path)
+        return self
+
+    def mask(self, mask: Mask | str) -> Self:
+        """
+        Composite this element using the given mask.
+        """
+        self._mixin_obj["mask"] = _get_funciri(mask)
+        return self
+
+
+def _get_funciri(element: BaseElement | str) -> str:
+    """
+    Get FuncIRI (`url(#id)`) of an element or IRI string (`#id`).
+    """
+    return f"url({element})" if isinstance(element, str) else element.funciri
+
+
+def _normalize_color(
+    color: str | None,
+    gradient: BaseGradient | None,
+    pattern: Pattern | None = None,
+) -> str | None:
+    if color is not None:
+        return color
+    if gradient is not None:
+        return gradient.funciri
+    if pattern is not None:
+        return pattern.funciri
+    return None

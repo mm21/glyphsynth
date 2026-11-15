@@ -1,6 +1,6 @@
 import svgwrite.shapes
 
-from ._mixins import MarkersMixin, PresentationMixin, TransformMixin
+from ._mixins import MarkersMixin, MaskingMixin, PresentationMixin, TransformMixin
 from .base import BaseElement
 
 __all__ = [
@@ -18,19 +18,35 @@ class Line(
     TransformMixin,
     PresentationMixin,
     MarkersMixin,
+    MaskingMixin,
 ):
     _api_name = "line"
 
 
-class Rect(BaseElement[svgwrite.shapes.Rect], TransformMixin, PresentationMixin):
+class Rect(
+    BaseElement[svgwrite.shapes.Rect],
+    TransformMixin,
+    PresentationMixin,
+    MaskingMixin,
+):
     _api_name = "rect"
 
 
-class Circle(BaseElement[svgwrite.shapes.Circle], TransformMixin, PresentationMixin):
+class Circle(
+    BaseElement[svgwrite.shapes.Circle],
+    TransformMixin,
+    PresentationMixin,
+    MaskingMixin,
+):
     _api_name = "circle"
 
 
-class Ellipse(BaseElement[svgwrite.shapes.Ellipse], TransformMixin, PresentationMixin):
+class Ellipse(
+    BaseElement[svgwrite.shapes.Ellipse],
+    TransformMixin,
+    PresentationMixin,
+    MaskingMixin,
+):
     _api_name = "ellipse"
 
 
@@ -39,6 +55,7 @@ class Polyline(
     TransformMixin,
     PresentationMixin,
     MarkersMixin,
+    MaskingMixin,
 ):
     _api_name = "polyline"
 
@@ -48,5 +65,6 @@ class Polygon(
     TransformMixin,
     PresentationMixin,
     MarkersMixin,
+    MaskingMixin,
 ):
     _api_name = "polygon"

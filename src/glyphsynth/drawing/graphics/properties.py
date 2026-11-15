@@ -7,6 +7,7 @@ from ._model import BaseFieldsModel
 __all__ = [
     "Properties",
     "ShapeProperties",
+    "TextProperties",
     "GradientProperties",
 ]
 
@@ -272,6 +273,20 @@ class ShapeProperties(
 ):
     """
     Properties applicable to basic shapes.
+    """
+
+
+class TextProperties(
+    PaintingPropertiesMixin,
+    FontPropertiesMixin,
+    TextPropertiesMixin,
+    FilterEffectPropertiesMixin,
+    CursorPropertiesMixin,
+    ViewportPropertiesMixin,
+    BasePropertiesModel,
+):
+    """
+    Properties applicable to text.
     """
 
 
